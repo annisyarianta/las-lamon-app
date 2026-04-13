@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Models;
+
+use App\Models\CartItem;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+
+class Cart extends Model
+{
+    use HasFactory;
+    use Notifiable;
+    protected $guarded = [];
+
+    public function cart_items()
+    {
+        return $this->hasMany(CartItem::class, 'id_cart', 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user', 'id');
+    }
+}
