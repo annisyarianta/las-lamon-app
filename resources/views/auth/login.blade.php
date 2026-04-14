@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
 @section('title', 'Login - Las Lamon')
 
@@ -76,3 +76,4 @@
         </p>
     </div>
 </div>
+@endsection

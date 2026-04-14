@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
-@section('title', 'Login - Las Lamon')
+@section('title', 'Register - Las Lamon')
 
 @section('content')
 
@@ -82,3 +82,4 @@
 
     </div>
 </div>
+@endsection
