@@ -5,48 +5,35 @@
 @section('content')
 
     <!-- Hero Start -->
-    <div class="container-fluid py-5 mb-5 hero-header">
+    <div class="container-fluid py-5 mb-3 hero-header">
         <div class="container py-5">
-            <div class="row g-5 align-items-center">
-                <div class="col-md-12 col-lg-7">
-                    <h4 class="mb-3 text-secondary">Nature's Legacy</h4>
-                    <h1 class="mb-5 display-3"> <span class="text-light"> Adopt a Soul, </span> </br> <span class="text-secondary"> Plant a Future. </span></h1>
-                    <div class="position-relative mx-auto">
-                        <input class="form-control border-2 border-secondary w-75 py-3 px-4 rounded-pill" type="number"
-                            placeholder="Search">
-                        <button type="submit"
-                            class="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white h-100"
-                            style="top: 0; right: 25%;">Submit Now</button>
-                    </div>
+            <div class="row g-5 align-items-center text-center">
+                <div class="mb-3">
+                    <span class="bg-secondary text-light px-3 py-2 rounded-pill">
+                        Nature's Legacy
+                    </span>
                 </div>
-                <div class="col-md-12 col-lg-5">
-                    <div id="carouselId" class="carousel slide position-relative" data-bs-ride="carousel">
-                        <div class="carousel-inner" role="listbox">
-                            <div class="carousel-item active rounded">
-                                <img src="{{ asset('assets/img/hero-img-1.png') }}"
-                                    class="img-fluid w-100 h-100 bg-secondary rounded" alt="First slide">
-                                <a href="#" class="btn px-4 py-2 text-white rounded">Fruites</a>
-                            </div>
-                            <div class="carousel-item rounded">
-                                <img src="{{ asset('assets/img/hero-img-2.jpg') }}" class="img-fluid w-100 h-100 rounded"
-                                    alt="Second slide">
-                                <a href="#" class="btn px-4 py-2 text-white rounded">Vesitables</a>
-                            </div>
-                        </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselId"
-                            data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselId"
-                            data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    </div>
+                <h1 class="mb-1 display-3">
+                    <span class="text-light">Adopt a Soul,</span> <br>
+                    <span class="text-secondary">Plant a Future.</span>
+                </h1>
+                <p class="text-center text-light mb-3">
+                    Join the restoration of Taman Kehati and Taman Kupu-kupu Gita Persada. </br>
+                    Every tree tells a story of survival.
+                </p>
+                <div class="position-relative text-center">
+                    <button type="submit"
+                        class="btn btn-primary py-3 px-4 position-absolute top-50 start-50 translate-middle rounded-pill text-white">
+                        Explore Now
+                    </button>
                 </div>
+
             </div>
         </div>
     </div>
     <!-- Hero End -->
+
+    @include('components.integrated_ecosystem')
+
+    @include('components.catalogue')
 @endsection

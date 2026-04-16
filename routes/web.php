@@ -66,3 +66,8 @@ Route::middleware(['auth', 'role:adopter'])->prefix('adopter')->group(function (
         Route::delete('/{id}/delete', [AdopterOrderController::class, 'destroy']);
     });
 });
+
+//ROUTE PAGE
+Route::get('/detail-product', function () {
+    return view('detail-product');
+})->name('detail.product');
