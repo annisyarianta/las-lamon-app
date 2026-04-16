@@ -8,6 +8,9 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::view('/cart', 'cart');
+Route::view('/checkout', 'checkout');
+
 Route::get('/login', [LoginController::class, 'showLogin'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 
