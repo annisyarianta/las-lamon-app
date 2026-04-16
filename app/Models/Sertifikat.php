@@ -10,5 +10,6 @@ class Sertifikat extends Model
 {
     use HasFactory;
     use Notifiable;
+    protected $table = 'sertifikat';
     protected $guarded = [];
 }

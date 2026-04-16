@@ -12,6 +12,7 @@ class Order extends Model
 {
     use HasFactory;
     use Notifiable;
+    protected $table = 'order';
     protected $guarded = [];
 
     public function user()

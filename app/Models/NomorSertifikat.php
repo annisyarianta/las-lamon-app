@@ -10,5 +10,6 @@ class NomorSertifikat extends Model
 {
     use HasFactory;
     use Notifiable;
+    protected $table = 'nomor_sertifikat';
     protected $guarded = [];
 }
