@@ -44,3 +44,8 @@ Route::middleware(['auth', 'role:adopter'])->group(function () {
         return "Adopter Dashboard";
     });
 });
+
+//ROUTE PAGE
+Route::get('/detail-product', function () {
+    return view('detail-product');
+})->name('detail.product');
