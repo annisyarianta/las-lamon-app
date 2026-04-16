@@ -11,6 +11,7 @@ class CartItem extends Model
 {
     use HasFactory;
     use Notifiable;
+    protected $table = 'cart_item';
     protected $guarded = [];
 
     public function cart()
