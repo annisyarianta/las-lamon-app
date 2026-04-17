@@ -18,4 +18,14 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Order::class, 'id_order', 'id');
     }
+
+    public function produk()
+    {
+        return $this->belongsTo(ProdukTanaman::class, 'id_produk', 'id');
+    }
+
+    public function katalog()
+    {
+        return $this->belongsTo(Katalog::class, 'id_katalog', 'id');
+    }   
 }

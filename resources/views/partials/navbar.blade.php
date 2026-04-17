@@ -3,8 +3,8 @@
     <div class="container topbar bg-primary d-none d-lg-block">
         <div class="d-flex justify-content-between">
             <div class="top-info ps-2">
-                <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a href="https://share.google/vFrNqsUovGGCNIGuD"
-                        class="text-white">Hutan, Lampung, 35158</a></small>
+                <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a
+                        href="https://share.google/vFrNqsUovGGCNIGuD" class="text-white">Hutan, Lampung, 35158</a></small>
                 <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#"
                         class="text-white">hubungi@gawaimu.id</a></small>
             </div>
@@ -26,18 +26,35 @@
             </button>
             <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                 <div class="navbar-nav mx-auto">
-                    <a href="{{url('/')}}" class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
+                    <a href="{{ url('/') }}"
+                        class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
                     <a href="shop.html" class="nav-item nav-link">About</a>
                     <a href="cart.html" class="nav-item nav-link">Catalogue</a>
-                    <a href="chackout.html" class="nav-item nav-link {{ request()->routeIs('oder') ? 'active' : '' }}">My Order</a>
+                    <a href="chackout.html"
+                        class="nav-item nav-link {{ request()->routeIs('oder') ? 'active' : '' }}">My Order</a>
                     <a href="contact.html" class="nav-item nav-link">My Forest</a>
                 </div>
                 <div class="d-flex m-3 me-0">
-                    <a href="{{url('/cart')}}" class="position-relative me-4 my-auto">
+                    <a href="{{ url('adopter/cart') }}" class="position-relative me-4 my-auto">
                         <i class="fa fa-shopping-bag fa-2x"></i>
                         <span
                             class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-                            style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                            style="top: -5px; left: 15px; height: 20px; min-width: 20px;">
+                            @php
+                                $cartItemCount = 0;
+                                if (auth()->check() && auth()->user()->cart) {
+                                    $cartItemCount = DB::table('cart_item')
+                                        ->where('id_cart', auth()->user()->cart->id)
+                                        ->where('soft_delete', 0)
+                                        ->count();
+                                } else {
+                                    $cartItemCount = 0;
+                                }
+
+                            @endphp
+
+                            {{ $cartItemCount }}
+                        </span>
                     </a>
                     <a href="{{ url('/login') }}" class="my-auto">
                         <i class="fas fa-user fa-2x"></i>

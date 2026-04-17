@@ -12,6 +12,7 @@ class ProdukTanaman extends Model
 {
     use HasFactory;
     use Notifiable;
+    protected $table = 'produk_tanaman';
     protected $guarded = [];
 
     public function cart_items()
