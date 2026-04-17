@@ -13,141 +13,179 @@
     <!-- Cart Page Start -->
     <div class="container-fluid py-5">
         <div class="container py-5">
+
             <div class="table-responsive">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">Products</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Total</th>
-                            <th scope="col">Action</th>
+                            <th>Products</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">
-                                <div class="d-flex align-items-center">
-                                    <img src="{{ asset('assets/img/hero-img.jpg') }}" class="img-fluid me-5"
-                                        style="width: 80px; height: 80px;" alt="">
-                                </div>
-                            </th>
-                            <td>
-                                <p class="mb-0 mt-4">Big Banana</p>
-                            </td>
-                            <td>
-                                <p class="mb-0 mt-4">2.99 $</p>
-                            </td>
-                            <td>
-                                <div class="input-group quantity mt-4" style="width: 100px;">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-minus rounded-circle bg-light border">
-                                            <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="form-control form-control-sm text-center border-0"
-                                        value="1">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <p class="mb-0 mt-4">2.99 $</p>
-                            </td>
-                            <td>
-                                <button class="btn btn-md rounded-circle bg-light border mt-4">
-                                    <i class="fa fa-trash text-danger"></i>
-                                </button>
-                            </td>
+                        @foreach ($data as $each_data)
+                            <tr>
 
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                                <div class="d-flex align-items-center">
-                                    <img src="{{ asset('assets/img/hero-img.jpg') }}" class="img-fluid me-5"
-                                        style="width: 80px; height: 80px;" alt="">
-                                </div>
-                            </th>
-                            <td>
-                                <p class="mb-0 mt-4">Big Banana</p>
-                            </td>
-                            <td>
-                                <p class="mb-0 mt-4">2.99 $</p>
-                            </td>
-                            <td>
-                                <div class="input-group quantity mt-4" style="width: 100px;">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-minus rounded-circle bg-light border">
-                                            <i class="fa fa-minus"></i>
-                                        </button>
+                                <td>
+                                    <p class="mb-0 mt-4">
+
+                                        {{ ucwords(str_replace('_', ' ', $each_data->katalog->nama_katalog ?? '-')) }}
+                                    </p>
+                                </td>
+
+                                <td>
+                                    <p class="mb-0 mt-4">
+
+                                        {{ $each_data->produk->nama_produk ?? '-' }}
+                                    </p>
+                                </td>
+
+                                <td>
+                                    <p class="mb-0 mt-4">
+
+                                        ${{ number_format($each_data->harga_satuan, 0, ',', '.') }}
+                                    </p>
+                                </td>
+
+                                <td class="produk-data" data-id="{{ $each_data->produk->id ?? null }}"
+                                    data-id-cart="{{ $each_data->id }}" data-id-katalog="{{ $each_data->katalog->id }}"
+                                    data-harga="{{ $each_data->harga_satuan }}"
+                                    data-nama-katalog="{{ $each_data->katalog->nama_katalog ?? null }}"
+                                    data-nama-produk="{{ $each_data->produk->nama_produk ?? null }}">
+
+                                    <div class="input-group quantity mt-4" style="width: 100px;">
+                                        <button type="button" class="btn btn-sm btn-minus bg-light border">-</button>
+
+                                        <input type="text"
+                                            class="form-control form-control-sm text-center border-0 qty-input"
+                                            value="1">
+
+                                        <button type="button" class="btn btn-sm btn-plus bg-light border">+</button>
                                     </div>
-                                    <input type="text" class="form-control form-control-sm text-center border-0"
-                                        value="1">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                            <i class="fa fa-plus"></i>
+                                </td>
+
+                                <td>
+                                    <p class="mb-0 mt-4 total-harga">
+                                        ${{ number_format($each_data->harga_satuan, 0, ',', '.') }}
+                                    </p>
+                                </td>
+
+                                <td>
+                                    <form
+                                        action="{{ route('adopter.cart.destroy', ['id' => Crypt::encrypt($each_data->id)]) }}"
+                                        method="POST" style="display:inline;">
+
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit" class="btn btn-md rounded-circle bg-light border mt-4"
+                                            onclick=''>
+                                            <i class="fa fa-trash text-danger"></i>
                                         </button>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <p class="mb-0 mt-4">2.99 $</p>
-                            </td>
-                            <td>
-                                <button class="btn btn-md rounded-circle bg-light border mt-4">
-                                    <i class="fa fa-trash text-danger"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                                <div class="d-flex align-items-center">
-                                    <img src="{{ asset('assets/img/hero-img.jpg') }}" class="img-fluid me-5"
-                                        style="width: 80px; height: 80px;" alt="">
-                                </div>
-                            </th>
-                            <td>
-                                <p class="mb-0 mt-4">Big Banana</p>
-                            </td>
-                            <td>
-                                <p class="mb-0 mt-4">2.99 $</p>
-                            </td>
-                            <td>
-                                <div class="input-group quantity mt-4" style="width: 100px;">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-minus rounded-circle bg-light border">
-                                            <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="form-control form-control-sm text-center border-0"
-                                        value="1">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <p class="mb-0 mt-4">2.99 $</p>
-                            </td>
-                            <td>
-                                <button class="btn btn-md rounded-circle bg-light border mt-4">
-                                    <i class="fa fa-trash text-danger"></i>
-                                </button>
-                            </td>
-                        </tr>
+
+                                    </form>
+                                </td>
+
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
-            <div class="mt-5 text-center">
-                <button onclick="window.location.href='/checkout'" class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">CHECKOUT</button>
-            </div>
+            <form id="checkoutForm" action="{{ route('adopter.checkout.store') }}" method="POST">
+                @csrf
+                <input type="hidden" name="data" id="dataInput">
+                <div class="mt-5 text-center">
+                    <button type="submit" onclick="checkout()"
+                        class="btn border-secondary rounded-pill px-4 py-3 text-primary">
+                        CHECKOUT
+                    </button>
+                </div>
+            </form>
+
         </div>
     </div>
     <!-- Cart Page End -->
 @endsection
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        document.querySelectorAll("tbody tr").forEach(function(row) {
+
+            let minus = row.querySelector(".btn-minus");
+            let plus = row.querySelector(".btn-plus");
+            let input = row.querySelector(".qty-input");
+            let totalText = row.querySelector(".total-harga");
+
+            let harga = parseInt(row.querySelector(".produk-data").dataset.harga);
+
+            function update() {
+                let qty = parseInt(input.value) || 1;
+                let total = harga * qty;
+
+                totalText.innerText = 'Rp ' + total.toLocaleString('id-ID');
+            }
+
+            plus.addEventListener("click", function() {
+                input.value = parseInt(input.value || 1) + 1;
+                update();
+            });
+
+            minus.addEventListener("click", function() {
+                let val = parseInt(input.value || 1);
+                if (val > 1) {
+                    input.value = val - 1;
+                    update();
+                }
+            });
+
+            input.addEventListener("input", update);
+
+            update();
+        });
+
+    });
+
+
+    function checkout() {
+
+        let cartItems = [];
+        let totalSemua = 0;
+
+        document.querySelectorAll("tbody tr").forEach(function(row) {
+
+            let data = row.querySelector(".produk-data").dataset;
+            let qty = parseInt(row.querySelector(".qty-input").value) || 1;
+
+            let harga = parseInt(data.harga);
+            let total = harga * qty;
+            totalSemua += total;
+
+            cartItems.push({
+                id_cart: parseInt(data.idCart),
+                id_produk: data.id ? parseInt(data.id) : null,
+                id_katalog: parseInt(data.idKatalog),
+                kuantitas: qty,
+                harga_satuan: harga,
+                harga_total: total,
+                nama_produk: data.namaProduk,
+                nama_katalog: data.namaKatalog,
+            });
+        });
+
+        let payload = {
+            total_harga: totalSemua,
+            cart_item: cartItems
+        };
+
+        localStorage.setItem("checkout_data", JSON.stringify(payload));
+
+
+        document.getElementById("dataInput").value = JSON.stringify(payload);
+        document.getElementById("checkoutForm").submit();
+    }
+</script>
