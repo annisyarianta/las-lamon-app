@@ -38,13 +38,27 @@
                     @endauth
                 </div>
                 <div class="d-flex m-3 me-0">
-                    <a href="{{ route('cart') }}" class="position-relative me-4 my-auto">
+                    <a href="{{ url('adopter/cart') }}" class="position-relative me-4 my-auto">
                         <i class="fa fa-shopping-bag fa-2x"></i>
                         <span
                             class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-                            style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
-                    </a> 
-                    @auth
+                            style="top: -5px; left: 15px; height: 20px; min-width: 20px;">
+
+                            @php
+                                $cartItemCount = 0;
+                                if (auth()->check() && auth()->user()->cart) {
+                                    $cartItemCount = DB::table('cart_item')
+                                        ->where('id_cart', auth()->user()->cart->id)
+                                        ->where('soft_delete', 0)
+                                        ->count();
+                                } else {
+                                    $cartItemCount = 0;
+                                }
+
+                            @endphp
+
+                            {{ $cartItemCount }}</span>
+                    </a> @auth
                         <span class="my-auto me-3">{{ auth()->user()->name }}</span>
 
                         <a href="#" class="my-auto"

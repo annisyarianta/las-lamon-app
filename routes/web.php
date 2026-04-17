@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Adopter\OrderController as AdopterOrderController;
+use App\Http\Controllers\Adopter\CartController as AdopterCartController;
+use App\Http\Controllers\Adopter\CheckoutController as AdopterCheckoutController;
 use App\Http\Controllers\Lsm\OrderController as LsmOrderController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -72,11 +74,25 @@ Route::middleware(['auth', 'role:adopter'])->prefix('adopter')->group(function (
         return "My Order Page";
     });
 
-    Route::prefix('order')->group(function () {
-        Route::get('/', [AdopterOrderController::class, 'index']);
-        Route::post('/create', [AdopterOrderController::class, 'store']);
-        Route::get('/{id}', [AdopterOrderController::class, 'show']);
-        Route::post('/{id}/update', [AdopterOrderController::class, 'update']);
-        Route::delete('/{id}/delete', [AdopterOrderController::class, 'destroy']);
+    Route::prefix('cart')->name('adopter.cart.')->group(function () {
+        Route::get('/', [AdopterCartController::class, 'index'])->name('index');
+        Route::post('/create', [AdopterCartController::class, 'store'])->name('store');
+        Route::get('/{id}', [AdopterCartController::class, 'show'])->name('show');
+        Route::post('/{id}/update', [AdopterCartController::class, 'update'])->name('update');
+        Route::delete('/{id}/delete', [AdopterCartController::class, 'destroy'])->name('destroy');
     });
+
+    Route::prefix('order')->name('adopter.order.')->group(function () {
+        Route::get('/', [AdopterOrderController::class, 'index'])->name('index');
+        Route::post('/create', [AdopterOrderController::class, 'store'])->name('store');
+        Route::get('/{id}', [AdopterOrderController::class, 'show'])->name('show');
+        Route::post('/{id}/update', [AdopterOrderController::class, 'update'])->name('update');
+        Route::delete('/{id}/delete', [AdopterOrderController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('checkout')->name('adopter.checkout.')->group(function () {
+        Route::get('/', [AdopterCheckoutController::class, 'index'])->name('index');
+        Route::post('/create', [AdopterCheckoutController::class, 'store'])->name('store');
+    });
+
 });

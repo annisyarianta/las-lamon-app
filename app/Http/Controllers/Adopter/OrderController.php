@@ -42,45 +42,46 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->all();
-        if (isset($input['cart_item']) && is_array($input['cart_item'])) {
+        $input = json_decode($request->data, true);
+       
+        if (isset($input['cart_item'])) {
             $data_order = Order::create([
                 'id_user' => auth()->user()->id,
-                'total_harga' => $input['total_harga'],
+                'total_harga' => $input['total_harga'] + 1500,
                 'status_order' => 'belum_lunas',
                 'tanggal_order' => now(),
                 'expired_at' => now()->addDays(1),
                 'kode' => strtoupper(uniqid()),
             ]);
 
-
-            $data_order_item = [];
-
             foreach ($input['cart_item'] as $cart_item) {
 
                 $item = OrderItem::create([
                     'id_order' => $data_order->id,
-                    'id_produk' => $cart_item['id_produk'],
-                    'katalog' => $cart_item['katalog'],
+                    'id_produk' => $cart_item['id_produk'] ?? null,
+                    'id_katalog' => $cart_item['id_katalog'],
                     'kuantitas' => $cart_item['kuantitas'],
                     'harga_satuan' => $cart_item['harga_satuan'],
                     'harga_total' => $cart_item['harga_total'],
                 ]);
 
-                $data_order_item[] = $item;
-
-                CartItem::where('id', $cart_item['id'])
+                CartItem::where('id', $cart_item['id_cart'])
                     ->update(['soft_delete' => 1]);
             }
         }
 
+        $data_order_item = OrderItem::where('id_order', $data_order->id)
+            ->with(['katalog:id,nama_katalog', 'produk:id,nama_produk'])
+            ->get();
+
+        session(['checkout_data' => null]);
         return response()->json([
             'message' => 'Order successfully created',
             'data_order' => $data_order,
             'data_order_item' => $data_order_item,
         ], 201);
 
-        // return view('adopter.order.index', compact('data_order', 'data_order_item'));
+        // return view('checkout', compact('data_order', 'data_order_item'));
     }
 
     /**

@@ -31,42 +31,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">
-                                        <div class="d-flex align-items-center mt-2">
-                                            <img src="{{ asset('assets/img/hero-img.jpg') }}" class="img-fluid"
-                                                style="width: 90px; height: 90px;" alt="">
-                                        </div>
-                                    </th>
-                                    <td class="py-5">Awesome Brocoli</td>
-                                    <td class="py-5">$69.00</td>
-                                    <td class="py-5 px-4">200</td>
-                                    <td class="py-5">$138.00</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        <div class="d-flex align-items-center mt-2">
-                                            <img src="{{ asset('assets/img/hero-img.jpg') }}" class="img-fluid"
-                                                style="width: 90px; height: 90px;" alt="">
-                                        </div>
-                                    </th>
-                                    <td class="py-5">Awesome Brocoli</td>
-                                    <td class="py-5">$69.00</td>
-                                    <td class="py-5 px-4">200</td>
-                                    <td class="py-5">$138.00</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        <div class="d-flex align-items-center mt-2">
-                                            <img src="{{ asset('assets/img/hero-img.jpg') }}" class="img-fluid"
-                                                style="width: 90px; height: 90px;" alt="">
-                                        </div>
-                                    </th>
-                                    <td class="py-5">Awesome Brocoli</td>
-                                    <td class="py-5">$69.00</td>
-                                    <td class="py-5 px-4">200</td>
-                                    <td class="py-5">$138.00</td>
-                                </tr>
+                                @foreach ($data->cart_item as $each_data)
+                                    <tr>
+
+                                        <td class="py-5">{{ $each_data->nama_katalog ?? '-' }}</td>
+                                        <td class="py-5">{{ $each_data->nama_produk ?? '-' }}</td>
+                                        <td class="py-5">Rp{{ number_format($each_data->harga_satuan, 0, ',', '.') }}</td>
+                                        <td class="py-5 px-4">{{ $each_data->kuantitas }}</td>
+                                        <td class="py-5">Rp{{ number_format($each_data->harga_total, 0, ',', '.') }}</td>
+                                    </tr>
+                                @endforeach
                                 <tr>
                                     <th scope="row">
                                     </th>
@@ -77,7 +51,8 @@
                                     <td class="py-5"></td>
                                     <td class="py-5">
                                         <div class="py-3 border-bottom border-top">
-                                            <p class="mb-0 text-dark">$135.00</p>
+                                            <p class="mb-0 text-dark">Rp{{ number_format($data->total_harga, 0, ',', '.') }}
+                                            </p>
                                         </div>
                                     </td>
                                 </tr>
@@ -108,7 +83,7 @@
                                     <h2 class="mb-4">PAYMENT DETAILS</h2>
                                     <div class="d-flex justify-content-between mb-2">
                                         <h5 class="mb-0 me-4">Order Total :</h5>
-                                        <p class="mb-0">Rp50.000</p>
+                                        <p class="mb-0">Rp {{ number_format($data->total_harga, 0, ',', '.') }}</p>
                                     </div>
                                     <div class="d-flex justify-content-between">
                                         <h5 class="mb-0 me-4">Service Fee :</h5>
@@ -119,16 +94,29 @@
                                 </div>
                                 <div class="py-4 mb-4 border-top  d-flex justify-content-between">
                                     <h5 class="mb-0 ps-4 me-4">Total Payment :</h5>
-                                    <p class="mb-0 pe-4">Rp51.500</p>
+                                    <p class="mb-0 pe-4"> Rp {{ number_format($data->total_harga + 1500, 0, ',', '.') }}
+                                    </p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row g-4 text-center align-items-center justify-content-center pt-4">
+                        {{-- <div class="row g-4 text-center align-items-center justify-content-center pt-4">
                             <button type="button"
                                 class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Place
                                 Order</button>
-                        </div>
+                        </div> --}}
+
+                        <form action="{{ route('adopter.order.store') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="data" value="{{ json_encode($data) }}">
+                            <input type="hidden" name="total_harga_order" value="{{ $data->total_harga + 1500 }}">
+                            <div class="row g-4 text-center align-items-center justify-content-center pt-4">
+                                <button type="submit"
+                                    class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">
+                                    Place Order
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
