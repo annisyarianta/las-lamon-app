@@ -32,20 +32,12 @@ Route::post('/login', [LoginController::class, 'login']);
 
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// dashboard
-Route::middleware('auth')->group(function () {
-    Route::get('/superadmin', fn() => 'Superadmin Dashboard');
-    Route::get('/lsm', fn() => 'LSM Dashboard');
-    Route::get('/home', fn() => 'Adopter Dashboard');
-});
-
 // REGISTER
 Route::get('/register', [RegisterController::class, 'showRegister'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
 
 
 // DASHBOARD ROLE
-
 Route::middleware(['auth', 'role:superadmin'])->group(function () {
     Route::get('/superadmin', function () {
         return "Superadmin Dashboard";
@@ -68,9 +60,19 @@ Route::middleware(['auth', 'role:lsm'])->prefix('lsm')->group(function () {
 });
 
 Route::middleware(['auth', 'role:adopter'])->prefix('adopter')->group(function () {
-    // Route::get('/home', function () {
-    //     return "Adopter Dashboard";
-    // });
+     // Home adopter
+    Route::get('/', function () {
+        return view('home');
+    })->name('home');
+
+    // My Forest
+    Route::get('/my-forest', function () {
+        return view('myforest');
+    })->name('myforest');
+
+    Route::get('/my-order', function () {
+        return "My Order Page";
+    });
 
     Route::prefix('cart')->name('adopter.cart.')->group(function () {
         Route::get('/', [AdopterCartController::class, 'index'])->name('index');

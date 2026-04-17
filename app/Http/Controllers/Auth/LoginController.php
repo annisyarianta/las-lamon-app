@@ -29,7 +29,7 @@ class LoginController extends Controller
             return match ($user->role) {
                 'superadmin' => redirect('/superadmin'),
                 'lsm' => redirect('/lsm'),
-                default => redirect('/home'),
+                default => redirect('/adopter'),
             };
         }
 
