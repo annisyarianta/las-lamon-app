@@ -3,8 +3,8 @@
     <div class="container topbar bg-primary d-none d-lg-block">
         <div class="d-flex justify-content-between">
             <div class="top-info ps-2">
-                <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a href="https://share.google/vFrNqsUovGGCNIGuD"
-                        class="text-white">Hutan, Lampung, 35158</a></small>
+                <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a
+                        href="https://share.google/vFrNqsUovGGCNIGuD" class="text-white">Hutan, Lampung, 35158</a></small>
                 <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#"
                         class="text-white">hubungi@gawaimu.id</a></small>
             </div>
@@ -26,22 +26,39 @@
             </button>
             <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                 <div class="navbar-nav mx-auto">
-                    <a href="{{url('/')}}" class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
+                    <a href="{{ url('/') }}"
+                        class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
                     <a href="{{ route('about') }}" class="nav-item nav-link">About</a>
                     <a href="{{ route('catalogue') }}" class="nav-item nav-link">Catalogue</a>
-                    <a href="chackout.html" class="nav-item nav-link {{ request()->routeIs('oder') ? 'active' : '' }}">My Order</a>
-                    <a href="contact.html" class="nav-item nav-link">My Forest</a>
+                    @auth
+                        @if (auth()->user()->isAdopter())
+                            <a href="#" class="nav-item nav-link">My Order</a>
+                            <a href="{{ route('myforest') }}" class="nav-item nav-link">My Forest</a>
+                        @endif
+                    @endauth
                 </div>
                 <div class="d-flex m-3 me-0">
-                    <a href="{{route('cart')}}" class="position-relative me-4 my-auto">
+                    <a href="{{ route('cart') }}" class="position-relative me-4 my-auto">
                         <i class="fa fa-shopping-bag fa-2x"></i>
                         <span
                             class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
                             style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
-                    </a>
-                    <a href="{{ url('/login') }}" class="my-auto">
-                        <i class="fas fa-user fa-2x"></i>
-                    </a>
+                    </a> @auth
+                        <span class="my-auto me-3">{{ auth()->user()->name }}</span>
+
+                        <a href="#" class="my-auto"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="fas fa-sign-out-alt fa-2x"></i>
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    @else
+                        <a href="{{ url('/login') }}" class="my-auto">
+                            <i class="fas fa-user fa-2x"></i>
+                        </a>
+                    @endauth
                 </div>
             </div>
         </nav>
