@@ -43,7 +43,8 @@
                         <span
                             class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
                             style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
-                    </a> @auth
+                    </a> 
+                    @auth
                         <span class="my-auto me-3">{{ auth()->user()->name }}</span>
 
                         <a href="#" class="my-auto"
