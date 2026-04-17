@@ -27,13 +27,13 @@
             <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                 <div class="navbar-nav mx-auto">
                     <a href="{{url('/')}}" class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
-                    <a href="shop.html" class="nav-item nav-link">About</a>
-                    <a href="cart.html" class="nav-item nav-link">Catalogue</a>
+                    <a href="{{ route('about') }}" class="nav-item nav-link">About</a>
+                    <a href="{{ route('catalogue') }}" class="nav-item nav-link">Catalogue</a>
                     <a href="chackout.html" class="nav-item nav-link {{ request()->routeIs('oder') ? 'active' : '' }}">My Order</a>
                     <a href="contact.html" class="nav-item nav-link">My Forest</a>
                 </div>
                 <div class="d-flex m-3 me-0">
-                    <a href="{{url('/cart')}}" class="position-relative me-4 my-auto">
+                    <a href="{{route('cart')}}" class="position-relative me-4 my-auto">
                         <i class="fa fa-shopping-bag fa-2x"></i>
                         <span
                             class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"

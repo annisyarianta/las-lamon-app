@@ -10,8 +10,20 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::view('/cart', 'cart');
-Route::view('/checkout', 'checkout');
+Route::view('/cart', 'cart')->name('cart');
+Route::view('/checkout', 'checkout')->name('checkout');
+
+Route::get('/detail-product', function () {
+    return view('detail-product');
+})->name('detail.product');
+
+Route::get('/catalogue-product', function () {
+    return view('catalogue');
+})->name('catalogue');
+
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
 
 Route::get('/login', [LoginController::class, 'showLogin'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
@@ -66,8 +78,3 @@ Route::middleware(['auth', 'role:adopter'])->prefix('adopter')->group(function (
         Route::delete('/{id}/delete', [AdopterOrderController::class, 'destroy']);
     });
 });
-
-//ROUTE PAGE
-Route::get('/detail-product', function () {
-    return view('detail-product');
-})->name('detail.product');
