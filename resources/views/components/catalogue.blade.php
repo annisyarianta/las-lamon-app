@@ -26,8 +26,8 @@
                             <strong>Target:</strong> Individu dan Pelajar
                         </p>
                         <a href="{{ route('detail.product') }}"
-                            class="btn btn-sm border border-secondary rounded-pill px-3 text-primary mt-auto">
-                            <i class="fa fa-shopping-bag me-1"></i> Add to cart
+                            class="btn btn-primary rounded-pill px-3 text-primary mt-auto">
+                            <i class="fa fa-info-circle me-1"></i> Detail Product
                         </a>
                     </div>
                 </div>
@@ -48,8 +48,8 @@
                             <strong>Target:</strong> Perusahaan (CSR) & Komunitas
                         </p>
                         <a href="#"
-                            class="btn btn-sm border border-secondary rounded-pill px-3 text-primary mt-auto">
-                            <i class="fa fa-shopping-bag me-1"></i> Add to cart
+                            class="btn btn-primary rounded-pill px-3 text-primary mt-auto">
+                            <i class="fa fa-info-circle me-1"></i> Detail Product
                         </a>
                     </div>
                 </div>
@@ -70,8 +70,8 @@
                             <strong>Target:</strong> NGO, Institusi, & Kolaborasi Eksternal
                         </p>
                         <a href="#"
-                            class="btn btn-sm border border-secondary rounded-pill px-3 text-primary mt-auto">
-                            <i class="fa fa-shopping-bag me-1"></i> Add to cart
+                            class="btn btn-primary rounded-pill px-3 text-primary mt-auto">
+                            <i class="fa fa-info-circle me-1"></i> Detail Product
                         </a>
                     </div>
                 </div>
@@ -96,8 +96,8 @@
                             <strong>Target:</strong> Individu dan Pelajar
                         </p>
                         <a href="#"
-                            class="btn btn-sm border border-secondary rounded-pill px-3 text-primary mt-auto">
-                            <i class="fa fa-shopping-bag me-1"></i> Add to cart
+                            class="btn btn-primary rounded-pill px-3 text-primary mt-auto">
+                            <i class="fa fa-info-circle me-1"></i> Detail Product
                         </a>
                     </div>
                 </div>
@@ -118,8 +118,8 @@
                             <strong>Target:</strong> Perusahaan (CSR) & Komunitas
                         </p>
                         <a href="#"
-                            class="btn btn-sm border border-secondary rounded-pill px-3 text-primary mt-auto">
-                            <i class="fa fa-shopping-bag me-1"></i> Add to cart
+                            class="btn btn-primary rounded-pill px-3 text-primary mt-auto">
+                            <i class="fa fa-info-circle me-1"></i> Detail Product
                         </a>
                     </div>
                 </div>
@@ -140,8 +140,8 @@
                             <strong>Target:</strong> NGO, Institusi, & Kolaborasi Eksternal
                         </p>
                         <a href="#"
-                            class="btn btn-sm border border-secondary rounded-pill px-3 text-primary mt-auto">
-                            <i class="fa fa-shopping-bag me-1"></i> Add to cart
+                            class="btn btn-primary rounded-pill px-3 text-primary mt-auto">
+                            <i class="fa fa-info-circle me-1"></i> Detail Product
                         </a>
                     </div>
                 </div>

@@ -28,37 +28,37 @@
                 <div class="navbar-nav mx-auto">
                     <a href="{{ url('/') }}"
                         class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
-                    <a href="shop.html" class="nav-item nav-link">About</a>
-                    <a href="cart.html" class="nav-item nav-link">Catalogue</a>
-                    <a href="chackout.html"
-                        class="nav-item nav-link {{ request()->routeIs('oder') ? 'active' : '' }}">My Order</a>
-                    <a href="contact.html" class="nav-item nav-link">My Forest</a>
+                    <a href="{{ route('about') }}" class="nav-item nav-link">About</a>
+                    <a href="{{ route('catalogue') }}" class="nav-item nav-link">Catalogue</a>
+                    @auth
+                        @if (auth()->user()->isAdopter())
+                            <a href="#" class="nav-item nav-link">My Order</a>
+                            <a href="{{ route('myforest') }}" class="nav-item nav-link">My Forest</a>
+                        @endif
+                    @endauth
                 </div>
                 <div class="d-flex m-3 me-0">
-                    <a href="{{ url('adopter/cart') }}" class="position-relative me-4 my-auto">
+                    <a href="{{ route('cart') }}" class="position-relative me-4 my-auto">
                         <i class="fa fa-shopping-bag fa-2x"></i>
                         <span
                             class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-                            style="top: -5px; left: 15px; height: 20px; min-width: 20px;">
-                            @php
-                                $cartItemCount = 0;
-                                if (auth()->check() && auth()->user()->cart) {
-                                    $cartItemCount = DB::table('cart_item')
-                                        ->where('id_cart', auth()->user()->cart->id)
-                                        ->where('soft_delete', 0)
-                                        ->count();
-                                } else {
-                                    $cartItemCount = 0;
-                                }
+                            style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                    </a> @auth
+                        <span class="my-auto me-3">{{ auth()->user()->name }}</span>
 
-                            @endphp
+                        <a href="#" class="my-auto"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="fas fa-sign-out-alt fa-2x"></i>
+                        </a>
 
-                            {{ $cartItemCount }}
-                        </span>
-                    </a>
-                    <a href="{{ url('/login') }}" class="my-auto">
-                        <i class="fas fa-user fa-2x"></i>
-                    </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    @else
+                        <a href="{{ url('/login') }}" class="my-auto">
+                            <i class="fas fa-user fa-2x"></i>
+                        </a>
+                    @endauth
                 </div>
             </div>
         </nav>
