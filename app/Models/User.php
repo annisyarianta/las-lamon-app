@@ -24,6 +24,21 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function isAdopter()
+    {
+        return $this->role === 'adopter';
+    }
+
+    public function isSuperAdmin()
+    {
+        return $this->role === 'superadmin';
+    }
+
+    public function isLsm()
+    {
+        return $this->role === 'lsm';
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
