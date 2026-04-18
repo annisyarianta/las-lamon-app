@@ -6,6 +6,7 @@ use App\Http\Controllers\Adopter\CheckoutController as AdopterCheckoutController
 use App\Http\Controllers\Lsm\OrderController as LsmOrderController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\KatalogController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,10 +19,6 @@ Route::view('/checkout', 'checkout')->name('checkout');
 Route::get('/detail-product', function () {
     return view('detail-product');
 })->name('detail.product');
-
-Route::get('/catalogue-product', function () {
-    return view('catalogue');
-})->name('catalogue');
 
 Route::get('/about', function () {
     return view('about');
@@ -36,6 +33,10 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/register', [RegisterController::class, 'showRegister'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
 
+Route::prefix('catalogue')->name('catalogue.')->group(function () {
+    Route::get('/', [KatalogController::class, 'index'])->name('index');
+    Route::get('/{id}', [KatalogController::class, 'show'])->name('show');
+});
 
 // DASHBOARD ROLE
 Route::middleware(['auth', 'role:superadmin'])->group(function () {
@@ -60,7 +61,7 @@ Route::middleware(['auth', 'role:lsm'])->prefix('lsm')->group(function () {
 });
 
 Route::middleware(['auth', 'role:adopter'])->prefix('adopter')->group(function () {
-     // Home adopter
+    // Home adopter
     Route::get('/', function () {
         return view('home');
     })->name('home');
@@ -94,5 +95,4 @@ Route::middleware(['auth', 'role:adopter'])->prefix('adopter')->group(function (
         Route::get('/', [AdopterCheckoutController::class, 'index'])->name('index');
         Route::post('/create', [AdopterCheckoutController::class, 'store'])->name('store');
     });
-
 });
