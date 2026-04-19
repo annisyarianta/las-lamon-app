@@ -12,6 +12,7 @@ Route::get('/', function () {
 
 Route::view('/cart', 'cart');
 Route::view('/checkout', 'checkout');
+Route::view('/myorder', 'myorder');
 
 Route::get('/login', [LoginController::class, 'showLogin'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);

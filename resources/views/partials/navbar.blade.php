@@ -27,9 +27,9 @@
             <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                 <div class="navbar-nav mx-auto">
                     <a href="{{url('/')}}" class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
-                    <a href="shop.html" class="nav-item nav-link">About</a>
-                    <a href="cart.html" class="nav-item nav-link">Catalogue</a>
-                    <a href="chackout.html" class="nav-item nav-link {{ request()->routeIs('oder') ? 'active' : '' }}">My Order</a>
+                    <a href="{{url('/about')}}" class="nav-item nav-link">About</a>
+                    <a href="{{url('/catalogue')}}" class="nav-item nav-link">Catalogue</a>
+                    <a href="{{url('/myorder')}}" class="nav-item nav-link {{ request()->routeIs('myorder') ? 'active' : '' }}">My Order</a>
                     <a href="contact.html" class="nav-item nav-link">My Forest</a>
                 </div>
                 <div class="d-flex m-3 me-0">
