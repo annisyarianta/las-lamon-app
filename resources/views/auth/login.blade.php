@@ -72,7 +72,7 @@
 
         <!-- Footer -->
         <p class="text-center text-xs text-gray-400 mt-6">
-            © {{ date('Y') }} Your System
+            © {{ date('Y') }} Las Lamon
         </p>
     </div>
 </div>

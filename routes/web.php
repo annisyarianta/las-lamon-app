@@ -60,12 +60,10 @@ Route::middleware(['auth', 'role:lsm'])->prefix('lsm')->group(function () {
 });
 
 Route::middleware(['auth', 'role:adopter'])->prefix('adopter')->group(function () {
-     // Home adopter
     Route::get('/', function () {
         return view('home');
     })->name('home');
 
-    // My Forest
     Route::get('/my-forest', function () {
         return view('myforest');
     })->name('myforest');
@@ -73,6 +71,10 @@ Route::middleware(['auth', 'role:adopter'])->prefix('adopter')->group(function (
     Route::get('/my-order', function () {
         return "My Order Page";
     });
+
+    Route::get('/certificate', function () {
+        return view('certificate');
+    })->name('certificate');
 
     Route::prefix('cart')->name('adopter.cart.')->group(function () {
         Route::get('/', [AdopterCartController::class, 'index'])->name('index');
