@@ -26,28 +26,26 @@
                             <th>Action</th>
                         </tr>
                     </thead>
+
                     <tbody>
                         @foreach ($data as $each_data)
                             <tr>
 
                                 <td>
                                     <p class="mb-0 mt-4">
-
                                         {{ ucwords(str_replace('_', ' ', $each_data->katalog->nama_katalog ?? '-')) }}
                                     </p>
                                 </td>
 
                                 <td>
                                     <p class="mb-0 mt-4">
-
                                         {{ $each_data->produk->nama_produk ?? '-' }}
                                     </p>
                                 </td>
 
                                 <td>
                                     <p class="mb-0 mt-4">
-
-                                        ${{ number_format($each_data->harga_satuan, 0, ',', '.') }}
+                                        Rp {{ number_format($each_data->harga_satuan, 0, ',', '.') }}
                                     </p>
                                 </td>
 
@@ -62,7 +60,7 @@
 
                                         <input type="text"
                                             class="form-control form-control-sm text-center border-0 qty-input"
-                                            value="1">
+                                            value="{{ $each_data->kuantitas }}">
 
                                         <button type="button" class="btn btn-sm btn-plus bg-light border">+</button>
                                     </div>
@@ -70,7 +68,8 @@
 
                                 <td>
                                     <p class="mb-0 mt-4 total-harga">
-                                        ${{ number_format($each_data->harga_satuan, 0, ',', '.') }}
+                                        Rp
+                                        {{ number_format($each_data->harga_satuan * $each_data->kuantitas, 0, ',', '.') }}
                                     </p>
                                 </td>
 
@@ -82,8 +81,7 @@
                                         @csrf
                                         @method('DELETE')
 
-                                        <button type="submit" class="btn btn-md rounded-circle bg-light border mt-4"
-                                            onclick=''>
+                                        <button type="submit" class="btn btn-md rounded-circle bg-light border mt-4">
                                             <i class="fa fa-trash text-danger"></i>
                                         </button>
 
@@ -95,9 +93,11 @@
                     </tbody>
                 </table>
             </div>
+
             <form id="checkoutForm" action="{{ route('adopter.checkout.store') }}" method="POST">
                 @csrf
                 <input type="hidden" name="data" id="dataInput">
+
                 <div class="mt-5 text-center">
                     <button type="submit" onclick="checkout()"
                         class="btn border-secondary rounded-pill px-4 py-3 text-primary">
@@ -109,7 +109,9 @@
         </div>
     </div>
     <!-- Cart Page End -->
+
 @endsection
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -122,30 +124,60 @@
             let totalText = row.querySelector(".total-harga");
 
             let harga = parseInt(row.querySelector(".produk-data").dataset.harga);
+            let cartId = row.querySelector(".produk-data").dataset.idCart;
 
-            function update() {
+            function updateView() {
                 let qty = parseInt(input.value) || 1;
                 let total = harga * qty;
 
                 totalText.innerText = 'Rp ' + total.toLocaleString('id-ID');
             }
 
+            function updateBackend() {
+                let qty = parseInt(input.value) || 1;
+
+                fetch(`/adopter/cart/${cartId}/update`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                            "Accept": "application/json"
+                        },
+                        body: JSON.stringify({
+                            qty: qty
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("Qty updated:", data);
+                    })
+                    .catch(error => {
+                        console.log("Error:", error);
+                    });
+            }
+
             plus.addEventListener("click", function() {
                 input.value = parseInt(input.value || 1) + 1;
-                update();
+                updateView();
+                updateBackend();
             });
 
             minus.addEventListener("click", function() {
                 let val = parseInt(input.value || 1);
+
                 if (val > 1) {
                     input.value = val - 1;
-                    update();
+                    updateView();
+                    updateBackend();
                 }
             });
 
-            input.addEventListener("input", update);
+            input.addEventListener("input", function() {
+                updateView();
+            });
 
-            update();
+            // hanya update tampilan saat pertama load
+            updateView();
         });
 
     });
@@ -183,7 +215,6 @@
         };
 
         localStorage.setItem("checkout_data", JSON.stringify(payload));
-
 
         document.getElementById("dataInput").value = JSON.stringify(payload);
         document.getElementById("checkoutForm").submit();
