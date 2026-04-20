@@ -37,8 +37,8 @@ class CheckoutController extends Controller
         $data = json_decode($request->data);
 
         session(['checkout_data' => $data]);
-        if (!$data->cart_item) {
-            return redirect()->route('adopter.cart.index')->with('error', 'Cart kosong');
+        if (empty($data->cart_item)) {
+            return redirect()->route('adopter.cart.index')->with('error', 'Your Cart Is Empty');
         }
 
         return redirect()->route('adopter.checkout.index');

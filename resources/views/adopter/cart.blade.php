@@ -14,6 +14,18 @@
     <div class="container-fluid py-5">
         <div class="container py-5">
 
+            @if (session('error'))
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: "{{ session('error') }}",
+                        confirmButtonText: 'OK'
+                    });
+                </script>
+            @endif
+
             <div class="table-responsive">
                 <table class="table">
                     <thead>
