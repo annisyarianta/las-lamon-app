@@ -318,7 +318,7 @@
                                                         <p class="mb-0">Rp250.000</p>
                                                     </div>
                                                     <div class="col-3">
-                                                        <p class="mb-0"><a href="{{url('/detail-finish')}}"
+                                                        <p class="mb-0"><a href="{{url('/detail-finished')}}"
                                                                 class="btn btn-sm border border-secondary rounded-pill px-3 text-primary mt-auto">
                                                                 Detail
                                                             </a></p>
@@ -336,7 +336,7 @@
                                                         <p class="mb-0">Rp250.000</p>
                                                     </div>
                                                     <div class="col-3">
-                                                        <p class="mb-0"><a href="{{url('/detail-finish')}}"
+                                                        <p class="mb-0"><a href="{{url('/detail-finished')}}"
                                                                 class="btn btn-sm border border-secondary rounded-pill px-3 text-primary mt-auto">
                                                                 Detail
                                                             </a></p>
@@ -354,7 +354,7 @@
                                                         <p class="mb-0">Rp250.000</p>
                                                     </div>
                                                     <div class="col-3">
-                                                        <p class="mb-0"><a href="{{url('/detail-finish')}}"
+                                                        <p class="mb-0"><a href="{{url('/detail-finished')}}"
                                                                 class="btn btn-sm border border-secondary rounded-pill px-3 text-primary mt-auto">
                                                                 Detail
                                                             </a></p>
@@ -383,7 +383,7 @@
                                                     </div>
 
                                                     <div class="text-end mt-2">
-                                                        <a href="{{url('/detail-finish')}}"
+                                                        <a href="{{url('/detail-finished')}}"
                                                             class="btn btn-sm border border-secondary rounded-pill px-3 text-primary">
                                                             Detail
                                                         </a>
@@ -406,7 +406,7 @@
                                                     </div>
 
                                                     <div class="text-end mt-2">
-                                                        <a href="{{url('/detail-finish')}}"
+                                                        <a href="{{url('/detail-finished')}}"
                                                             class="btn btn-sm border border-secondary rounded-pill px-3 text-primary">
                                                             Detail
                                                         </a>
@@ -429,7 +429,7 @@
                                                     </div>
 
                                                     <div class="text-end mt-2">
-                                                        <a href="{{url('/detail-finish')}}"
+                                                        <a href="{{url('/detail-finished')}}"
                                                             class="btn btn-sm border border-secondary rounded-pill px-3 text-primary">
                                                             Detail
                                                         </a>
