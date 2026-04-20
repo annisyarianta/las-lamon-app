@@ -24,6 +24,11 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
+Route::view('/myorder', 'myorder');
+Route::view('/detail-unpaid', 'detail-unpaid');
+Route::view('/detail-finished', 'detail-finished');
+Route::view('/detail-canceled', 'detail-canceled');
+
 Route::get('/login', [LoginController::class, 'showLogin'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 
