@@ -9,7 +9,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\KatalogController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
+Route::get('/', function() {
     return view('home');
 });
 
@@ -66,18 +66,22 @@ Route::middleware(['auth', 'role:lsm'])->prefix('lsm')->group(function () {
 });
 
 Route::middleware(['auth', 'role:adopter'])->prefix('adopter')->group(function () {
-    // Home adopter
+    
     Route::get('/', function () {
         return view('home');
     })->name('home');
 
     Route::get('/my-forest', function () {
-        return view('myforest');
+        return view('adopter.myforest');
     })->name('myforest');
 
     Route::get('/my-order', function () {
         return "My Order Page";
     });
+
+    Route::get('/receipt', function () {
+        return view('kwitansi');
+    })->name('receipt');
 
     Route::get('/certificate', function () {
         return view('certificate');

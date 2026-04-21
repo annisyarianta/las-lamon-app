@@ -8,16 +8,14 @@
                 <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#"
                         class="text-white">hubungi@gawaimu.id</a></small>
             </div>
-            <div class="top-link pe-2">
-                <a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a>
-                <a href="#" class="text-white"><small class="text-white mx-2">Terms of Use</small>/</a>
-                <a href="#" class="text-white"><small class="text-white ms-2">Sales and Refunds</small></a>
+            <div class="top-link pe-2 text-light">
+                Green Action Starts With You!
             </div>
         </div>
     </div>
     <div class="container px-0">
         <nav class="navbar navbar-light bg-white navbar-expand-xl">
-            <a href="index.html" class="navbar-brand">
+            <a href="{{ route('home') }}" class="navbar-brand">
                 <h1 class="text-primary display-6">Las Lamon</h1>
             </a>
             <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
@@ -80,7 +78,6 @@
     </div>
 </div>
 <!-- Navbar End -->
-
 
 <!-- Modal Search Start -->
 <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
