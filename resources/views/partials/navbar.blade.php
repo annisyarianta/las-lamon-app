@@ -27,7 +27,7 @@
                     <a href="{{ url('/') }}"
                         class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
                     <a href="{{ route('about') }}" class="nav-item nav-link">About</a>
-                    <a href="{{ route('catalogue') }}" class="nav-item nav-link">Catalogue</a>
+                    <a href="{{ route('catalogue.index') }}" class="nav-item nav-link">Catalogue</a>
                     @auth
                         @if (auth()->user()->isAdopter())
                             <a href="#" class="nav-item nav-link">My Order</a>

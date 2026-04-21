@@ -1,23 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Adopter;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Katalog;
+use App\Models\ProdukTanaman;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
-class CheckoutController extends Controller
+class KatalogController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = session('checkout_data');
-        if (!$data) {
-            return redirect()->route('adopter.cart.index')->with('error', 'Cart kosong');
-        }
-        // dd($checkout_data);
-        return view('adopter.checkout', compact('data'));
+        $data = Katalog::where('soft_delete', 0)->get();
+        return view('catalogue', compact('data'));
     }
 
     /**
@@ -33,15 +32,7 @@ class CheckoutController extends Controller
      */
     public function store(Request $request)
     {
-
-        $data = json_decode($request->data);
-
-        session(['checkout_data' => $data]);
-        if (!$data->cart_item) {
-            return redirect()->route('adopter.cart.index')->with('error', 'Cart kosong');
-        }
-
-        return redirect()->route('adopter.checkout.index');
+        //
     }
 
     /**
@@ -49,7 +40,9 @@ class CheckoutController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $data = Katalog::findOrFail(Crypt::decrypt($id));
+        $data_produk_tanaman = ProdukTanaman::where('soft_delete', 0)->get();
+        return view('detail-product', compact('data', 'data_produk_tanaman'));
     }
 
     /**

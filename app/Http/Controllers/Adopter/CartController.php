@@ -29,23 +29,36 @@ class CartController extends Controller
         //     'data' => $data,
         // ], 200);
 
-        return view('cart', compact('data'));
+        return view('adopter.cart', compact('data'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
-    }
+    public function create() {}
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+        $cart = Cart::where('id_user', auth()->id())->where('soft_delete', 0)->first();
+        if (empty($cart)) {
+            $new_cart = Cart::create([
+                'id_user' => auth()->user()->id,
+            ]);
+        }
+
+        $cart_item = CartItem::create([
+            'id_cart' => $new_cart->id ?? $cart->id,
+            'id_produk' => $input['id_produk'] ?? null,
+            'id_katalog' => $input['id_katalog'],
+            'kuantitas' => $input['kuantitas'],
+            'harga_satuan' => $input['harga_satuan'],
+            'harga_total' => $input['kuantitas'],
+        ]);
+        return redirect()->route('adopter.cart.index');
     }
 
     /**
@@ -69,7 +82,16 @@ class CartController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $cartItem = CartItem::findOrFail($id);
+
+        $cartItem->update([
+            'kuantitas' => $request->qty,
+            'harga_total' => $request->qty * $cartItem->harga_satuan
+        ]);
+
+        return response()->json([
+            'message' => 'Quantity updated successfully'
+        ]);
     }
 
     /**

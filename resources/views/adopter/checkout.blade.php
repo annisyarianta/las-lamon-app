@@ -100,11 +100,11 @@
                             </div>
                         </div>
 
-                        {{-- <div class="row g-4 text-center align-items-center justify-content-center pt-4">
-                            <button type="button"
+                        <div class="row g-4 text-center align-items-center justify-content-center pt-4">
+                            <button type="button" onclick="window.location.href='/detail-unpaid'"
                                 class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Place
                                 Order</button>
-                        </div> --}}
+                        </div>
 
                         <form action="{{ route('adopter.order.store') }}" method="POST">
                             @csrf
