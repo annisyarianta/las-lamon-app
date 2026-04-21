@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('order', function (Blueprint $table) {
-            $table->enum('status_order', ['unpaid', 'in process', 'paid', 'canceled'])->default('unpaid')->change();
+            $table->enum('status_order', ['belum_lunas', 'diproses', 'lunas', 'batal'])->default('belum_lunas')->change();
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('order', function (Blueprint $table) {
-            $table->enum('status_order', ['unpaid', 'in process', 'paid', 'canceled'])->default('unpaid')->change();
+            $table->enum('status_order', ['belum_lunas', 'diproses', 'lunas', 'batal'])->default('belum_lunas')->change();
         });
     }
 };
