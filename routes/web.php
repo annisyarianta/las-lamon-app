@@ -72,6 +72,10 @@ Route::middleware(['auth', 'role:adopter'])->prefix('adopter')->group(function (
         return "My Order Page";
     });
 
+    Route::get('/receipt', function () {
+        return view('kwitansi');
+    })->name('receipt');
+
     Route::get('/certificate', function () {
         return view('certificate');
     })->name('certificate');

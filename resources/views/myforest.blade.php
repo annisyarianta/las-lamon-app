@@ -53,7 +53,7 @@
                                         <span class="d-none d-md-inline">e-Certificate</span>
                                     </a>
                                     <!-- Location -->
-                                    <a href="#"
+                                    <a href="{{ route('receipt') }}"
                                         class="btn btn-success rounded-pill 
                                           px-2 py-1 px-md-3 py-md-2 small">
                                         <i class="fa fa-map-marker-alt me-1"></i>
