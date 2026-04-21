@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -55,7 +56,7 @@ class OrderController extends Controller
                 'status_order' => 'unpaid',
                 'tanggal_order' => now(),
                 'expired_at' => now()->addDays(1),
-                'kode' => 'ORD-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -6)),
+                'kode' => 'ORD-' . date('Ymd') . '-' . strtoupper(Str::random(6)),
             ]);
 
             foreach ($input['cart_item'] as $cart_item) {
@@ -148,7 +149,8 @@ class OrderController extends Controller
 
         $data->update([
             'url_bukti_pembayaran' => $url_bukti_pembayaran ?? $data->url_bukti_pembayaran,
-            'status_order' => 'in process'
+            'status_order' => 'in process',
+            'tanggal_pembayaran' => now(),
         ]);
 
         // return response()->json([

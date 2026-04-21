@@ -2,17 +2,15 @@
 
 namespace App\Models;
 
-use App\Models\OrderItem;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Order extends Model
+class Kwitansi extends Model
 {
     use HasFactory;
     use Notifiable;
-    protected $table = 'order';
+    protected $table = 'kwitansi';
     protected $guarded = [];
 
     public function user()
@@ -20,13 +18,8 @@ class Order extends Model
         return $this->belongsTo(User::class, 'id_user', 'id');
     }
 
-    public function order_items()
+    public function order()
     {
-        return $this->hasMany(OrderItem::class, 'id_order', 'id');
-    }
-
-    public function kwitansi()
-    {
-        return $this->hasOne(Kwitansi::class, 'id_order', 'id');
+        return $this->belongsTo(Order::class, 'id_order', 'id');
     }
 }
