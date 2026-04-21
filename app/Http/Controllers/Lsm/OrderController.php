@@ -82,7 +82,7 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
         $user = $order->user;
-        $order->status_order = 'lunas';
+        $order->status_order = 'paid';
         $order->save();
 
         $data__nomor_sertifikat = NomorSertifikat::where('soft_delete', 0)->first();

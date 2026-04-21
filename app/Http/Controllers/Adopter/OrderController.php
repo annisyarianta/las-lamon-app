@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Adopter;
 
 use App\Http\Controllers\Controller;
 use App\Models\CartItem;
+use App\Models\Katalog;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class OrderController extends Controller
 {
@@ -16,17 +18,12 @@ class OrderController extends Controller
     public function index()
     {
         $data = Order::where('id_user', auth()->user()->id)->where('soft_delete', 0)->get();
-        $data_belum_lunas = $data->where('status_order', 'belum_lunas');
-        $data_diproses = $data->where('status_order', 'diproses');
-        $data_lunas = $data->where('status_order', 'lunas');
+        $data_belum_lunas = $data->where('status_order', 'unpaid');
+        $data_in_process = $data->where('status_order', 'in process');
+        $data_lunas = $data->where('status_order', 'paid');
+        $data_canceled = $data->where('status_order', 'canceled');
 
-        // return view('adopter.order.index', compact('data_belum_lunas', 'data_diproses', 'data_lunas'));
-        return response()->json([
-            'message' => 'List of orders',
-            'data_belum_lunas' => $data_belum_lunas,
-            'data_diproses' => $data_diproses,
-            'data_lunas' => $data_lunas,
-        ], 200);
+        return view('adopter.myorder', compact('data_belum_lunas', 'data_in_process', 'data_lunas', 'data_canceled'));
     }
 
     /**
@@ -43,15 +40,15 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $input = json_decode($request->data, true);
-       
+
         if (isset($input['cart_item'])) {
             $data_order = Order::create([
                 'id_user' => auth()->user()->id,
                 'total_harga' => $input['total_harga'] + 1500,
-                'status_order' => 'belum_lunas',
+                'status_order' => 'unpaid',
                 'tanggal_order' => now(),
                 'expired_at' => now()->addDays(1),
-                'kode' => strtoupper(uniqid()),
+                'kode' => 'ORD-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -6)),
             ]);
 
             foreach ($input['cart_item'] as $cart_item) {
@@ -71,23 +68,30 @@ class OrderController extends Controller
         }
 
         $data_order_item = OrderItem::where('id_order', $data_order->id)
-            ->with(['katalog:id,nama_katalog', 'produk:id,nama_produk'])
+            ->with(['katalog:id,nama_katalog,url_gambar', 'produk:id,nama_produk'])
             ->get();
 
         session(['checkout_data' => null]);
-        return response()->json([
-            'message' => 'Order successfully created',
-            'data_order' => $data_order,
-            'data_order_item' => $data_order_item,
-        ], 201);
+        // return response()->json([
+        //     'message' => 'Order successfully created',
+        //     'data_order' => $data_order,
+        //     'data_order_item' => $data_order_item,
+        // ], 201);
 
-        // return view('checkout', compact('data_order', 'data_order_item'));
+        return view('adopter.detail-unpaid', compact('data_order', 'data_order_item'));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id) {}
+    public function show(string $id)
+    {
+        $data_order = Order::findOrFail(Crypt::decrypt($id));
+        $data_order_item = OrderItem::where('id_order', $data_order->id)
+            ->with(['katalog:id,nama_katalog,url_gambar', 'produk:id,nama_produk'])
+            ->get();
+        return view('adopter.detail-unpaid', compact('data_order', 'data_order_item'));
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -102,7 +106,8 @@ class OrderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $data = Order::findOrFail($id);
+        $data = Order::findOrFail(Crypt::decrypt($id));
+
         $nama = str_replace(' ', '_', auth()->user()->name);
         $url_bukti_pembayaran = null;
 
@@ -130,13 +135,15 @@ class OrderController extends Controller
 
         $data->update([
             'url_bukti_pembayaran' => $url_bukti_pembayaran ?? $data->url_bukti_pembayaran,
-            'status_order' => 'diproses'
+            'status_order' => 'in process'
         ]);
 
-        return response()->json([
-            'message' => 'bukti pembayaran already updated',
-            'data' => $data
-        ], 200);
+        // return response()->json([
+        //     'message' => 'bukti pembayaran already updated',
+        //     'data' => $data
+        // ], 200);
+
+        return redirect()->route('adopter.order.index')->with('success', 'Payment proof uploaded successfully, your order is now in process.');
     }
 
     /**
