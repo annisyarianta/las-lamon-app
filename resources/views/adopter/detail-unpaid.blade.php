@@ -78,16 +78,18 @@
                             <h6 class="mb-0">Total Payment</h6>
                             <p class="mb-0 ms-2">Rp{{ number_format($data_order->total_harga, 0, ',', '.') }}</p>
                         </div>
-                        <div class="d-flex justify-content-between mb-1">
-                            <h6 class="mb-0">Expired At</h6>
-                            <p class="mb-0 ms-2 text-danger" id="countdown">Loading...</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <h6 class="mb-0">Payment Due Date</h6>
-                            <p class="mb-0 ms-2">
-                                {{ \Carbon\Carbon::parse($data_order->expired_at)->translatedFormat('d F Y \a\t H:i') }}
-                            </p>
-                        </div>
+                        @if ($data_order->status_order == 'unpaid')
+                            <div class="d-flex justify-content-between mb-1">
+                                <h6 class="mb-0">Expired At</h6>
+                                <p class="mb-0 ms-2 text-danger" id="countdown">Loading...</p>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <h6 class="mb-0">Payment Due Date</h6>
+                                <p class="mb-0 ms-2">
+                                    {{ \Carbon\Carbon::parse($data_order->expired_at)->translatedFormat('d F Y \a\t H:i') }}
+                                </p>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

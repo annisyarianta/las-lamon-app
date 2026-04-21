@@ -82,21 +82,29 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
         $user = $order->user;
-        $order->status_order = 'paid';
-        $order->save();
+        $order->update(['status_order' => 'paid']);
+
+        $order_items = $order->order_items->where('soft_delete', 0);
 
         $data__nomor_sertifikat = NomorSertifikat::where('soft_delete', 0)->first();
-        $data_sertifikat_adopter = Sertifikat::create([
-            'id_order' => $order->id,
-            'id_user' => $user->id,
-            'nama_pemilik' => $user->name,
-            'nomor_surat' => $data__nomor_sertifikat->nomor_akhir + 1,
-            'full_nomor_surat' => $data__nomor_sertifikat->nomor_akhir + 1 . '/' . $data__nomor_sertifikat->kerangka_penomoran,
-            'tanggal_terbit' => now(),
-        ]);
 
-        $data__nomor_sertifikat->nomor_akhir += 1;
-        $data__nomor_sertifikat->save();
+        $data_sertifikat = [];
+        foreach ($order_items as $each_data) {
+            $each_data->update(['url_lokasi' => 'https://www.google.com/maps?cid=12634029862485440791&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYASAA&hl=en&gl=ID&source=embed']);
+            $data_sertifikat_adopter = Sertifikat::create([
+                'id_order' => $order->id,
+                'id_order_item' => $each_data->id,
+                'id_user' => $user->id,
+                'nama_pemilik' => $user->name,
+                'nomor_surat' => $data__nomor_sertifikat->nomor_akhir + 1,
+                'full_nomor_surat' => $data__nomor_sertifikat->nomor_akhir + 1 . '/' . $data__nomor_sertifikat->kerangka_penomoran,
+                'tanggal_terbit' => now(),
+            ]);
+            $data_sertifikat[] = $data_sertifikat_adopter;
+            $data__nomor_sertifikat->nomor_akhir += 1;
+            $data__nomor_sertifikat->save();
+        }
+
 
         return response()->json([
             'message' => 'Order confirmed',

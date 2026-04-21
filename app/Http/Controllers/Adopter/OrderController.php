@@ -17,6 +17,13 @@ class OrderController extends Controller
      */
     public function index()
     {
+        Order::where('id_user', auth()->id())
+            ->where('status_order', 'unpaid')
+            ->where('expired_at', '<', now())
+            ->update([
+                'status_order' => 'canceled'
+            ]);
+
         $data = Order::where('id_user', auth()->user()->id)->where('soft_delete', 0)->get();
         $data_belum_lunas = $data->where('status_order', 'unpaid');
         $data_in_process = $data->where('status_order', 'in process');
@@ -90,7 +97,13 @@ class OrderController extends Controller
         $data_order_item = OrderItem::where('id_order', $data_order->id)
             ->with(['katalog:id,nama_katalog,url_gambar', 'produk:id,nama_produk'])
             ->get();
-        return view('adopter.detail-unpaid', compact('data_order', 'data_order_item'));
+        if ($data_order->status_order == 'unpaid' || $data_order->status_order == 'in process') {
+            return view('adopter.detail-unpaid', compact('data_order', 'data_order_item'));
+        } else if ($data_order->status_order == 'paid') {
+            return view('adopter.detail-finished', compact('data_order', 'data_order_item'));
+        } else if ($data_order->status_order == 'canceled') {
+            return view('adopter.detail-canceled', compact('data_order', 'data_order_item'));
+        }
     }
 
     /**

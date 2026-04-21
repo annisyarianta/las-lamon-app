@@ -327,7 +327,8 @@
                                                                 </p>
                                                             </div>
                                                             <div class="col-3">
-                                                                <p class="mb-0"><a href="{{ url('/detail-finished') }}"
+                                                                <p class="mb-0"><a
+                                                                        href={{ route('adopter.order.show', ['id' => Crypt::encrypt($each_data->id)]) }}
                                                                         class="btn btn-sm border border-secondary rounded-pill px-3 text-primary mt-auto">
                                                                         Detail
                                                                     </a></p>
@@ -365,7 +366,7 @@
                                                             </div>
 
                                                             <div class="text-end mt-2">
-                                                                <a href="{{ url('/detail-finished') }}"
+                                                                <a href={{ route('adopter.order.show', ['id' => Crypt::encrypt($each_data->id)]) }}
                                                                     class="btn btn-sm border border-secondary rounded-pill px-3 text-primary">
                                                                     Detail
                                                                 </a>
@@ -421,7 +422,8 @@
                                                                 </p>
                                                             </div>
                                                             <div class="col-3">
-                                                                <p class="mb-0"><a href="{{ url('/detail-canceled') }}"
+                                                                <p class="mb-0"><a
+                                                                        href={{ route('adopter.order.show', ['id' => Crypt::encrypt($each_data->id)]) }}
                                                                         class="btn btn-sm border border-secondary rounded-pill px-3 text-primary mt-auto">
                                                                         Detail
                                                                     </a></p>
@@ -461,7 +463,7 @@
                                                             </div>
 
                                                             <div class="text-end mt-2">
-                                                                <a href="{{ url('/detail-canceled') }}"
+                                                                <a href={{ route('adopter.order.show', ['id' => Crypt::encrypt($each_data->id)]) }}
                                                                     class="btn btn-sm border border-secondary rounded-pill px-3 text-primary">
                                                                     Detail
                                                                 </a>
@@ -483,4 +485,9 @@
     </div>
     <!-- Single Product End -->
 
+    <script>
+        setInterval(function() {
+            location.reload();
+        }, 300000); 
+    </script>
 @endsection
