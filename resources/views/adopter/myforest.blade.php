@@ -71,7 +71,7 @@
 
     <!-- Explore More -->
     <div class="d-flex justify-content-end mt-4 ml-5 ml-md-0">
-        <a href="{{ route('catalogue') }}" class="text-primary text-decoration-none d-inline-flex align-items-center gap-1">
+        <a href="{{ route('catalogue.index') }}" class="text-primary text-decoration-none d-inline-flex align-items-center gap-1">
             Explore More Catalogue
             <i class="fa fa-arrow-right"></i>
         </a>
