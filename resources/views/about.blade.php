@@ -54,7 +54,7 @@
                             <div class="col-6">
                                 <a href="{{ url('wa.me/+6281216163395') }}">
                                     <div class="d-flex flex-column text-center p-4 rounded bg-white shadow-sm h-100">
-                                        <i class="fa fa-whatsapp fa-2x text-primary mb-3"></i>
+                                        <i class="fa fa-phone-alt fa-2x text-primary mb-3"></i>
                                         <h6 class="mb-1">Whatsapp</h6>
                                         <p class="mb-0 text-muted small">(+628)12 1616 3395</p>
                                     </div>

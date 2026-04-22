@@ -9,7 +9,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\KatalogController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function() {
+Route::get('/', function () {
     return view('home');
 });
 
@@ -46,7 +46,19 @@ Route::prefix('catalogue')->name('catalogue.')->group(function () {
 // DASHBOARD ROLE
 Route::middleware(['auth', 'role:superadmin'])->group(function () {
     Route::get('/superadmin', function () {
-        return "Superadmin Dashboard";
+        return view('superadmin.dashboard');
+    })->name('superadmin_dashboard');
+
+    Route::prefix('user')->group(function () {
+        Route::get('/', function() {
+            return view('superadmin.user');
+        })->name('superadmin_user');
+        Route::get('/create', function() {
+            return view('superadmin.create_user');
+        })->name('create_user');
+        Route::get('/edit', function() {
+            return view('superadmin.edit_user');
+        })->name('edit_user');
     });
 });
 
@@ -66,7 +78,7 @@ Route::middleware(['auth', 'role:lsm'])->prefix('lsm')->group(function () {
 });
 
 Route::middleware(['auth', 'role:adopter'])->prefix('adopter')->group(function () {
-    
+
     Route::get('/', function () {
         return view('home');
     })->name('home');
