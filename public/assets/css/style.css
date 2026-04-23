@@ -176,6 +176,25 @@
 }
 /*** Navbar End ***/
 
+/* Wrapper */
+/* style.css */
+.content-wrapper {
+    margin-top: 120px;
+}
+
+@media (max-width: 992px) {
+    .content-wrapper {
+        margin-top: 100px;
+    }
+}
+
+@media (max-width: 576px) {
+    .content-wrapper {
+        margin-top: 90px;
+    }
+}
+/* Wrapper End */
+
 /*** Hero Header ***/
 .hero-header {
     background: linear-gradient(rgba(248, 223, 173, 0.1), rgba(248, 223, 173, 0.1)), url(../img/hero-img.jpg);
@@ -414,6 +433,20 @@
     margin-bottom: 0;
 }
 /*** Facts End ***/
+
+/* Form Start */
+.form-control,
+.form-control:focus,
+.form-control:active,
+.form-select {
+    color: #16191b; 
+}
+
+.form-control::placeholder {
+    color: #adb5bd; 
+    opacity: 1;
+}
+/* Form End */
 
 
 /*** Single Page Start ***/

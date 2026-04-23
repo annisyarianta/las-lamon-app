@@ -28,4 +28,9 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Katalog::class, 'id_katalog', 'id');
     }   
+
+    public function lokasi()
+    {
+        return $this->belongsTo(Lokasi::class, 'id_lokasi', 'id');
+    }
 }

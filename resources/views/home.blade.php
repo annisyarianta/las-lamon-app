@@ -22,10 +22,12 @@
                     Every tree tells a story of survival.
                 </p>
                 <div class="position-relative text-center">
-                    <button type="submit"
-                        class="btn btn-primary py-3 px-4 position-absolute top-50 start-50 translate-middle rounded-pill text-white">
-                        Explore Now
-                    </button>
+                    <a href="{{ route('catalogue.index') }}">
+                        <button type="submit"
+                            class="btn btn-primary py-3 px-4 position-absolute top-50 start-50 translate-middle rounded-pill text-white">
+                            Explore Now
+                        </button>
+                    </a>
                 </div>
 
             </div>

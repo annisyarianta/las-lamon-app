@@ -7,8 +7,8 @@
     <div class="container-fluid page-header py-5">
         <h1 class="text-center text-white display-6">About</h1>
         <ol class="breadcrumb justify-content-center mb-0">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">Pages</a></li>
+            <li class="breadcrumb-item"><a href="#" class="text-secondary">Home</a></li>
+            <li class="breadcrumb-item"><a href="#" class="text-secondary">Pages</a></li>
             <li class="breadcrumb-item active text-white">About</li>
         </ol>
     </div>
@@ -54,7 +54,7 @@
                             <div class="col-6">
                                 <a href="{{ url('wa.me/+6281216163395') }}">
                                     <div class="d-flex flex-column text-center p-4 rounded bg-white shadow-sm h-100">
-                                        <i class="fa fa-whatsapp fa-2x text-primary mb-3"></i>
+                                        <i class="fa fa-phone-alt fa-2x text-primary mb-3"></i>
                                         <h6 class="mb-1">Whatsapp</h6>
                                         <p class="mb-0 text-muted small">(+628)12 1616 3395</p>
                                     </div>

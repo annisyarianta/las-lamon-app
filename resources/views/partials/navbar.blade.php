@@ -26,12 +26,12 @@
                 <div class="navbar-nav mx-auto">
                     <a href="{{ url('/') }}"
                         class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
-                    <a href="{{ route('about') }}" class="nav-item nav-link">About</a>
-                    <a href="{{ route('catalogue.index') }}" class="nav-item nav-link">Catalogue</a>
+                    <a href="{{ route('about') }}" class="nav-item nav-link {{ request()->routeIs('about') ? 'active' : '' }}">About</a>
+                    <a href="{{ route('catalogue.index') }}" class="nav-item nav-link {{ request()->routeIs('catalogue.index') ? 'active' : '' }}">Catalogue</a>
                     @auth
                         @if (auth()->user()->isAdopter())
-                            <a href="{{ route('adopter.order.index') }}" class="nav-item nav-link">My Order</a>
-                            <a href="{{ route('myforest') }}" class="nav-item nav-link">My Forest</a>
+                            <a href="{{ route('adopter.order.index') }}" class="nav-item nav-link {{ request()->routeIs('adopter.order.index') ? 'active' : '' }}">My Order</a>
+                            <a href="{{ route('adopter.myforest.index') }}" class="nav-item nav-link {{ request()->routeIs('adopter.myforest.index') ? 'active' : '' }}">My Forest</a>
                         @endif
                     @endauth
                 </div>
@@ -56,20 +56,23 @@
                             @endphp
 
                             {{ $cartItemCount }}</span>
-                    </a> @auth
-                        <span class="my-auto me-3">{{ auth()->user()->name }}</span>
+                    </a> 
+                    @auth
+                        <span class="me-3 px-3 py-1 bg-light text-primary fw-semibold rounded-pill">
+                            <i class="fas fa-user me-1"></i> {{ auth()->user()->name }}
+                        </span>
 
-                        <a href="#" class="my-auto"
+                        <a href="#" class="my-auto text-dark"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            <i class="fas fa-sign-out-alt fa-2x"></i>
+                            <i class="fas fa-sign-out-alt fa-lg"></i>
                         </a>
 
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
                         </form>
                     @else
-                        <a href="{{ url('/login') }}" class="my-auto">
-                            <i class="fas fa-user fa-2x"></i>
+                        <a href="{{ url('/login') }}" class="my-auto text-dark">
+                            <i class="fas fa-user fa-lg"></i>
                         </a>
                     @endauth
                 </div>

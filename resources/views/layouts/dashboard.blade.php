@@ -36,11 +36,9 @@
 <body class="font-sans">
     @include('partials.loader')
 
-    @include('partials.navbar')
+    @include('partials.navbar_superadmin')
 
     @yield('content')
-
-    @include('partials.footer')
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
