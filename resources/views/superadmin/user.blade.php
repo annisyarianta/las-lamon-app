@@ -5,8 +5,8 @@
 @section('content')
 
     <div class="container content-wrapper">
-        <div class="container py-5">
-            <div class="d-flex justify-content-between align-items-center mt-5 mb-3 flex-wrap gap-2">
+        <div class="container py-2">
+            <div class="d-flex justify-content-between align-items-center mt-3 mb-3 flex-wrap gap-2">
                 <h5 class="mb-0 fw-semibold">User Lists</h5>
                 <a href="{{ route('users.create') }}" class="btn btn-dark d-flex align-items-center gap-1">
                     <i class="fas fa-plus"></i> Create User
