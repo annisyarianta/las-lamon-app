@@ -30,7 +30,7 @@
                     <a href="{{ route('catalogue.index') }}" class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Catalogue</a>
                     @auth
                         @if (auth()->user()->isAdopter())
-                            <a href="#" class="nav-item nav-link">My Order</a>
+                            <a href="{{ route('adopter.order.index') }}" class="nav-item nav-link">My Order</a>
                             <a href="{{ route('myforest') }}" class="nav-item nav-link {{ request()->routeIs('myforest') ? 'active' : '' }}">My Forest</a>
                         @endif
                     @endauth
