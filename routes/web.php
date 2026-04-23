@@ -24,6 +24,7 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
+Route::view('/kwitansi', 'kwitansi');
 Route::view('/myorder', 'myorder');
 Route::view('/detail-unpaid', 'detail-unpaid');
 Route::view('/detail-finished', 'detail-finished');
