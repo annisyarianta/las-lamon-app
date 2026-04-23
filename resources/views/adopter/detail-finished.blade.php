@@ -83,7 +83,7 @@
             </div>
             <div class="action-bar">
                 <div class="d-flex justify-content-center mt-4 action-bar-content">
-                    <a href="#" class="btn btn-md border border-secondary rounded-pill px-3 text-primary me-3">
+                    <a href={{ route('adopter.receipt.show', ['id' => Crypt::encrypt($data_order->id)]) }} class="btn btn-md border border-secondary rounded-pill px-3 text-primary me-3">
                         <i class="fas fa-print me-3"></i>Cetak Kwitansi
                     </a>
                 </div>
