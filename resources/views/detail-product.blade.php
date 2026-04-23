@@ -10,10 +10,10 @@
 
         <ol class="breadcrumb justify-content-center mb-0">
             <li class="breadcrumb-item text-secondary">
-                <a href="#">Detail Product</a>
+                <a href="#" class="text-secondary">Detail Product</a>
             </li>
             <li class="breadcrumb-item text-secondary">
-                <a href="#">Pages</a>
+                <a href="#" class="text-secondary">Pages</a>
             </li>
             <li class="breadcrumb-item active text-white">
                 Shop
