@@ -3,7 +3,10 @@
 use App\Http\Controllers\Adopter\OrderController as AdopterOrderController;
 use App\Http\Controllers\Adopter\CartController as AdopterCartController;
 use App\Http\Controllers\Adopter\CheckoutController as AdopterCheckoutController;
+use App\Http\Controllers\Adopter\KwitansiController as AdopterKwitansiController;
+use App\Http\Controllers\Adopter\MyForestController as AdopterMyForestController;
 use App\Http\Controllers\Lsm\OrderController as LsmOrderController;
+use App\Http\Controllers\Lsm\KwitansiController as LsmKwitansiController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\KatalogController;
@@ -25,6 +28,7 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
+Route::view('/kwitansi', 'kwitansi');
 Route::view('/myorder', 'myorder');
 Route::view('/detail-unpaid', 'detail-unpaid');
 Route::view('/detail-finished', 'detail-finished');
@@ -55,13 +59,16 @@ Route::middleware(['auth', 'role:lsm'])->prefix('lsm')->group(function () {
         return "LSM Dashboard";
     });
 
-    Route::prefix('order')->group(function () {
-        Route::get('/', [LsmOrderController::class, 'index']);
-        Route::post('/create', [LsmOrderController::class, 'store']);
-        Route::get('/{id}', [LsmOrderController::class, 'show']);
-        Route::post('/{id}/update', [LsmOrderController::class, 'update']);
-        Route::delete('/{id}/delete', [LsmOrderController::class, 'destroy']);
-        Route::post('/{id}/confirm-order', [LsmOrderController::class, 'confirmOrder']);
+    Route::prefix('order')->name('lsm.order.')->group(function () {
+        Route::get('/', [LsmOrderController::class, 'index'])->name('index');
+        Route::post('/create', [LsmOrderController::class, 'store'])->name('store');
+        Route::get('/{id}', [LsmOrderController::class, 'show'])->name('show');
+        Route::post('/{id}/update', [LsmOrderController::class, 'update'])->name('update');
+        Route::delete('/{id}/delete', [LsmOrderController::class, 'destroy'])->name('destroy');
+        Route::post('/{id}/confirm-order', [LsmOrderController::class, 'confirmOrder'])->name('confirm-order');
+    });
+    Route::prefix('receipt')->name('lsm.receipt.')->group(function () {
+        Route::get('/{id}', [LsmOrderController::class, 'show'])->name('show');
     });
 });
 
@@ -106,5 +113,13 @@ Route::middleware(['auth', 'role:adopter'])->prefix('adopter')->group(function (
     Route::prefix('checkout')->name('adopter.checkout.')->group(function () {
         Route::get('/', [AdopterCheckoutController::class, 'index'])->name('index');
         Route::post('/create', [AdopterCheckoutController::class, 'store'])->name('store');
+    });
+
+    Route::prefix('receipt')->name('adopter.receipt.')->group(function () {
+        Route::get('/{id}', [AdopterKwitansiController::class, 'show'])->name('show');
+    });
+
+    Route::prefix('my-forest')->name('adopter.myforest.')->group(function () {
+        Route::get('/', [AdopterMyForestController::class, 'index'])->name('index');
     });
 });

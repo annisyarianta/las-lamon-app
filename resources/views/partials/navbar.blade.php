@@ -27,11 +27,11 @@
                     <a href="{{ url('/') }}"
                         class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
                     <a href="{{ route('about') }}" class="nav-item nav-link {{ request()->routeIs('about') ? 'active' : '' }}">About</a>
-                    <a href="{{ route('catalogue.index') }}" class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Catalogue</a>
+                    <a href="{{ route('catalogue.index') }}" class="nav-item nav-link {{ request()->routeIs('catalogue.index') ? 'active' : '' }}">Catalogue</a>
                     @auth
                         @if (auth()->user()->isAdopter())
-                            <a href="#" class="nav-item nav-link">My Order</a>
-                            <a href="{{ route('myforest') }}" class="nav-item nav-link {{ request()->routeIs('myforest') ? 'active' : '' }}">My Forest</a>
+                            <a href="{{ route('adopter.order.index') }}" class="nav-item nav-link {{ request()->routeIs('adopter.order.index') ? 'active' : '' }}">My Order</a>
+                            <a href="{{ route('adopter.myforest.index') }}" class="nav-item nav-link {{ request()->routeIs('adopter.myforest.index') ? 'active' : '' }}">My Forest</a>
                         @endif
                     @endauth
                 </div>

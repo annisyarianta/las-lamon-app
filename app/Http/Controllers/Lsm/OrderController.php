@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Lsm;
 
 use App\Http\Controllers\Controller;
+use App\Models\Kwitansi;
 use App\Models\NomorSertifikat;
 use App\Models\Order;
 use App\Models\Sertifikat;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -80,27 +82,58 @@ class OrderController extends Controller
 
     public function confirmOrder(string $id)
     {
-        $order = Order::findOrFail($id);
-        $user = $order->user;
-        $order->status_order = 'lunas';
-        $order->save();
+        try {
+            $order = Order::findOrFail($id);
+            $user = $order->user;
 
-        $data__nomor_sertifikat = NomorSertifikat::where('soft_delete', 0)->first();
-        $data_sertifikat_adopter = Sertifikat::create([
-            'id_order' => $order->id,
-            'id_user' => $user->id,
-            'nama_pemilik' => $user->name,
-            'nomor_surat' => $data__nomor_sertifikat->nomor_akhir + 1,
-            'full_nomor_surat' => $data__nomor_sertifikat->nomor_akhir + 1 . '/' . $data__nomor_sertifikat->kerangka_penomoran,
-            'tanggal_terbit' => now(),
-        ]);
+            $order->update(['status_order' => 'paid']);
 
-        $data__nomor_sertifikat->nomor_akhir += 1;
-        $data__nomor_sertifikat->save();
+            $order_items = $order->order_items->where('soft_delete', 0);
 
-        return response()->json([
-            'message' => 'Order confirmed',
-            'data' => $data_sertifikat_adopter,
-        ], 200);
+            $data__nomor_sertifikat = NomorSertifikat::where('soft_delete', 0)->first();
+
+            $data_sertifikat = [];
+
+            foreach ($order_items as $each_data) {
+
+                $each_data->update([
+                    'id_lokasi' => 1
+                ]);
+
+                $data_sertifikat_adopter = Sertifikat::create([
+                    'id_order' => $order->id,
+                    'id_order_item' => $each_data->id,
+                    'id_user' => $user->id,
+                    'nama_pemilik' => $user->name,
+                    'nomor_surat' => $data__nomor_sertifikat->nomor_akhir + 1,
+                    'full_nomor_surat' => ($data__nomor_sertifikat->nomor_akhir + 1) . '/' . $data__nomor_sertifikat->kerangka_penomoran,
+                    'tanggal_terbit' => now(),
+                ]);
+
+                $data_sertifikat[] = $data_sertifikat_adopter;
+
+                $data__nomor_sertifikat->nomor_akhir += 1;
+                $data__nomor_sertifikat->save();
+            }
+
+            $data_kwitansi = Kwitansi::create([
+                'id_user' => $user->id,
+                'id_order' => $order->id,
+                'kode_kwitansi' => 'KW-' . date('Ymd') . '-' . strtoupper(Str::random(6)),
+            ]);
+
+            return response()->json([
+                'message' => 'Order confirmed',
+                'data' => $data_sertifikat,
+            ], 200);
+        } catch (\Throwable $e) {
+
+            return response()->json([
+                'message' => 'Error terjadi',
+                'error' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile(),
+            ], 500);
+        }
     }
 }

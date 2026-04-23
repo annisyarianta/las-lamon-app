@@ -23,45 +23,65 @@
                         <tr>
                             <th>Products</th>
                             <th>Name</th>
-                            <th>Qty</th>
+                            <th class="text-center">Quantity</th>
                             <th class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <!-- Image -->
-                            <td>
-                                <img src="{{ asset('assets/img/hero-img.jpg') }}" class="img-fluid rounded"
-                                    style="width: 70px; height: 70px; object-fit: cover;">
-                            </td>
+                        @if (empty($data) || count($data) == 0)
+                            <tr>
+                                <td colspan="6" class="text-center py-5">
+                                    <h4 class="text-secondary">Your cart is empty.</h4>
+                                </td>
+                            </tr>
+                        @else
+                            @foreach ($data as $data_order_item)
+                                @foreach ($data_order_item->order_items as $each_data)
+                                    <tr>
 
-                            <!-- Name -->
-                            <td>Big Banana</td>
+                                        <td>
+                                            <p class="mb-0 mt-4">
+                                                {{ ucwords(str_replace('_', ' ', $each_data->katalog->nama_katalog ?? '-')) }}
+                                            </p>
+                                        </td>
 
-                            <!-- Quantity -->
-                            <td>10</td>
+                                        <td>
+                                            <p class="mb-0 mt-4">
+                                                {{ $each_data->produk->nama_produk ?? '-' }}
+                                            </p>
+                                        </td>
 
-                            <!-- Action -->
-                            <td class="text-center">
-                                <div class="d-flex flex-column flex-md-row justify-content-center gap-1">
+                                        <td>
+                                            <p class="mb-0 mt-4 text-center">
+                                                {{ $each_data->kuantitas ?? '-' }}
+                                            </p>
+                                        </td>
 
-                                    <!-- e-Certificate -->
-                                    <a href="{{ route('certificate') }}"
-                                        class="btn btn-primary rounded-pill 
+                                        <td class="text-center">
+                                            <div class="d-flex flex-column flex-md-row justify-content-center gap-1">
+
+                                                <!-- e-Certificate -->
+                                                <a href="{{ route('certificate') }}"
+                                                    class="btn btn-primary rounded-pill 
                                           px-2 py-1 px-md-3 py-md-2 small">
-                                        <i class="fa fa-certificate me-1"></i>
-                                        <span class="d-none d-md-inline">e-Certificate</span>
-                                    </a>
-                                    <!-- Location -->
-                                    <a href="{{ route('receipt') }}"
-                                        class="btn btn-success rounded-pill 
+                                                    <i class="fa fa-certificate me-1"></i>
+                                                    <span class="d-none d-md-inline">e-Certificate</span>
+                                                </a>
+                                                <!-- Location -->
+                                                <a href="{{ $each_data->lokasi->url_lokasi ?? '#' }}"
+                                                    class="btn btn-success rounded-pill 
                                           px-2 py-1 px-md-3 py-md-2 small">
-                                        <i class="fa fa-map-marker-alt me-1"></i>
-                                        <span class="d-none d-md-inline">Location</span>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
+                                                    <i class="fa fa-map-marker-alt me-1"></i>
+                                                    <span class="d-none d-md-inline">Location</span>
+                                                </a>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                @endforeach
+                            @endforeach
+                        @endif
+
                     </tbody>
                 </table>
             </div>
@@ -71,7 +91,8 @@
 
     <!-- Explore More -->
     <div class="d-flex justify-content-end mt-4 ml-5 ml-md-0">
-        <a href="{{ route('catalogue.index') }}" class="text-primary text-decoration-none d-inline-flex align-items-center gap-1">
+        <a href="{{ route('catalogue.index') }}"
+            class="text-primary text-decoration-none d-inline-flex align-items-center gap-1">
             Explore More Catalogue
             <i class="fa fa-arrow-right"></i>
         </a>
