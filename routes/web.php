@@ -16,9 +16,6 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::view('/cart', 'cart')->name('cart');
-Route::view('/checkout', 'checkout')->name('checkout');
-
 Route::get('/detail-product', function () {
     return view('detail-product');
 })->name('detail.product');
@@ -26,12 +23,6 @@ Route::get('/detail-product', function () {
 Route::get('/about', function () {
     return view('about');
 })->name('about');
-
-Route::view('/kwitansi', 'kwitansi');
-Route::view('/myorder', 'myorder');
-Route::view('/detail-unpaid', 'detail-unpaid');
-Route::view('/detail-finished', 'detail-finished');
-Route::view('/detail-canceled', 'detail-canceled');
 
 Route::get('/login', [LoginController::class, 'showLogin'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
@@ -47,7 +38,7 @@ Route::prefix('catalogue')->name('catalogue.')->group(function () {
     Route::get('/{id}', [KatalogController::class, 'show'])->name('show');
 });
 
-// DASHBOARD ROLE
+// SUPERADMIN
 Route::middleware(['auth', 'role:superadmin'])->group(function () {
     Route::get('/superadmin', function () {
         return view('superadmin.dashboard');
@@ -66,10 +57,17 @@ Route::middleware(['auth', 'role:superadmin'])->group(function () {
     });
 });
 
-Route::middleware(['auth', 'role:lsm'])->prefix('lsm')->group(function () {
+// LSM
+Route::middleware(['auth', 'role:lsm'])->group(function () {
     Route::get('/lsm', function () {
-        return "LSM Dashboard";
-    });
+        return view('lsm.dashboard');
+    })->name('lsm_dashboard');
+    Route::get('/dataorder', function () {
+        return view('lsm.dataorder');
+    })->name('lsm_dataorder');
+    Route::get('/location', function () {
+        return view('lsm.location');
+    })->name('lsm_location');
 
     Route::prefix('order')->name('lsm.order.')->group(function () {
         Route::get('/', [LsmOrderController::class, 'index'])->name('index');
@@ -84,6 +82,7 @@ Route::middleware(['auth', 'role:lsm'])->prefix('lsm')->group(function () {
     });
 });
 
+// ADOPTER
 Route::middleware(['auth', 'role:adopter'])->prefix('adopter')->group(function () {
 
     Route::get('/', function () {
