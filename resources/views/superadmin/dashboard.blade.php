@@ -14,7 +14,7 @@
                     <div class="card border-1 shadow-sm h-100">
                         <div class="card-body">
                             <p class="text-muted mb-1">Total Users</p>
-                            <h3 class="fw-bold">120</h3>
+                            <h3 class="fw-bold">{{ $totalUser }}</h3>
                             <small class="text-success fw-bold">Active users</small>
                         </div>
                     </div>
@@ -24,9 +24,9 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="card border-1 shadow-sm h-100">
                         <div class="card-body">
-                            <p class="text-muted mb-1">Admins</p>
-                            <h3 class="fw-bold">10</h3>
-                            <small class="text-primary fw-bold">System admins</small>
+                            <p class="text-muted mb-1">Adopter</p>
+                            <h3 class="fw-bold"> {{ $totalAdopter }} </h3>
+                            <small class="text-primary fw-bold">Adopter Plant</small>
                         </div>
                     </div>
                 </div>
@@ -35,9 +35,9 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="card border-1 shadow-sm h-100">
                         <div class="card-body">
-                            <p class="text-muted mb-1">Users</p>
-                            <h3 class="fw-bold">90</h3>
-                            <small class="text-warning fw-bold">Regular users</small>
+                            <p class="text-muted mb-1">LSM</p>
+                            <h3 class="fw-bold"> {{ $totalLsm }} </h3>
+                            <small class="text-warning fw-bold">LSM Users</small>
                         </div>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                     <div class="card border-1 shadow-sm h-100">
                         <div class="card-body">
                             <p class="text-muted mb-1">Super Admin</p>
-                            <h3 class="fw-bold">2</h3>
+                            <h3 class="fw-bold"> {{ $totalSuperadmin }} </h3>
                             <small class="text-danger fw-bold">Full access</small>
                         </div>
                     </div>
@@ -56,9 +56,6 @@
             </div>
             <div class="d-flex justify-content-between align-items-center mt-5 mb-3 flex-wrap gap-2">
                 <h5 class="mb-0 fw-semibold">User Lists</h5>
-
-                <!-- SEARCH -->
-                <input type="text" class="form-control w-auto" placeholder="Search...">
             </div>
             <div class="table-responsive">
                 <table class="table align-middle text-dark">
@@ -73,31 +70,28 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1. </td>
-                            <td>Ni Putu Tiara</td>
-                            <td>tiara@mail.com</td>
-                            <td>08xxxxxxxxxx</td>
-                            <td>
-                                <span class="badge bg-light text-primary border border-primary">
-                                    Adopter
-                                </span>
-                            </td>
-
-                            <!-- Action -->
-                            <td class="text-center">
-                                <div class="d-flex flex-column flex-md-row justify-content-center gap-1">
-
-                                    <!-- e-Certificate -->
-                                    <a href="#"
-                                        class="btn btn-primary 
-                                          px-2 py-1 px-md-3 py-md-2 small">
-                                        <i class="fa fa-pen me-1"></i>
-                                        <span class="d-none d-md-inline">Edit</span>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
+                        @foreach ($users as $user)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td> {{ $user->name }} </td>
+                                <td>{{ $user->email }}</td>
+                                <td>{{ $user->phone }}</td>
+                                <td>
+                                    <span class="badge {{ $user->role_badge }}">
+                                        {{ ucfirst($user->role) }}
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="d-flex flex-column flex-md-row justify-content-center gap-1">
+                                        <a href=" {{ route('users.edit', $user->id) }} "
+                                            class="btn btn-primary p-1 px-md-3 py-md-2 small">
+                                            <i class="fa fa-pen me-1"></i>
+                                            <span class="d-none d-md-inline">Edit</span>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

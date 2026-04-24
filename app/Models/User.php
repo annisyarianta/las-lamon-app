@@ -22,6 +22,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'phone',
     ];
 
     public function isAdopter()
@@ -37,6 +39,16 @@ class User extends Authenticatable
     public function isLsm()
     {
         return $this->role === 'lsm';
+    }
+
+    public function getRoleBadgeAttribute()
+    {
+        return match ($this->role) {
+            'superadmin' => 'bg-light text-danger border border-danger',
+            'lsm' => 'bg-light text-warning border border-warning',
+            'adopter' => 'bg-light text-primary border border-primary',
+            default => 'bg-secondary text-white',
+        };
     }
 
     /**

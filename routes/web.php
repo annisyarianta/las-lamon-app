@@ -10,6 +10,7 @@ use App\Http\Controllers\Lsm\KwitansiController as LsmKwitansiController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\KatalogController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -40,21 +41,8 @@ Route::prefix('catalogue')->name('catalogue.')->group(function () {
 
 // SUPERADMIN
 Route::middleware(['auth', 'role:superadmin'])->group(function () {
-    Route::get('/superadmin', function () {
-        return view('superadmin.dashboard');
-    })->name('superadmin_dashboard');
-
-    Route::prefix('user')->group(function () {
-        Route::get('/', function() {
-            return view('superadmin.user');
-        })->name('superadmin_user');
-        Route::get('/create', function() {
-            return view('superadmin.create_user');
-        })->name('create_user');
-        Route::get('/edit', function() {
-            return view('superadmin.edit_user');
-        })->name('edit_user');
-    });
+    Route::get('/superadmin', [UserController::class, 'cardSuperadmin'])->name('superadmin_dashboard');
+    Route::resource('users', UserController::class);
 });
 
 // LSM

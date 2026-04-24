@@ -14,21 +14,21 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // // Super Admin
-        // User::create([
-        //     'name' => 'Super Admin',
-        //     'email' => 'superadmin@mail.com',
-        //     'password' => Hash::make('12345678'),
-        //     'role' => 'superadmin',
-        // ]);
+        // Super Admin
+        User::create([
+            'name' => 'Super Admin',
+            'email' => 'superadmin@mail.com',
+            'password' => Hash::make('12345678'),
+            'role' => 'superadmin',
+        ]);
 
-        // // LSM
-        // User::create([
-        //     'name' => 'User LSM',
-        //     'email' => 'lsm@mail.com',
-        //     'password' => Hash::make('12345678'),
-        //     'role' => 'lsm',
-        // ]);
+        // LSM
+        User::create([
+            'name' => 'User LSM',
+            'email' => 'lsm@mail.com',
+            'password' => Hash::make('12345678'),
+            'role' => 'lsm',
+        ]);
 
         // User biasa
         User::create([
