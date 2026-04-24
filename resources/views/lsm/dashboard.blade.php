@@ -20,6 +20,54 @@
         });
     </script>
 
+    <style>
+        .action-buttons .btn-action {
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        /* Warna default sesuai fungsi */
+        .action-buttons .detail {
+            background-color: #0dcaf0;
+            /* info */
+        }
+
+        .action-buttons .approve {
+            background-color: #198754;
+            /* success */
+        }
+
+        .action-buttons .decline {
+            background-color: #dc3545;
+            /* danger */
+        }
+
+        /* Hover jadi abu */
+        .action-buttons .btn-action:hover {
+            background-color: #6c757d !important;
+            /* abu-abu */
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        /* Klik effect */
+        .action-buttons .btn-action:active {
+            transform: scale(0.95);
+        }
+
+        .action-buttons .btn-action:hover {
+            background-color: #6c757d !important;
+            transform: translateY(-2px);
+        }
+    </style>
+
     <!-- Single Page Header start -->
     <div class="container-fluid page-header py-5">
         <h1 class="text-center text-white display-6">Dashboard</h1>
@@ -91,14 +139,15 @@
                         <h4 class="mb-4">Order List</h4>
 
                         <div class="table-responsive">
-                            <table id="orderTable" class="table table-bordered table-hover align-middle">
+                            <table id="orderTable"
+                                class="table table-bordered table-hover align-middle text-nowrap text-center">
                                 <thead class="table-light">
                                     <tr>
-                                        <th>Order Date</th>
-                                        <th>Order Code</th>
-                                        <th>Product Name</th>
-                                        <th>Total Payment</th>
-                                        <th>Action</th>
+                                        <th style="min-width: 120px;">Order Date</th>
+                                        <th style="min-width: 120px;">Order Code</th>
+                                        <th style="min-width: 150px;">Product Name</th>
+                                        <th style="min-width: 140px;">Total Payment</th>
+                                        <th style="min-width: 180px;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -108,15 +157,22 @@
                                         <td>Wood Chair</td>
                                         <td>Rp 500.000</td>
                                         <td>
-                                            <button class="btn btn-sm btn-info">Detail</button>
-                                            <button class="btn btn-sm btn-success">Approve</button>
-                                            <button class="btn btn-sm btn-danger">Decline</button>
+                                            <div class="d-flex gap-2 justify-content-center action-buttons">
+                                                <a href="#" class="btn-action detail" title="Detail">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="#" class="btn-action approve" title="Approve">
+                                                    <i class="fas fa-check"></i>
+                                                </a>
+                                                <a href="#" class="btn-action decline" title="Decline">
+                                                    <i class="fas fa-times"></i>
+                                                </a>
+                                            </div>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
                 </div>
             </div>
