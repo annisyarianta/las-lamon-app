@@ -10,6 +10,7 @@ use App\Http\Controllers\Lsm\KwitansiController as LsmKwitansiController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\KatalogController;
+use App\Http\Controllers\Lsm\CertificateController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -102,7 +103,7 @@ Route::middleware(['auth', 'role:adopter'])->prefix('adopter')->group(function (
         return view('kwitansi');
     })->name('receipt');
 
-    Route::get('/certificate', function () {
+    Route::get('/{id}/certificate', function () {
         return view('certificate');
     })->name('certificate');
 
