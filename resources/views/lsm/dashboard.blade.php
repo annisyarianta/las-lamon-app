@@ -33,38 +33,66 @@
             transition: all 0.3s ease;
         }
 
-        /* Warna default sesuai fungsi */
         .action-buttons .detail {
             background-color: #0dcaf0;
-            /* info */
         }
 
         .action-buttons .approve {
             background-color: #198754;
-            /* success */
         }
 
         .action-buttons .decline {
             background-color: #dc3545;
-            /* danger */
         }
 
-        /* Hover jadi abu */
         .action-buttons .btn-action:hover {
             background-color: #6c757d !important;
-            /* abu-abu */
             color: #fff;
             transform: scale(1.1);
         }
 
-        /* Klik effect */
         .action-buttons .btn-action:active {
             transform: scale(0.95);
         }
 
-        .action-buttons .btn-action:hover {
-            background-color: #6c757d !important;
-            transform: translateY(-2px);
+        .custom-card>div {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .custom-card>div:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .custom-card>div i {
+            transition: all 0.3s ease;
+        }
+
+        .custom-card>div:hover i {
+            transform: scale(1.2) rotate(5deg);
+            color: #198754;
+        }
+
+        .custom-card>div:hover h5 {
+            color: #198754;
+        }
+
+        .custom-card>div::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .custom-card>div:hover::before {
+            background: linear-gradient(90deg, #198754, #0dcaf0);
         }
     </style>
 
@@ -102,45 +130,45 @@
         <div class="container">
             <div class="row g-4">
                 <!-- Card 1 -->
-                <div class="col-12 col-md-6 col-lg-3">
+                <div class="col-12 col-md-6 col-lg-3 custom-card">
                     <div class="d-flex p-4 rounded bg-light h-100 shadow-sm border-0">
                         <i class="fas fa-tree fa-2x text-primary me-4"></i>
                         <div>
                             <h5>Number of Trees</h5>
-                            <p class="mb-0">1260</p>
+                            <p class="mb-0 fw-bold fs-5">1260</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Card 2 -->
-                <div class="col-12 col-md-6 col-lg-3">
+                <div class="col-12 col-md-6 col-lg-3 custom-card">
                     <div class="d-flex p-4 rounded bg-light h-100">
                         <i class="fas fa-vector-square fa-2x text-primary me-4"></i>
                         <div>
                             <h5>Total Area</h5>
-                            <p class="mb-0">50 Ha</p>
+                            <p class="mb-0 fw-bold fs-5">50 Ha</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Card 3 -->
-                <div class="col-12 col-md-6 col-lg-3">
+                <div class="col-12 col-md-6 col-lg-3 custom-card">
                     <div class="d-flex p-4 rounded bg-light h-100">
                         <i class="fas fa-shopping-cart fa-2x text-primary me-4"></i>
                         <div>
                             <h5>Total Order</h5>
-                            <p class="mb-0">{{ $total_orders }}</p>
+                            <p class="mb-0 fw-bold fs-5">{{ $total_orders }}</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Card 4 -->
-                <div class="col-12 col-md-6 col-lg-3">
+                <div class="col-12 col-md-6 col-lg-3 custom-card">
                     <div class="d-flex p-4 rounded bg-light h-100">
                         <i class="fas fa-box-open fa-2x text-primary me-4"></i>
                         <div>
                             <h5>New Order</h5>
-                            <p class="mb-0">{{ $total_revenue }}</p>
+                            <p class="mb-0 fw-bold fs-5">{{ $total_revenue }}</p>
                         </div>
                     </div>
                 </div>
@@ -148,8 +176,7 @@
             <div class="mt-5">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body">
-                        <h4 class="mb-4">Order List</h4>
-
+                        <h3 class="mb-4">New Incoming Order</h3>
                         <div class="table-responsive">
                             <table id="orderTable"
                                 class="table table-bordered table-hover align-middle text-nowrap text-center">

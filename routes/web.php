@@ -58,6 +58,9 @@ Route::middleware(['auth', 'role:lsm'])->prefix('lsm')->group(function () {
     Route::get('/location', function () {
         return view('lsm.location');
     })->name('lsm_location');
+    Route::get('/detail-neworder', function () {
+        return view('lsm.detail-neworder');
+    })->name('lsm_detail-neworder');
 
     Route::prefix('order')->name('lsm.order.')->group(function () {
         Route::get('/', [LsmOrderController::class, 'index'])->name('index');
