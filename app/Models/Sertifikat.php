@@ -12,4 +12,14 @@ class Sertifikat extends Model
     use Notifiable;
     protected $table = 'sertifikat';
     protected $guarded = [];
+
+    public function nama_pemilik()
+    {
+        return $this->hasMany(CartItem::class, 'id_produk', 'id');
+    }
+
+    public function tanggal_terbit()
+    {
+        return $this->hasMany(CartItem::class, 'id_produk', 'id');
+    }
 }
