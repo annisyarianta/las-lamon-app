@@ -7,6 +7,7 @@ use App\Http\Controllers\Adopter\KwitansiController as AdopterKwitansiController
 use App\Http\Controllers\Adopter\MyForestController as AdopterMyForestController;
 use App\Http\Controllers\Lsm\OrderController as LsmOrderController;
 use App\Http\Controllers\Lsm\KwitansiController as LsmKwitansiController;
+use App\Http\Controllers\Lsm\DashboardController as LsmDashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\KatalogController;
@@ -46,10 +47,11 @@ Route::middleware(['auth', 'role:superadmin'])->group(function () {
 });
 
 // LSM
-Route::middleware(['auth', 'role:lsm'])->group(function () {
-    Route::get('/lsm', function () {
-        return view('lsm.dashboard');
-    })->name('lsm_dashboard');
+Route::middleware(['auth', 'role:lsm'])->prefix('lsm')->group(function () {
+
+    Route::name('lsm.dashboard.')->group(function () {
+        Route::get('/', [LsmDashboardController::class, 'index'])->name('index');
+    });
     Route::get('/dataorder', function () {
         return view('lsm.dataorder');
     })->name('lsm_dataorder');

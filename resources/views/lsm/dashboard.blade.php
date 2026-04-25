@@ -72,6 +72,18 @@
     <div class="container-fluid page-header py-5">
         <h1 class="text-center text-white display-6">Dashboard</h1>
     </div>
+
+    @if (session('success'))
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: "{{ session('success') }}",
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
     <!-- Single Page Header End -->
 
     @if (session('error'))
@@ -117,7 +129,7 @@
                         <i class="fas fa-shopping-cart fa-2x text-primary me-4"></i>
                         <div>
                             <h5>Total Order</h5>
-                            <p class="mb-0">125</p>
+                            <p class="mb-0">{{ $total_orders }}</p>
                         </div>
                     </div>
                 </div>
@@ -128,7 +140,7 @@
                         <i class="fas fa-box-open fa-2x text-primary me-4"></i>
                         <div>
                             <h5>New Order</h5>
-                            <p class="mb-0">2</p>
+                            <p class="mb-0">{{ $total_revenue }}</p>
                         </div>
                     </div>
                 </div>
@@ -145,30 +157,72 @@
                                     <tr>
                                         <th style="min-width: 120px;">Order Date</th>
                                         <th style="min-width: 120px;">Order Code</th>
-                                        <th style="min-width: 150px;">Product Name</th>
+                                        <th style="min-width: 150px;">Customer Name</th>
                                         <th style="min-width: 140px;">Total Payment</th>
                                         <th style="min-width: 180px;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>2026-04-24</td>
-                                        <td>ORD001</td>
-                                        <td>Wood Chair</td>
-                                        <td>Rp 500.000</td>
-                                        <td>
-                                            <div class="d-flex gap-2 justify-content-center action-buttons">
-                                                <a href="#" class="btn-action detail" title="Detail">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="#" class="btn-action approve" title="Approve">
-                                                    <i class="fas fa-check"></i>
-                                                </a>
-                                                <a href="#" class="btn-action decline" title="Decline">
-                                                    <i class="fas fa-times"></i>
-                                                </a>
-                                            </div>
-                                        </td>
+                                        @if (empty($data_orders) || count($data_orders) == 0)
+                                            <td colspan="5" class="text-center py-5">
+                                                <h6 class="text-secondary">No Records Found</h6>
+                                            </td>
+                                        @else
+                                            @foreach ($data_orders as $each_data)
+                                                <td>
+                                                    {{ \Carbon\Carbon::parse($each_data->tanggal_order)->translatedFormat('d F Y H:i') }}
+                                                </td>
+                                                <td>{{ $each_data->kode }}</td>
+                                                <td>{{ $each_data->user->name ?? 'N/A' }}</td>
+                                                <td>
+                                                    Rp{{ number_format($each_data->total_harga, 0, ',', '.') }}
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex gap-2 justify-content-center action-buttons">
+                                                        <a href="#" class="btn-action detail" title="Detail">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+                                                        <a href="#" class="btn-action approve" title="Approve">
+                                                            <i class="fas fa-check"></i>
+                                                        </a>
+
+                                                        <form
+                                                            action="{{ route('lsm.order.confirm-order', ['id' => Crypt::encrypt($each_data->id)]) }}"
+                                                            method="POST">
+
+                                                            @csrf
+                                                            <input type="hidden" name="action" value="approve">
+
+                                                            <button type="submit" class="btn-action approve"
+                                                                title="Approve">
+
+                                                                <i class="fas fa-check"></i>
+                                                            </button>
+
+                                                        </form>
+
+                                                        <form
+                                                            action="{{ route('lsm.order.confirm-order', ['id' => Crypt::encrypt($each_data->id)]) }}"
+                                                            method="POST">
+
+                                                            @csrf
+                                                            <input type="hidden" name="action" value="decline">
+
+                                                            <button type="submit" class="btn-action decline"
+                                                                title="Decline">
+
+                                                                <i class="fas fa-times"></i>
+                                                            </button>
+
+                                                        </form>
+                                                        {{-- <a href="#" class="btn-action decline" title="Decline">
+                                                            <i class="fas fa-times"></i>
+                                                        </a> --}}
+                                                    </div>
+                                                </td>
+                                            @endforeach
+                                        @endif
                                     </tr>
                                 </tbody>
                             </table>

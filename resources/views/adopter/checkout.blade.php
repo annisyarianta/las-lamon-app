@@ -85,16 +85,16 @@
                                         <h5 class="mb-0 me-4">Order Total :</h5>
                                         <p class="mb-0">Rp {{ number_format($data->total_harga, 0, ',', '.') }}</p>
                                     </div>
-                                    <div class="d-flex justify-content-between">
+                                    {{-- <div class="d-flex justify-content-between">
                                         <h5 class="mb-0 me-4">Service Fee :</h5>
                                         <div class="">
                                             <p class="mb-0">Rp1.500</p>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="py-4 mb-4 border-top  d-flex justify-content-between">
                                     <h5 class="mb-0 ps-4 me-4">Total Payment :</h5>
-                                    <p class="mb-0 pe-4"> Rp {{ number_format($data->total_harga + 1500, 0, ',', '.') }}
+                                    <p class="mb-0 pe-4"> Rp {{ number_format($data->total_harga , 0, ',', '.') }}
                                     </p>
                                 </div>
                             </div>
@@ -109,7 +109,7 @@
                         <form action="{{ route('adopter.order.store') }}" method="POST">
                             @csrf
                             <input type="hidden" name="data" value="{{ json_encode($data) }}">
-                            <input type="hidden" name="total_harga_order" value="{{ $data->total_harga + 1500 }}">
+                            <input type="hidden" name="total_harga_order" value="{{ $data->total_harga }}">
                             <div class="row g-4 text-center align-items-center justify-content-center pt-4">
                                 <button type="submit"
                                     class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">
