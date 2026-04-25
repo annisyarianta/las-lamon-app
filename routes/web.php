@@ -11,6 +11,7 @@ use App\Http\Controllers\Adopter\CertificateController;
 use App\Http\Controllers\KatalogController;
 use App\Http\Controllers\Lsm\KwitansiController as LsmKwitansiController;
 use App\Http\Controllers\Lsm\OrderController as LsmOrderController;
+use App\Http\Controllers\Lsm\LocationController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -57,6 +58,11 @@ Route::middleware(['auth', 'role:lsm'])->group(function () {
     Route::get('/location', function () {
         return view('lsm.location');
     })->name('lsm_location');
+    Route::get('/detail-neworder', function () {
+        return view('lsm.detail-neworder');
+    })->name('lsm_detail-neworder');
+
+    Route::resource('location', LocationController::class);
 
     Route::prefix('order')->name('lsm.order.')->group(function () {
         Route::get('/', [LsmOrderController::class, 'index'])->name('index');
