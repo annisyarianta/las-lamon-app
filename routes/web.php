@@ -10,6 +10,7 @@ use App\Http\Controllers\Lsm\KwitansiController as LsmKwitansiController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\KatalogController;
+use App\Http\Controllers\Lsm\LocationController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -59,6 +60,8 @@ Route::middleware(['auth', 'role:lsm'])->group(function () {
     Route::get('/detail-neworder', function () {
         return view('lsm.detail-neworder');
     })->name('lsm_detail-neworder');
+
+    Route::resource('location', LocationController::class);
 
     Route::prefix('order')->name('lsm.order.')->group(function () {
         Route::get('/', [LsmOrderController::class, 'index'])->name('index');

@@ -39,7 +39,7 @@
 <body class="font-sans">
     @include('partials.loader')
 
-    @include('partials.navbar_superadmin')
+    @include('partials.navbar')
 
     @yield('content')
 
