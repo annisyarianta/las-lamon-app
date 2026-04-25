@@ -17,12 +17,12 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        // $this->call(UserSeeder::class);
-        // $this->call(ProdukTanamanSeeder::class);
-        // $this->call(CartSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(ProdukTanamanSeeder::class);
+        $this->call(CartSeeder::class);
+        $this->call(KatalogSeeder::class);
         $this->call(CartItemSeeder::class);
-        // $this->call(KatalogSeeder::class);
-        // $this->call(NomorSertifikatSeeder::class);
-        // $this->call(OrderSeeder::class);
+        $this->call(NomorSertifikatSeeder::class);
+        $this->call(OrderSeeder::class);
     }
 }

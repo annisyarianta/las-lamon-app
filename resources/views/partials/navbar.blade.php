@@ -24,45 +24,96 @@
             </button>
             <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                 <div class="navbar-nav mx-auto">
-                    <a href="{{ url('/') }}"
-                        class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
-                    <a href="{{ route('about') }}" class="nav-item nav-link {{ request()->routeIs('about') ? 'active' : '' }}">About</a>
-                    <a href="{{ route('catalogue.index') }}" class="nav-item nav-link {{ request()->routeIs('catalogue.index') ? 'active' : '' }}">Catalogue</a>
+                    @guest
+                        <a href="{{ url('/') }}"
+                            class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
+                        <a href="{{ route('about') }}"
+                            class="nav-item nav-link {{ request()->routeIs('about') ? 'active' : '' }}">About</a>
+                        <a href="{{ route('catalogue.index') }}"
+                            class="nav-item nav-link {{ request()->routeIs('catalogue.index') ? 'active' : '' }}">Catalogue</a>
+                    @endguest
+
                     @auth
-                        @if (auth()->user()->isAdopter())
-                            <a href="{{ route('adopter.order.index') }}" class="nav-item nav-link {{ request()->routeIs('adopter.order.index') ? 'active' : '' }}">My Order</a>
-                            <a href="{{ route('adopter.myforest.index') }}" class="nav-item nav-link {{ request()->routeIs('adopter.myforest.index') ? 'active' : '' }}">My Forest</a>
+                        @if (auth()->user()->role === 'adopter')
+                            <a href="{{ url('/') }}"
+                                class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
+                            <a href="{{ route('about') }}"
+                                class="nav-item nav-link {{ request()->routeIs('about') ? 'active' : '' }}">About</a>
+                            <a href="{{ route('catalogue.index') }}"
+                                class="nav-item nav-link {{ request()->routeIs('catalogue.index') ? 'active' : '' }}">Catalogue</a>
+                            <a href="{{ route('adopter.order.index') }}"
+                                class="nav-item nav-link {{ request()->routeIs('adopter.order.index') ? 'active' : '' }}">My
+                                Order</a>
+                            <a href="{{ route('adopter.myforest.index') }}"
+                                class="nav-item nav-link {{ request()->routeIs('adopter.myforest.index') ? 'active' : '' }}">My
+                                Forest</a>
                         @endif
                     @endauth
+
+                    @auth
+                        @if (auth()->user()->role === 'lsm')
+                            <a href="{{ route('lsm_dashboard') }}"
+                                class="nav-item nav-link {{ request()->routeIs('lsm_dashboard') ? 'active' : '' }}">Dashboard</a>
+                            <a href="{{ route('lsm_dataorder') }}"
+                                class="nav-item nav-link {{ request()->routeIs('lsm_dataorder') ? 'active' : '' }}">Data
+                                Order</a>
+                            <a href="{{ route('lsm_location') }}"
+                                class="nav-item nav-link {{ request()->routeIs('lsm_location') ? 'active' : '' }}">Location</a>
+                        @endif
+                    @endauth
+
+                    {{-- @auth
+                        @if (auth()->user()->role === 'superadmin')
+                            <a href="{{ route('superadmin.dashboard.index') }}"
+                                class="nav-item nav-link {{ request()->routeIs('superadmin.dashboard.index') ? 'active' : '' }}">Dashboard</a>
+                            <a href="{{ route('superadmin.user.index') }}"
+                                class="nav-item nav-link {{ request()->routeIs('superadmin.user.index') ? 'active' : '' }}">User
+                            </a>
+                        @endif
+                    @endauth --}}
                 </div>
                 <div class="d-flex m-3 me-0">
-                    <a href="{{ url('adopter/cart') }}" class="position-relative me-4 my-auto">
-                        <i class="fa fa-shopping-bag fa-2x"></i>
-                        <span
-                            class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-                            style="top: -5px; left: 15px; height: 20px; min-width: 20px;">
+                    @guest
+                        <a href="{{ url('adopter/cart') }}" class="position-relative me-4 my-auto">
+                            <i class="fa fa-shopping-bag fa-2x"></i>
+                            <span
+                                class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
+                                style="top: -5px; left: 15px; height: 20px; min-width: 20px;">0
+                            </span>
+                        </a>
+                    @endguest
+                    @auth
+                        @if (auth()->user()->role === 'adopter')
+                            <a href="{{ url('adopter/cart') }}" class="position-relative me-4 my-auto">
+                                <i class="fa fa-shopping-bag fa-2x"></i>
+                                <span
+                                    class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
+                                    style="top: -5px; left: 15px; height: 20px; min-width: 20px;">
 
-                            @php
-                                $cartItemCount = 0;
-                                if (auth()->check() && auth()->user()->cart) {
-                                    $cartItemCount = DB::table('cart_item')
-                                        ->where('id_cart', auth()->user()->cart->id)
-                                        ->where('soft_delete', 0)
-                                        ->count();
-                                } else {
-                                    $cartItemCount = 0;
-                                }
+                                    @php
+                                        $cartItemCount = 0;
+                                        if (auth()->check() && auth()->user()->cart) {
+                                            $cartItemCount = DB::table('cart_item')
+                                                ->where('id_cart', auth()->user()->cart->id)
+                                                ->where('soft_delete', 0)
+                                                ->count();
+                                        } else {
+                                            $cartItemCount = 0;
+                                        }
 
-                            @endphp
+                                    @endphp
 
-                            {{ $cartItemCount }}</span>
-                    </a> 
+                                    {{ $cartItemCount }}</span>
+                            </a>
+                        @endif
+                    @endauth
+
                     @auth
                         <span class="me-3 px-3 py-1 bg-light text-primary fw-semibold rounded-pill">
                             <i class="fas fa-user me-1"></i> {{ auth()->user()->name }}
                         </span>
 
-                        <a href="#" class="my-auto text-dark"
+                        <a href="#" class="my-auto"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i class="fas fa-sign-out-alt fa-lg"></i>
                         </a>
@@ -71,8 +122,8 @@
                             @csrf
                         </form>
                     @else
-                        <a href="{{ url('/login') }}" class="my-auto text-dark">
-                            <i class="fas fa-user fa-lg"></i>
+                        <a href="{{ url('/login') }}" class="my-auto">
+                            <i class="fas fa-user fa-2x"></i>
                         </a>
                     @endauth
                 </div>
