@@ -1,23 +1,29 @@
 <?php
 
-namespace App\Http\Controllers\Adopter;
+namespace App\Http\Controllers\Lsm;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
-class CheckoutController extends Controller
+class DashboardController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = session('checkout_data');
-        if (!$data) {
-            return redirect()->route('adopter.cart.index')->with('error', 'Your Cart Is Empty');
-        }
-        // dd($checkout_data);
-        return view('adopter.checkout', compact('data'));
+        $total_orders = Order::where('status_order', 'paid')->where('soft_delete', 0)->count();
+        $total_revenue = Order::where('status_order', 'in process')->where('soft_delete', 0)->count();
+        $data_orders = Order::with('user:id,name')->where('status_order', 'in process')->where('soft_delete', 0)->get();
+        
+        // return response()->json([
+        //     'message' => 'LSM Dashboard data',
+        //     'total_orders' => $total_orders,
+        //     'total_revenue' => $total_revenue,
+        //     'data_orders' => $data_orders,
+        // ], 200);
+        return view('lsm.dashboard', compact('total_orders', 'total_revenue', 'data_orders'));
     }
 
     /**
@@ -33,15 +39,7 @@ class CheckoutController extends Controller
      */
     public function store(Request $request)
     {
-
-        $data = json_decode($request->data);
-
-        session(['checkout_data' => $data]);
-        if (empty($data->cart_item)) {
-            return redirect()->route('adopter.cart.index')->with('error', 'Your Cart Is Empty');
-        }
-
-        return redirect()->route('adopter.checkout.index')->with('success', 'Checkout data stored successfully.');
+        //
     }
 
     /**

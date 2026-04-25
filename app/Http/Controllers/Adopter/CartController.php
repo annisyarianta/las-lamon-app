@@ -58,7 +58,7 @@ class CartController extends Controller
             'harga_satuan' => $input['harga_satuan'],
             'harga_total' => $input['kuantitas'] * $input['harga_satuan'],
         ]);
-        return redirect()->route('adopter.cart.index');
+        return redirect()->route('adopter.cart.index')->with('success', 'Item added to cart successfully.');
     }
 
     /**

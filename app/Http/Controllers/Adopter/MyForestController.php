@@ -35,11 +35,11 @@ class MyForestController extends Controller
             ->select('id')
             ->get();
 
-        return response()->json([
-            'message' => 'List of my forest items',
-            'data' => $data,
-        ], 200);
-        // return view('adlopter.myforest', compact('data'));
+        // return response()->json([
+        //     'message' => 'List of my forest items',
+        //     'data' => $data,
+        // ], 200);
+        return view('adopter.myforest', compact('data'));
     }
 
     /**

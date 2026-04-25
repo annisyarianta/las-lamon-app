@@ -8,6 +8,7 @@ use App\Models\NomorSertifikat;
 use App\Models\Order;
 use App\Models\Sertifikat;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 
 class OrderController extends Controller
@@ -80,50 +81,53 @@ class OrderController extends Controller
         //
     }
 
-    public function confirmOrder(string $id)
+    public function confirmOrder(string $id, Request $request)
     {
-        $order = Order::findOrFail($id);
-        $user = $order->user;
+        $input = $request->all();
+        $order = Order::findOrFail(Crypt::decrypt($id));
+        if ($input['action'] == 'approve') {
 
-        $order->update(['status_order' => 'paid']);
+            $user = $order->user;
 
-        $order_items = $order->order_items->where('soft_delete', 0);
+            $order->update(['status_order' => 'paid']);
 
-        $data__nomor_sertifikat = NomorSertifikat::where('soft_delete', 0)->first();
+            $order_items = $order->order_items->where('soft_delete', 0);
 
-        $data_sertifikat = [];
+            $data__nomor_sertifikat = NomorSertifikat::where('soft_delete', 0)->first();
 
-        foreach ($order_items as $each_data) {
+            $data_sertifikat = [];
 
-            $each_data->update([
-                'id_lokasi' => 1
-            ]);
+            foreach ($order_items as $each_data) {
 
-            $data_sertifikat_adopter = Sertifikat::create([
-                'id_order' => $order->id,
-                'id_order_item' => $each_data->id,
+                $each_data->update([
+                    'id_lokasi' => 1
+                ]);
+
+                $data_sertifikat_adopter = Sertifikat::create([
+                    'id_order' => $order->id,
+                    'id_order_item' => $each_data->id,
+                    'id_user' => $user->id,
+                    'nama_pemilik' => $user->name,
+                    'nomor_surat' => $data__nomor_sertifikat->nomor_akhir + 1,
+                    'full_nomor_surat' => ($data__nomor_sertifikat->nomor_akhir + 1) . '/' . $data__nomor_sertifikat->kerangka_penomoran,
+                    'tanggal_terbit' => now(),
+                ]);
+
+                $data_sertifikat[] = $data_sertifikat_adopter;
+
+                $data__nomor_sertifikat->nomor_akhir += 1;
+                $data__nomor_sertifikat->save();
+            }
+
+            $data_kwitansi = Kwitansi::create([
                 'id_user' => $user->id,
-                'nama_pemilik' => $user->name,
-                'nomor_surat' => $data__nomor_sertifikat->nomor_akhir + 1,
-                'full_nomor_surat' => ($data__nomor_sertifikat->nomor_akhir + 1) . '/' . $data__nomor_sertifikat->kerangka_penomoran,
-                'tanggal_terbit' => now(),
+                'id_order' => $order->id,
+                'kode_kwitansi' => 'KW-' . date('Ymd') . '-' . strtoupper(Str::random(6)),
             ]);
-
-            $data_sertifikat[] = $data_sertifikat_adopter;
-
-            $data__nomor_sertifikat->nomor_akhir += 1;
-            $data__nomor_sertifikat->save();
+        } else if ($input['action'] == 'decline') {
+            $order->update(['status_order' => 'canceled']);
         }
 
-        $data_kwitansi = Kwitansi::create([
-            'id_user' => $user->id,
-            'id_order' => $order->id,
-            'kode_kwitansi' => 'KW-' . date('Ymd') . '-' . strtoupper(Str::random(6)),
-        ]);
-
-        return response()->json([
-            'message' => 'Order confirmed',
-            'data' => $data_sertifikat,
-        ], 200);
+        return redirect()->route('lsm.dashboard.index')->with('success', 'Order has been ' . ($input['action'] == 'approve' ? 'approved' : 'declined') . ' successfully.');
     }
 }

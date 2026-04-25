@@ -52,7 +52,7 @@ class OrderController extends Controller
         if (isset($input['cart_item'])) {
             $data_order = Order::create([
                 'id_user' => auth()->user()->id,
-                'total_harga' => $input['total_harga'] + 1500,
+                'total_harga' => $input['total_harga'],
                 'status_order' => 'unpaid',
                 'tanggal_order' => now(),
                 'expired_at' => now()->addDays(1),
