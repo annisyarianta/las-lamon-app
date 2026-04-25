@@ -86,25 +86,25 @@
                                                     </div>
                                                 </div>
 
-                                                @if (empty($data_belum_lunas) || count($data_belum_lunas) == 0)
+                                                @if (empty($data_unpaid) || count($data_unpaid) == 0)
                                                     <div class="col-9 text-center py-5 ">
                                                         <h6 class="text-secondary">No Records Found</h6>
                                                     </div>
                                                 @else
-                                                    @foreach ($data_belum_lunas as $each_data)
+                                                    @foreach ($data_unpaid as $each_data)
                                                         <div
                                                             class="row order-row bg-light align-items-center text-center justify-content-center py-2">
                                                             <div class="col-3">
                                                                 <p class="mb-0">
-                                                                    {{ \Carbon\Carbon::parse($each_data->tanggal_order)->translatedFormat('d F Y H:i') }}
+                                                                    {{ \Carbon\Carbon::parse($each_data->order_date)->translatedFormat('d F Y H:i') }}
                                                                 </p>
                                                             </div>
                                                             <div class="col-3">
-                                                                <p class="mb-0">{{ $each_data->kode }}</p>
+                                                                <p class="mb-0">{{ $each_data->code }}</p>
                                                             </div>
                                                             <div class="col-3">
                                                                 <p class="mb-0">
-                                                                    Rp{{ number_format($each_data->total_harga, 0, ',', '.') }}
+                                                                    Rp{{ number_format($each_data->total_price, 0, ',', '.') }}
                                                                 </p>
                                                             </div>
                                                             <div class="col-3">
@@ -124,28 +124,28 @@
                                         {{-- MOBILE --}}
                                         <div class="d-block d-md-none">
                                             <div class="card mb-3 border-0">
-                                                @if (empty($data_belum_lunas) || count($data_belum_lunas) == 0)
+                                                @if (empty($data_unpaid) || count($data_unpaid) == 0)
                                                     <div class="col-9 text-center py-5 ">
                                                         <h6 class="text-secondary">No Records Found</h6>
                                                     </div>
                                                 @else
-                                                    @foreach ($data_belum_lunas as $each_data)
+                                                    @foreach ($data_unpaid as $each_data)
                                                         <div class="card-body p-3 mb-2 bg-light rounded">
                                                             <div class="d-flex justify-content-between">
                                                                 <span class="fw-semibold text-muted">Order Date</span>
                                                                 <span>
-                                                                    {{ \Carbon\Carbon::parse($each_data->tanggal_order)->translatedFormat('d F Y H:i') }}
+                                                                    {{ \Carbon\Carbon::parse($each_data->order_date)->translatedFormat('d F Y H:i') }}
                                                                 </span>
                                                             </div>
 
                                                             <div class="d-flex justify-content-between">
                                                                 <span class="fw-semibold text-muted">Order Code</span>
-                                                                <span>{{ $each_data->kode }}</span>
+                                                                <span>{{ $each_data->code }}</span>
                                                             </div>
 
                                                             <div class="d-flex justify-content-between">
                                                                 <span class="fw-semibold text-muted">Total Payment</span>
-                                                                <span>Rp{{ number_format($each_data->total_harga, 0, ',', '.') }}</span>
+                                                                <span>Rp{{ number_format($each_data->total_price, 0, ',', '.') }}</span>
                                                             </div>
 
                                                             <div class="text-end mt-2">
@@ -193,20 +193,20 @@
                                                         <div
                                                             class="row order-row bg-light align-items-center text-center justify-content-center py-2">
                                                             <div class="col-3">
-                                                                {{ \Carbon\Carbon::parse($each_data->tanggal_order)->translatedFormat('d F Y H:i') }}
+                                                                {{ \Carbon\Carbon::parse($each_data->order_date)->translatedFormat('d F Y H:i') }}
                                                                 <p class="mb-0"></p>
                                                             </div>
                                                             <div class="col-3">
-                                                                <p class="mb-0">{{ $each_data->kode }}</p>
+                                                                <p class="mb-0">{{ $each_data->code }}</p>
                                                             </div>
                                                             <div class="col-3">
                                                                 <p class="mb-0">
-                                                                    Rp{{ number_format($each_data->total_harga, 0, ',', '.') }}
+                                                                    Rp{{ number_format($each_data->total_price, 0, ',', '.') }}
                                                                 </p>
                                                             </div>
                                                             <div class="col-3">
                                                                 <div class="d-flex justify-content-center gap-3">
-                                                                    <a href="{{ url($each_data->url_bukti_pembayaran) }}"
+                                                                    <a href="{{ url($each_data->proof_payment_url) }}"
                                                                         target="_blank"
                                                                         class="btn border border-secondary btn-sm-square rounded-circle bg-white"
                                                                         title="Lihat Bukti Pembayaran">
@@ -245,21 +245,21 @@
                                                         <div class="card-body p-3 mb-2 bg-light rounded">
                                                             <div class="d-flex justify-content-between">
                                                                 <span class="fw-semibold text-muted">Order Date</span>
-                                                                <span>{{ \Carbon\Carbon::parse($each_data->tanggal_order)->translatedFormat('d F Y H:i') }}</span>
+                                                                <span>{{ \Carbon\Carbon::parse($each_data->order_date)->translatedFormat('d F Y H:i') }}</span>
                                                             </div>
 
                                                             <div class="d-flex justify-content-between">
                                                                 <span class="fw-semibold text-muted">Order Code</span>
-                                                                <span>{{ $each_data->kode }}</span>
+                                                                <span>{{ $each_data->code }}</span>
                                                             </div>
 
                                                             <div class="d-flex justify-content-between">
                                                                 <span class="fw-semibold text-muted">Total Payment</span>
-                                                                <span>Rp{{ number_format($each_data->total_harga, 0, ',', '.') }}</span>
+                                                                <span>Rp{{ number_format($each_data->total_price, 0, ',', '.') }}</span>
                                                             </div>
 
                                                             <div class="d-flex justify-content-end gap-3 mt-3">
-                                                                <a href="{{ url($each_data->url_bukti_pembayaran) }}"
+                                                                <a href="{{ url($each_data->proof_payment_url) }}"
                                                                     target="_blank"
                                                                     class="btn border border-secondary btn-sm-square rounded-circle bg-white"
                                                                     title="Lihat Bukti Pembayaran">
@@ -305,25 +305,25 @@
                                                     </div>
                                                 </div>
 
-                                                @if (empty($data_lunas) || count($data_lunas) == 0)
+                                                @if (empty($data_paid) || count($data_paid) == 0)
                                                     <div class="col-9 text-center py-5 ">
                                                         <h6 class="text-secondary">No Records Found</h6>
                                                     </div>
                                                 @else
-                                                    @foreach ($data_lunas as $each_data)
+                                                    @foreach ($data_paid as $each_data)
                                                         <div
                                                             class="row order-row bg-light align-items-center text-center justify-content-center py-2">
                                                             <div class="col-3">
                                                                 <p class="mb-0">
-                                                                    {{ \Carbon\Carbon::parse($each_data->tanggal_order)->translatedFormat('d F Y H:i') }}
+                                                                    {{ \Carbon\Carbon::parse($each_data->order_date)->translatedFormat('d F Y H:i') }}
                                                                 </p>
                                                             </div>
                                                             <div class="col-3">
-                                                                <p class="mb-0">{{ $each_data->kode }}</p>
+                                                                <p class="mb-0">{{ $each_data->code }}</p>
                                                             </div>
                                                             <div class="col-3">
                                                                 <p class="mb-0">
-                                                                    Rp{{ number_format($each_data->total_harga, 0, ',', '.') }}
+                                                                    Rp{{ number_format($each_data->total_price, 0, ',', '.') }}
                                                                 </p>
                                                             </div>
                                                             <div class="col-3">
@@ -343,26 +343,26 @@
                                         {{-- MOBILE --}}
                                         <div class="d-block d-md-none">
                                             <div class="card mb-3 border-0">
-                                                @if (empty($data_lunas) || count($data_lunas) == 0)
+                                                @if (empty($data_paid) || count($data_paid) == 0)
                                                     <div class="col-9 text-center py-5 ">
                                                         <h6 class="text-secondary">No Records Found</h6>
                                                     </div>
                                                 @else
-                                                    @foreach ($data_lunas as $each_data)
+                                                    @foreach ($data_paid as $each_data)
                                                         <div class="card-body p-3 mb-2 bg-light rounded">
                                                             <div class="d-flex justify-content-between">
                                                                 <span class="fw-semibold text-muted">Order Date</span>
-                                                                <span>{{ \Carbon\Carbon::parse($each_data->tanggal_order)->translatedFormat('d F Y H:i') }}</span>
+                                                                <span>{{ \Carbon\Carbon::parse($each_data->order_date)->translatedFormat('d F Y H:i') }}</span>
                                                             </div>
 
                                                             <div class="d-flex justify-content-between">
                                                                 <span class="fw-semibold text-muted">Order Code</span>
-                                                                <span>{{ $each_data->kode }}</span>
+                                                                <span>{{ $each_data->code }}</span>
                                                             </div>
 
                                                             <div class="d-flex justify-content-between">
                                                                 <span class="fw-semibold text-muted">Total Payment</span>
-                                                                <span>Rp{{ number_format($each_data->total_harga, 0, ',', '.') }}</span>
+                                                                <span>Rp{{ number_format($each_data->total_price, 0, ',', '.') }}</span>
                                                             </div>
 
                                                             <div class="text-end mt-2">
@@ -410,15 +410,15 @@
                                                             class="row order-row bg-light align-items-center text-center justify-content-center py-2">
                                                             <div class="col-3">
                                                                 <p class="mb-0">
-                                                                    {{ \Carbon\Carbon::parse($each_data->tanggal_order)->translatedFormat('d F Y H:i') }}
+                                                                    {{ \Carbon\Carbon::parse($each_data->order_date)->translatedFormat('d F Y H:i') }}
                                                                 </p>
                                                             </div>
                                                             <div class="col-3">
-                                                                <p class="mb-0">{{ $each_data->kode }}</p>
+                                                                <p class="mb-0">{{ $each_data->code }}</p>
                                                             </div>
                                                             <div class="col-3">
                                                                 <p class="mb-0">
-                                                                    Rp{{ number_format($each_data->total_harga, 0, ',', '.') }}
+                                                                    Rp{{ number_format($each_data->total_price, 0, ',', '.') }}
                                                                 </p>
                                                             </div>
                                                             <div class="col-3">
@@ -448,18 +448,18 @@
                                                             <div class="d-flex justify-content-between">
                                                                 <span class="fw-semibold text-muted">Order Date</span>
                                                                 <span>
-                                                                    {{ \Carbon\Carbon::parse($each_data->tanggal_order)->translatedFormat('d F Y H:i') }}
+                                                                    {{ \Carbon\Carbon::parse($each_data->order_date)->translatedFormat('d F Y H:i') }}
                                                                 </span>
                                                             </div>
 
                                                             <div class="d-flex justify-content-between">
                                                                 <span class="fw-semibold text-muted">Order Code</span>
-                                                                <span>{{ $each_data->kode }}</span>
+                                                                <span>{{ $each_data->code }}</span>
                                                             </div>
 
                                                             <div class="d-flex justify-content-between">
                                                                 <span class="fw-semibold text-muted">Total Payment</span>
-                                                                <span>Rp{{ number_format($each_data->total_harga, 0, ',', '.') }}</span>
+                                                                <span>Rp{{ number_format($each_data->total_price, 0, ',', '.') }}</span>
                                                             </div>
 
                                                             <div class="text-end mt-2">

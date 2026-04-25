@@ -113,7 +113,7 @@
 
         <!-- NOMOR -->
         <p style="text-align:center; font-size:18px; margin-top:20px;">
-            Issued on: {{ \Carbon\Carbon::parse($sertifikat->tanggal_terbit)->format('F d, Y') }}
+            Issued on: {{ \Carbon\Carbon::parse($certificate->created_at)->format('F d, Y') }}
         </p>
 
         <!-- GARIS -->
@@ -139,7 +139,7 @@
             display:inline-block;
             padding-bottom:8px;
         ">
-                {{ $sertifikat->nama_pemilik }}
+                {{ $certificate->owner_name }}
             </h2>
         </div>
 
@@ -157,7 +157,7 @@
         </p>
 
         <p style="text-align:center; font-size:18px; margin-top:20px;">
-            Issued on: {{ \Carbon\Carbon::parse($sertifikat->tanggal_terbit)->format('F d, Y') }}
+            Issued on: {{ \Carbon\Carbon::parse($certificate->created_at)->format('F d, Y') }}
         </p>
 
         <!-- TTD -->

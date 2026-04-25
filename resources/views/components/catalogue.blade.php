@@ -10,7 +10,7 @@
         <div class="catalogue-wrapper">
             <div class="row justify-content-center g-4 d-none d-md-flex">
                 @php
-                    $data = DB::table('katalog')->where('soft_delete', 0)->get();
+                    $data = DB::table('catalogues')->where('soft_delete', 0)->get();
                 @endphp
                 <!-- Item 1 -->
                 @foreach ($data as $each_data)
@@ -18,12 +18,12 @@
                         <div
                             class="border border-primary rounded vesitable-item text-center p-4 d-flex flex-column h-100">
                             <div class="mb-3">
-                                <img src="{{ asset($each_data->url_gambar) }}" class="img-fluid mx-auto d-block"
+                                <img src="{{ asset($each_data->image_url) }}" class="img-fluid mx-auto d-block"
                                     style="width: 70px;">
                             </div>
-                            <h5>{{ $each_data->nama_katalog }}</h5>
+                            <h5>{{ $each_data->name }}</h5>
                             <p class="small flex-grow-1">
-                                {{ $each_data->mini_deskripsi }}
+                                {{ $each_data->mini_description }}
                             </p>
                             <p class="small">
                                 <strong>Output:</strong> {{ $each_data->output }} <br>
@@ -43,7 +43,7 @@
             <div class="owl-carousel vegetable-carousel d-md-none">
                 <!-- Item 1 -->
                 @php
-                    $data = DB::table('katalog')->where('soft_delete', 0)->get();
+                    $data = DB::table('catalogues')->where('soft_delete', 0)->get();
                 @endphp
                 <!-- Item 1 -->
                 @foreach ($data as $each_data)
@@ -51,12 +51,12 @@
                         <div
                             class="border border-primary rounded vesitable-item text-center p-4 d-flex flex-column h-100">
                             <div class="mb-3">
-                                <img src="{{ asset($each_data->url_gambar) }}" class="img-fluid mx-auto d-block"
+                                <img src="{{ asset($each_data->image_url) }}" class="img-fluid mx-auto d-block"
                                     style="width: 70px;">
                             </div>
-                            <h5>{{ $each_data->nama_katalog }}</h5>
+                            <h5>{{ $each_data->name }}</h5>
                             <p class="small flex-grow-1">
-                                {{ $each_data->mini_deskripsi }}
+                                {{ $each_data->mini_description }}
                             </p>
                             <p class="small">
                                 <strong>Output:</strong> {{ $each_data->output }} <br>

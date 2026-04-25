@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\CartItem;
+use App\Models\Catalogue;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,12 +13,17 @@ class Cart extends Model
 {
     use HasFactory;
     use Notifiable;
-    protected $table = 'cart';
+    protected $table = 'carts';
     protected $guarded = [];
 
-    public function cart_items()
+    public function product()
     {
-        return $this->hasMany(CartItem::class, 'id_cart', 'id');
+        return $this->belongsTo(Product::class, 'id_product', 'id');
+    }
+
+    public function catalogue()
+    {
+        return $this->belongsTo(Catalogue::class, 'id_catalogue', 'id');
     }
 
     public function user()

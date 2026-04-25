@@ -40,13 +40,13 @@
                         <div class="d-flex justify-content-start mb-1">
                             <h6 class="mb-0">Order Date :</h6>
                             <p class="mb-0 ms-2">
-                                {{ \Carbon\Carbon::parse($data_order->tanggal_order)->translatedFormat('d F Y \a\t H:i') }}
+                                {{ \Carbon\Carbon::parse($data_order->order_date)->translatedFormat('d F Y \a\t H:i') }}
                             </p>
 
                         </div>
                         <div class="d-flex justify-content-start mb-1">
                             <h6 class="mb-0">Order Code :</h6>
-                            <p class="mb-0 ms-2">{{ $data_order->kode }}</p>
+                            <p class="mb-0 ms-2">{{ $data_order->code }}</p>
                         </div>
                         <div class="d-flex justify-content-start mb-1">
                             <h6 class="mb-0">Status :</h6>
@@ -56,15 +56,15 @@
                     @foreach ($data_order_item as $each_data)
                         <div class="d-flex align-items-center flex-nowrap gap-3 ">
                             <div class="bg-light rounded">
-                                <img src="{{ asset($each_data->katalog->url_gambar) }}" class="img-fluid rounded"
+                                <img src="{{ asset($each_data->catalogue->image_url) }}" class="img-fluid rounded"
                                     style="width: 100px; height: 100px;" alt="">
                             </div>
                             <div class="ms-4 w-100 d-flex flex-column">
-                                <h4 class="mb-1">{{ $each_data->katalog->nama_katalog }}</h4>
-                                <p class="m-0">{{ $each_data->produk->nama_produk ?? '-' }}</p>
-                                <p class="m-0">X {{ $each_data->kuantitas }}</p>
+                                <h4 class="mb-1">{{ $each_data->catalogue->name }}</h4>
+                                <p class="m-0">{{ $each_data->product->name ?? '-' }}</p>
+                                <p class="m-0">X {{ $each_data->quantity }}</p>
                                 <p class="mb-0 fw-bold text-end mt-auto">
-                                    Rp{{ number_format($each_data->harga_total, 0, ',', '.') }}</p>
+                                    Rp{{ number_format($each_data->total_price, 0, ',', '.') }}</p>
                             </div>
                         </div>
                     @endforeach
@@ -76,7 +76,7 @@
                     <div class="mb-0 pb-0">
                         <div class="d-flex justify-content-between mb-1">
                             <h6 class="mb-0">Total Payment</h6>
-                            <p class="mb-0 ms-2">Rp{{ number_format($data_order->total_harga, 0, ',', '.') }}</p>
+                            <p class="mb-0 ms-2">Rp{{ number_format($data_order->total_price, 0, ',', '.') }}</p>
                         </div>
                     </div>
                 </div>
