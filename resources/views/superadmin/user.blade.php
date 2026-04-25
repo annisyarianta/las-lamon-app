@@ -4,10 +4,15 @@
 
 @section('content')
 
+<!-- Single Page Header start -->
+<div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6">User Lists</h1>
+</div>
+<!-- Single Page Header End -->
+
     <div class="container content-wrapper">
         <div class="container py-2">
             <div class="d-flex justify-content-between align-items-center mt-3 mb-3 flex-wrap gap-2">
-                <h5 class="mb-0 fw-semibold">User Lists</h5>
                 <a href="{{ route('users.create') }}" class="btn btn-dark d-flex align-items-center gap-1">
                     <i class="fas fa-plus"></i> Create User
                 </a>

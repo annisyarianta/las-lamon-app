@@ -4,6 +4,12 @@
 
 @section('content')
 
+<!-- Single Page Header start -->
+<div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6">Dashboard</h1>
+</div>
+<!-- Single Page Header End -->
+
     <div class="container content-wrapper">
         <div class="container py-5">
             <!-- CARDS -->

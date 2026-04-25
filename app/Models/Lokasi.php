@@ -13,6 +13,11 @@ class Lokasi extends Model
     protected $guarded = [];
     protected $table = 'lokasi';
 
+    protected $fillable = [
+        'nama_lokasi',
+        'url_lokasi'
+    ];
+
     public function data_tanaman()
     {
         return $this->hasMany(DataTanaman::class, 'id_lokasi', 'id');
