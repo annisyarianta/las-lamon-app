@@ -61,7 +61,7 @@
                                             <div class="d-flex flex-column flex-md-row justify-content-center gap-1">
 
                                                 <!-- e-Certificate -->
-                                                <a href="{{ route('certificate', ['id' => $each_data->id]) }}"
+                                                <a href="{{ route('certificate', ['id' => $each_data->sertifikat->id]) }}"
                                                 class="btn btn-primary rounded-pill px-2 py-1 px-md-3 py-md-2 small">
                                                     <i class="fa fa-certificate me-1"></i>
                                                     <span class="d-none d-md-inline">e-Certificate</span>
@@ -69,7 +69,7 @@
                                                 <!-- Location -->
                                                 <a href="{{ $each_data->lokasi->url_lokasi ?? '#' }}"
                                                     class="btn btn-success rounded-pill 
-                                          p         x-2 py-1 px-md-3 py-md-2 small">
+                                          px-2 py-1 px-md-3 py-md-2 small">
                                                     <i class="fa fa-map-marker-alt me-1"></i>
                                                     <span class="d-none d-md-inline">Location</span>
                                                 </a>

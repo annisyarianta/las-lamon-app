@@ -7,7 +7,7 @@ use App\Http\Controllers\Adopter\MyForestController as AdopterMyForestController
 use App\Http\Controllers\Adopter\OrderController as AdopterOrderController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\CertificateController;
+use App\Http\Controllers\Adopter\CertificateController;
 use App\Http\Controllers\KatalogController;
 use App\Http\Controllers\Lsm\KwitansiController as LsmKwitansiController;
 use App\Http\Controllers\Lsm\OrderController as LsmOrderController;
@@ -90,9 +90,18 @@ Route::middleware(['auth', 'role:adopter'])->prefix('adopter')->group(function (
         return view('kwitansi');
     })->name('receipt');
 
-    Route::get('/{id}/certificate', function () {
-        return view('certificate');
-    })->name('certificate');
+    // Route::get('/{id}/certificate', function () {
+    //     return view('certificate');
+    // })->name('certificate');
+
+    // Di dalam group middleware adopter
+    // Route::get('/{id}/certificate', [CertificateController::class, 'show'])->name('show');
+
+    Route::prefix('certificate')->name('adopter.certificate.')->group(function () {
+      
+        Route::get('/{id}', [CertificateController::class, 'show'])->name('show');
+   
+    });
 
     Route::prefix('cart')->name('adopter.cart.')->group(function () {
         Route::get('/', [AdopterCartController::class, 'index'])->name('index');
