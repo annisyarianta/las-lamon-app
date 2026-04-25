@@ -1,16 +1,18 @@
 <?php
 
-use App\Http\Controllers\Adopter\OrderController as AdopterOrderController;
 use App\Http\Controllers\Adopter\CartController as AdopterCartController;
 use App\Http\Controllers\Adopter\CheckoutController as AdopterCheckoutController;
 use App\Http\Controllers\Adopter\KwitansiController as AdopterKwitansiController;
 use App\Http\Controllers\Adopter\MyForestController as AdopterMyForestController;
-use App\Http\Controllers\Lsm\OrderController as LsmOrderController;
-use App\Http\Controllers\Lsm\KwitansiController as LsmKwitansiController;
+use App\Http\Controllers\Adopter\OrderController as AdopterOrderController;
 use App\Http\Controllers\Lsm\DashboardController as LsmDashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Adopter\CertificateController;
 use App\Http\Controllers\KatalogController;
+use App\Http\Controllers\Lsm\KwitansiController as LsmKwitansiController;
+use App\Http\Controllers\Lsm\OrderController as LsmOrderController;
+use App\Http\Controllers\Lsm\LocationController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -62,6 +64,8 @@ Route::middleware(['auth', 'role:lsm'])->prefix('lsm')->group(function () {
         return view('lsm.detail-neworder');
     })->name('lsm_detail-neworder');
 
+    Route::resource('location', LocationController::class);
+
     Route::prefix('order')->name('lsm.order.')->group(function () {
         Route::get('/', [LsmOrderController::class, 'index'])->name('index');
         Route::post('/create', [LsmOrderController::class, 'store'])->name('store');
@@ -94,9 +98,18 @@ Route::middleware(['auth', 'role:adopter'])->prefix('adopter')->group(function (
         return view('kwitansi');
     })->name('receipt');
 
-    Route::get('/certificate', function () {
-        return view('certificate');
-    })->name('certificate');
+    // Route::get('/{id}/certificate', function () {
+    //     return view('certificate');
+    // })->name('certificate');
+
+    // Di dalam group middleware adopter
+    // Route::get('/{id}/certificate', [CertificateController::class, 'show'])->name('show');
+
+    Route::prefix('certificate')->name('adopter.certificate.')->group(function () {
+      
+        Route::get('/{id}', [CertificateController::class, 'show'])->name('show');
+   
+    });
 
     Route::prefix('cart')->name('adopter.cart.')->group(function () {
         Route::get('/', [AdopterCartController::class, 'index'])->name('index');

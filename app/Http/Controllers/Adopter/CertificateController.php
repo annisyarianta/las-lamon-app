@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Lsm;
+namespace App\Http\Controllers\Adopter;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order;
+use App\Models\Sertifikat;
 use Illuminate\Http\Request;
 
 class CertificateController extends Controller
@@ -37,38 +37,17 @@ class CertificateController extends Controller
      */
     public function show(string $id)
     {
-        // $data_order = Order::findOrFail(Crypt::decrypt($id));
-        $data_order = Order::findOrFail($id);
+         // Mencari data sertifikat berdasarkan ID
+        $sertifikat = Sertifikat::findOrFail($id);
 
-        $data_user = $data_order->user;
-        $data_kwitansi = $data_order->kwitansi;
+        // Mengirim variabel $sertifikat ke file blade
+        return view('certificate', compact('sertifikat'));
 
-        $data_order_items = $data_order->order_items()
-            ->with([
-                'katalog:id,nama_katalog,url_gambar',
-                'produk:id,nama_produk'
-            ])
-            ->get();
-
-        $amount_in_words = strtoupper(
-            trim($this->numberToWords($data_order->total_harga)) . ' Rupiah'
-        );
-
-        
-
-        return view('adopter.certificate', compact(
-            'data_kwitansi',
-            'data_order',
-            'data_user',
-            'data_order_items',
-            'amount_in_words'
-        ));
-    }
-
-    public function numberToWords($number)
-    {
-        $formatter = new \NumberFormatter("en", \NumberFormatter::SPELLOUT);
-        return $formatter->format($number);
+        //  return response()->json([
+        //     'message' => 'List of cart items',
+        //     'data' => $sertifikat,
+        //         ], 200
+        //     );
     }
 
     /**
