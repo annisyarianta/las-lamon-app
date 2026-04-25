@@ -54,6 +54,12 @@ Route::middleware(['auth', 'role:lsm'])->group(function () {
     Route::get('/dataorder', function () {
         return view('lsm.dataorder');
     })->name('lsm_dataorder');
+    Route::get('/location', function () {
+        return view('lsm.location');
+    })->name('lsm_location');
+    Route::get('/detail-neworder', function () {
+        return view('lsm.detail-neworder');
+    })->name('lsm_detail-neworder');
 
     Route::resource('location', LocationController::class);
 
