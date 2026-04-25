@@ -5,14 +5,14 @@
 
     <div class="row justify-content-center">
         <div class="col-xl-8 col-lg-10">
-            <a href="{{ route('superadmin_user') }}" class="btn btn-light d-inline-flex align-items-center">
+            <a href="{{ route('users.index') }}" class="btn btn-light d-inline-flex align-items-center">
                 <i class="fas fa-arrow-left me-2"></i> Back
             </a>
             <div class="card shadow-sm mt-4">
                 <div class="card-body p-4 p-md-5">
                     <h5 class="fw-semibold mb-3">Add User</h5>
 
-                    <form action="#" method="POST">
+                    <form action="{{ route('users.store') }}" method="POST">
                         @csrf
 
                         <div class="row">

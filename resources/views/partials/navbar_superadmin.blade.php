@@ -23,8 +23,8 @@
                         Dashboard
                     </a>
 
-                    <a href="{{ route('superadmin_user') }}"
-                        class="nav-item nav-link {{ request()->routeIs('superadmin_user') ? 'fw-bold active' : '' }}">
+                    <a href="{{ route('users.index') }}"
+                        class="nav-item nav-link {{ request()->routeIs('users.index') ? 'fw-bold active' : '' }}">
                         User
                     </a>
                 </div>
