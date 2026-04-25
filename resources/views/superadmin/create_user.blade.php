@@ -1,6 +1,15 @@
 @extends('layouts.dashboard')
 
 @section('title', 'Create User - Las Lamon')
+
+@section('content')
+
+<!-- Single Page Header start -->
+<div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6">Create User</h1>
+</div>
+<!-- Single Page Header End -->
+
 <div class="container content-wrapper">
 
     <div class="row justify-content-center">
@@ -10,8 +19,6 @@
             </a>
             <div class="card shadow-sm mt-4">
                 <div class="card-body p-4 p-md-5">
-                    <h5 class="fw-semibold mb-3">Add User</h5>
-
                     <form action="{{ route('users.store') }}" method="POST">
                         @csrf
 

@@ -57,20 +57,24 @@
                             <a href="{{ route('lsm_dataorder') }}"
                                 class="nav-item nav-link {{ request()->routeIs('lsm_dataorder') ? 'active' : '' }}">Data
                                 Order</a>
-                            <a href="{{ route('lsm_location') }}"
+                            <a href="{{ route('location.index') }}"
                                 class="nav-item nav-link {{ request()->routeIs('lsm_location') ? 'active' : '' }}">Location</a>
                         @endif
                     @endauth
 
-                    {{-- @auth
+                    @auth
                         @if (auth()->user()->role === 'superadmin')
-                            <a href="{{ route('superadmin.dashboard.index') }}"
-                                class="nav-item nav-link {{ request()->routeIs('superadmin.dashboard.index') ? 'active' : '' }}">Dashboard</a>
-                            <a href="{{ route('superadmin.user.index') }}"
-                                class="nav-item nav-link {{ request()->routeIs('superadmin.user.index') ? 'active' : '' }}">User
+                            <a href="{{ route('superadmin_dashboard') }}"
+                                class="nav-item nav-link {{ request()->routeIs('superadmin_dashboard') ? 'fw-bold active' : '' }}">
+                                Dashboard
+                            </a>
+
+                            <a href="{{ route('users.index') }}"
+                                class="nav-item nav-link {{ request()->routeIs('users.index') ? 'fw-bold active' : '' }}">
+                                User
                             </a>
                         @endif
-                    @endauth --}}
+                    @endauth
                 </div>
                 <div class="d-flex m-3 me-0">
                     @guest
