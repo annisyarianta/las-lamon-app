@@ -41,19 +41,19 @@
 
                                         <td>
                                             <p class="mb-0 mt-4">
-                                                {{ ucwords(str_replace('_', ' ', $each_data->katalog->nama_katalog ?? '-')) }}
+                                                {{ ucwords(str_replace('_', ' ', $each_data->catalogue->name ?? '-')) }}
                                             </p>
                                         </td>
 
                                         <td>
                                             <p class="mb-0 mt-4">
-                                                {{ $each_data->produk->nama_produk ?? '-' }}
+                                                {{ $each_data->product->name ?? '-' }}
                                             </p>
                                         </td>
 
                                         <td>
                                             <p class="mb-0 mt-4 text-center">
-                                                {{ $each_data->kuantitas ?? '-' }}
+                                                {{ $each_data->quantity ?? '-' }}
                                             </p>
                                         </td>
 
@@ -61,13 +61,13 @@
                                             <div class="d-flex flex-column flex-md-row justify-content-center gap-1">
 
                                                 <!-- e-Certificate -->
-                                                <a href="{{ route('certificate', ['id' => $each_data->sertifikat->id]) }}"
+                                                <a href="{{ route('adopter.certificate.show', ['id' => $each_data->certificate->id]) }}"
                                                 class="btn btn-primary rounded-pill px-2 py-1 px-md-3 py-md-2 small">
                                                     <i class="fa fa-certificate me-1"></i>
                                                     <span class="d-none d-md-inline">e-Certificate</span>
                                                 </a>
                                                 <!-- Location -->
-                                                <a href="{{ $each_data->lokasi->url_lokasi ?? '#' }}"
+                                                <a href="{{ $each_data->location->location_url ?? '#' }}"
                                                     class="btn btn-success rounded-pill 
                                           px-2 py-1 px-md-3 py-md-2 small">
                                                     <i class="fa fa-map-marker-alt me-1"></i>

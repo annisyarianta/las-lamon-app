@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Adopter;
 
 use App\Http\Controllers\Controller;
-use App\Models\CartItem;
-use App\Models\Katalog;
+use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
@@ -26,12 +25,13 @@ class OrderController extends Controller
             ]);
 
         $data = Order::where('id_user', auth()->user()->id)->where('soft_delete', 0)->get();
-        $data_belum_lunas = $data->where('status_order', 'unpaid');
+        $data_unpaid = $data->where('status_order', 'unpaid');
         $data_in_process = $data->where('status_order', 'in process');
-        $data_lunas = $data->where('status_order', 'paid');
+        $data_paid = $data->where('status_order', 'paid');
         $data_canceled = $data->where('status_order', 'canceled');
+        
 
-        return view('adopter.myorder', compact('data_belum_lunas', 'data_in_process', 'data_lunas', 'data_canceled'));
+        return view('adopter.myorder', compact('data_unpaid', 'data_in_process', 'data_paid', 'data_canceled'));
     }
 
     /**
@@ -49,34 +49,34 @@ class OrderController extends Controller
     {
         $input = json_decode($request->data, true);
 
-        if (isset($input['cart_item'])) {
+        if (isset($input['cart'])) {
             $data_order = Order::create([
                 'id_user' => auth()->user()->id,
-                'total_harga' => $input['total_harga'],
+                'total_price' => $input['total_price'],
                 'status_order' => 'unpaid',
-                'tanggal_order' => now(),
+                'order_date' => now(),
                 'expired_at' => now()->addDays(1),
-                'kode' => 'ORD-' . date('Ymd') . '-' . strtoupper(Str::random(6)),
+                'code' => 'ORD-' . date('Ymd') . '-' . strtoupper(Str::random(6)),
             ]);
 
-            foreach ($input['cart_item'] as $cart_item) {
+            foreach ($input['cart'] as $cart) {
 
                 $item = OrderItem::create([
                     'id_order' => $data_order->id,
-                    'id_produk' => $cart_item['id_produk'] ?? null,
-                    'id_katalog' => $cart_item['id_katalog'],
-                    'kuantitas' => $cart_item['kuantitas'],
-                    'harga_satuan' => $cart_item['harga_satuan'],
-                    'harga_total' => $cart_item['harga_total'],
+                    'id_product' => $cart['id_product'] ?? null,
+                    'id_catalogue' => $cart['id_catalogue'],
+                    'quantity' => $cart['quantity'],
+                    'unit_price' => $cart['unit_price'],
+                    'total_price' => $cart['total_price'],
                 ]);
 
-                CartItem::where('id', $cart_item['id_cart'])
+                Cart::where('id', $cart['id_cart'])
                     ->update(['soft_delete' => 1]);
             }
         }
 
         $data_order_item = OrderItem::where('id_order', $data_order->id)
-            ->with(['katalog:id,nama_katalog,url_gambar', 'produk:id,nama_produk'])
+            ->with(['catalogue:id,name,image_url', 'product:id,name'])
             ->get();
 
         session(['checkout_data' => null]);
@@ -86,7 +86,7 @@ class OrderController extends Controller
         //     'data_order_item' => $data_order_item,
         // ], 201);
 
-        return view('adopter.detail-unpaid', compact('data_order', 'data_order_item'));
+        return view('adopter.detail-unpaid', compact('data_order', 'data_order_item'))->with('success', 'Order created successfully. Please proceed with the payment.');
     }
 
     /**
@@ -96,7 +96,7 @@ class OrderController extends Controller
     {
         $data_order = Order::findOrFail(Crypt::decrypt($id));
         $data_order_item = OrderItem::where('id_order', $data_order->id)
-            ->with(['katalog:id,nama_katalog,url_gambar', 'produk:id,nama_produk'])
+            ->with(['catalogue:id,name,image_url', 'product:id,name'])
             ->get();
         if ($data_order->status_order == 'unpaid' || $data_order->status_order == 'in process') {
             return view('adopter.detail-unpaid', compact('data_order', 'data_order_item'));
@@ -123,7 +123,7 @@ class OrderController extends Controller
         $data = Order::findOrFail(Crypt::decrypt($id));
 
         $nama = str_replace(' ', '_', auth()->user()->name);
-        $url_bukti_pembayaran = null;
+        $proof_payment_url = null;
 
         $validated = $request->validate([
             'bukti_pembayaran' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
@@ -144,13 +144,13 @@ class OrderController extends Controller
 
             $file->move($pathFolder, $filename);
 
-            $url_bukti_pembayaran = asset($folder . '/' . $filename);
+            $proof_payment_url = asset($folder . '/' . $filename);
         }
 
         $data->update([
-            'url_bukti_pembayaran' => $url_bukti_pembayaran ?? $data->url_bukti_pembayaran,
+            'proof_payment_url' => $proof_payment_url ?? $data->proof_payment_url,
             'status_order' => 'in process',
-            'tanggal_pembayaran' => now(),
+            'payment_date' => now(),
         ]);
 
         // return response()->json([

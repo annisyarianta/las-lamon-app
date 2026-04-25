@@ -1,23 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Adopter;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Catalogue;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
-class CheckoutController extends Controller
+class CatalogueController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = session('checkout_data');
-        if (!$data) {
-            return redirect()->route('adopter.cart.index')->with('error', 'Your Cart Is Empty');
-        }
-        // dd($checkout_data);
-        return view('adopter.checkout', compact('data'));
+        $data = Catalogue::where('soft_delete', 0)->get();
+        return view('catalogue', compact('data'));
     }
 
     /**
@@ -33,15 +32,7 @@ class CheckoutController extends Controller
      */
     public function store(Request $request)
     {
-
-        $data = json_decode($request->data);
-
-        session(['checkout_data' => $data]);
-        if (empty($data->cart)) {
-            return redirect()->route('adopter.cart.index')->with('error', 'Your Cart Is Empty');
-        }
-
-        return redirect()->route('adopter.checkout.index')->with('success', 'Checkout data stored successfully.');
+        //
     }
 
     /**
@@ -49,7 +40,9 @@ class CheckoutController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $data = Catalogue::findOrFail(Crypt::decrypt($id));
+        $data_products = Product::where('soft_delete', 0)->get();
+        return view('detail-product', compact('data', 'data_products'));
     }
 
     /**

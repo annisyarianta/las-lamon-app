@@ -29,7 +29,7 @@
         <div class="col-lg-3 d-flex justify-content-center px-3 px-md-0 mb-4 mb-lg-0">
             <div class="border rounded">
                 <a href="#">
-                    <img src="{{ asset($data->url_gambar) }}" class="img-fluid rounded" alt="Image">
+                    <img src="{{ asset($data->image_url) }}" class="img-fluid rounded" alt="Image">
                 </a>
             </div>
         </div>
@@ -39,38 +39,38 @@
         <div class="col-lg-6 text-center text-lg-start ps-lg-4 px-3 px-md-0">
 
             <h4 class="fw-bold mb-3">
-                {{ $data->nama_katalog }}
+                {{ $data->name }}
             </h4>
 
             <p class="mb-4">
-                {{ $data->mini_deskripsi }}
+                {{ $data->mini_description }}
             </p>
 
             <!-- FORM -->
 
             <form action="{{ route('adopter.cart.store') }}" method="POST">
-                <input type="hidden" name="id_katalog" value="{{ $data->id }}">
-                <input type="hidden" name="harga_satuan" id="harga_satuan">
-                <input type="hidden" name="harga_total" id="harga_total">
+                <input type="hidden" name="id_catalogue" value="{{ $data->id }}">
+                <input type="hidden" name="unit_price" id="unit_price">
+                <input type="hidden" name="total_price" id="total_price">
                 @csrf
                 <!-- SELECT TANAMAN -->
-                @if (strtolower($data->nama_katalog) == 'paket satuan')
+                @if (strtolower($data->name) == 'single package')
                     <div class="mb-4 text-center text-lg-start">
 
                         <label class="fw-semibold d-block mb-2">
                             Select Variant
                         </label>
 
-                        <select id="productOption" name="id_produk" class="form-select w-auto mx-auto mx-lg-0"
+                        <select id="productOption" name="id_product" class="form-select w-auto mx-auto mx-lg-0"
                             style="min-width: 200px;" required>
 
                             <option value="">
                                 Choose plant
                             </option>
 
-                            @foreach ($data_produk_tanaman as $item)
-                                <option value="{{ $item->id }}" data-harga="{{ $item->harga }}">
-                                    {{ $item->nama_produk }}
+                            @foreach ($data_products as $item)
+                                <option value="{{ $item->id }}" data-harga="{{ $item->price }}">
+                                    {{ $item->name }}
                                 </option>
                             @endforeach
 
@@ -81,7 +81,7 @@
 
                 <!-- QUANTITY -->
 
-                @if (strtolower($data->nama_katalog) != 'paket khusus')
+                @if (strtolower($data->name) != 'special package')
                     <div class="d-flex justify-content-center justify-content-lg-start mb-4">
                         <div class="input-group quantity" style="width: 120px;">
 
@@ -89,7 +89,7 @@
                                 <i class="fa fa-minus"></i>
                             </button>
 
-                            <input type="text" name="kuantitas" id="kuantitas"
+                            <input type="text" name="quantity" id="quantity"
                                 class="form-control form-control-sm text-center border-0" value="1">
 
                             <button type="button" class="btn btn-sm btn-plus rounded-circle bg-light border">
@@ -106,9 +106,9 @@
                 @endif
 
                 <!-- BUTTON -->
-                @if (strtolower($data->nama_katalog) == 'paket khusus')
+                @if (strtolower($data->name) == 'special package')
                     @php
-                        $message = 'Hello, I would like to order ' . $data->nama_katalog;
+                        $message = 'Hello, I would like to order ' . $data->name;
 
                     @endphp
 
@@ -153,7 +153,7 @@
 
                     <div class="tab-pane active" id="nav-about">
                         <p>
-                            {{ $data->deskripsi }}
+                            {{ $data->description }}
                         </p>
                     </div>
                 </div>
@@ -170,53 +170,53 @@
         $(document).ready(function() {
 
             let hargaSatuan = 0;
-            let namaKatalog = "{{ strtolower($data->nama_katalog) }}";
+            let namaKatalog = "{{ strtolower($data->name) }}";
 
-            // jika bukan paket satuan → ambil dari harga katalog
-            if (namaKatalog == 'paket hutan mini' || namaKatalog == 'paket khusus') {
-                hargaSatuan = {{ $data->harga }};
+            // jika bukan Single Package → ambil dari harga katalog
+            if (namaKatalog == 'mini forest package' || namaKatalog == 'special package') {
+                hargaSatuan = {{ $data->price }};
                 updateHarga();
-                $('#harga_satuan').val(hargaSatuan);
+                $('#unit_price').val(hargaSatuan);
             }
 
             // select2 hanya jika ada select
             if ($('#productOption').length) {
                 $('#productOption').select2({
-                    placeholder: "Pilih Tanaman",
+                    placeholder: "Select a plant",
                     width: 'resolve'
                 });
             }
 
-            // pilih tanaman (paket satuan)
+            // pilih tanaman (Single Package)
             $('#productOption').change(function() {
                 hargaSatuan = $(this).find(':selected').data('harga') || 0;
                 updateHarga();
-                $('#harga_satuan').val(hargaSatuan);
+                $('#unit_price').val(hargaSatuan);
             });
 
             // tombol +
             $('.btn-plus').click(function() {
-                let kuantitas = parseInt($('#kuantitas').val()) || 1;
-                $('#kuantitas').val(kuantitas + 1);
+                let quantity = parseInt($('#quantity').val()) || 1;
+                $('#quantity').val(quantity + 1);
                 updateHarga();
             });
 
             // tombol -
             $('.btn-minus').click(function() {
-                let kuantitas = parseInt($('#kuantitas').val()) || 1;
-                if (kuantitas > 1) $('#kuantitas').val(kuantitas - 1);
+                let quantity = parseInt($('#quantity').val()) || 1;
+                if (quantity > 1) $('#quantity').val(quantity - 1);
                 updateHarga();
             });
 
             function updateHarga() {
-                let kuantitas = parseInt($('#kuantitas').val()) || 1;
-                let total = hargaSatuan * kuantitas;
+                let quantity = parseInt($('#quantity').val()) || 1;
+                let total = hargaSatuan * quantity;
 
                 $('#priceDisplay').text(
                     new Intl.NumberFormat('id-ID').format(total)
                 );
 
-                $('#harga_total').val(total);
+                $('#total_price').val(total);
             }
 
         });

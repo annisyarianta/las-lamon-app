@@ -96,9 +96,9 @@
 
                                     @php
                                         $cartItemCount = 0;
-                                        if (auth()->check() && auth()->user()->cart) {
-                                            $cartItemCount = DB::table('cart_item')
-                                                ->where('id_cart', auth()->user()->cart->id)
+                                        if (auth()->check() && auth()->user()->carts) {
+                                            $cartItemCount = DB::table('carts')
+                                                ->where('id_user', auth()->user()->id)
                                                 ->where('soft_delete', 0)
                                                 ->count();
                                         } else {

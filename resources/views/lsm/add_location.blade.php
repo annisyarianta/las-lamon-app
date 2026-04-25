@@ -28,14 +28,14 @@
                             <!-- NAME -->
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Location Name</label>
-                                <input type="text" name="nama_lokasi" class="form-control" placeholder="Enter Location Name"
+                                <input type="text" name="name" class="form-control" placeholder="Enter Location Name"
                                     required>
                             </div>
 
                             <!-- EMAIL -->
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Location URL</label>
-                                <input type="text" name="url_lokasi" class="form-control" placeholder="Enter Location URL"
+                                <input type="text" name="location_url" class="form-control" placeholder="Enter Location URL"
                                     required>
                             </div>
                         </div>

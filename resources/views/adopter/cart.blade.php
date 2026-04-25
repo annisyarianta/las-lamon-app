@@ -9,6 +9,17 @@
         <h1 class="text-center text-white display-6">My Cart</h1>
     </div>
     <!-- Single Page Header End -->
+    @if (session('success'))
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: "{{ session('success') }}",
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
 
     <!-- Cart Page Start -->
     <div class="container-fluid py-5">
@@ -52,34 +63,35 @@
 
                                     <td>
                                         <p class="mb-0 mt-4">
-                                            {{ ucwords(str_replace('_', ' ', $each_data->katalog->nama_katalog ?? '-')) }}
+                                            {{ ucwords(str_replace('_', ' ', $each_data->catalogue->name ?? '-')) }}
                                         </p>
                                     </td>
 
                                     <td>
                                         <p class="mb-0 mt-4">
-                                            {{ $each_data->produk->nama_produk ?? '-' }}
+                                            {{ $each_data->product->name ?? '-' }}
                                         </p>
                                     </td>
 
                                     <td>
                                         <p class="mb-0 mt-4">
-                                            Rp {{ number_format($each_data->harga_satuan, 0, ',', '.') }}
+                                            Rp {{ number_format($each_data->unit_price, 0, ',', '.') }}
                                         </p>
                                     </td>
 
-                                    <td class="produk-data" data-id="{{ $each_data->produk->id ?? null }}"
-                                        data-id-cart="{{ $each_data->id }}" data-id-katalog="{{ $each_data->katalog->id }}"
-                                        data-harga="{{ $each_data->harga_satuan }}"
-                                        data-nama-katalog="{{ $each_data->katalog->nama_katalog ?? null }}"
-                                        data-nama-produk="{{ $each_data->produk->nama_produk ?? null }}">
+                                    <td class="produk-data" data-id="{{ $each_data->product->id ?? null }}"
+                                        data-id-cart="{{ $each_data->id }}"
+                                        data-id-katalog="{{ $each_data->catalogue->id }}"
+                                        data-harga="{{ $each_data->unit_price }}"
+                                        data-nama-katalog="{{ $each_data->catalogue->name ?? null }}"
+                                        data-nama-produk="{{ $each_data->product->name ?? null }}">
 
                                         <div class="input-group quantity mt-4" style="width: 100px;">
                                             <button type="button" class="btn btn-sm btn-minus bg-light border">-</button>
 
                                             <input type="text"
                                                 class="form-control form-control-sm text-center border-0 qty-input"
-                                                value="{{ $each_data->kuantitas }}">
+                                                value="{{ $each_data->quantity }}">
 
                                             <button type="button" class="btn btn-sm btn-plus bg-light border">+</button>
                                         </div>
@@ -88,7 +100,7 @@
                                     <td>
                                         <p class="mb-0 mt-4 total-harga">
                                             Rp
-                                            {{ number_format($each_data->harga_satuan * $each_data->kuantitas, 0, ',', '.') }}
+                                            {{ number_format($each_data->unit_price * $each_data->quantity, 0, ',', '.') }}
                                         </p>
                                     </td>
 
@@ -205,7 +217,7 @@
 
     function checkout() {
 
-        let cartItems = [];
+        let cart = [];
         let totalSemua = 0;
 
         document.querySelectorAll("tbody tr").forEach(function(row) {
@@ -217,21 +229,21 @@
             let total = harga * qty;
             totalSemua += total;
 
-            cartItems.push({
+            cart.push({
                 id_cart: parseInt(data.idCart),
-                id_produk: data.id ? parseInt(data.id) : null,
-                id_katalog: parseInt(data.idKatalog),
-                kuantitas: qty,
-                harga_satuan: harga,
-                harga_total: total,
-                nama_produk: data.namaProduk,
-                nama_katalog: data.namaKatalog,
+                id_product: data.id ? parseInt(data.id) : null,
+                id_catalogue: parseInt(data.idKatalog),
+                quantity: qty,
+                unit_price: harga,
+                total_price: total,
+                name_product: data.namaProduk,
+                name_catalogue: data.namaKatalog,
             });
         });
 
         let payload = {
-            total_harga: totalSemua,
-            cart_item: cartItems
+            total_price: totalSemua,
+            cart: cart
         };
 
         localStorage.setItem("checkout_data", JSON.stringify(payload));

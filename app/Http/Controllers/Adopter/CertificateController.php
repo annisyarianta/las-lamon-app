@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Adopter;
 
 use App\Http\Controllers\Controller;
-use App\Models\Sertifikat;
+use App\Models\Certificate;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class CertificateController extends Controller
@@ -37,17 +38,14 @@ class CertificateController extends Controller
      */
     public function show(string $id)
     {
-         // Mencari data sertifikat berdasarkan ID
-        $sertifikat = Sertifikat::findOrFail($id);
+        // Mencari data sertifikat berdasarkan ID
+        $certificate = Certificate::findOrFail($id);
 
-        // Mengirim variabel $sertifikat ke file blade
-        return view('certificate', compact('sertifikat'));
-
-        //  return response()->json([
-        //     'message' => 'List of cart items',
-        //     'data' => $sertifikat,
-        //         ], 200
-        //     );
+        $pdf = Pdf::loadView('certificate', [
+            'certificate' => $certificate
+        ])->setPaper('A4', 'landscape');
+        return $pdf->stream('certificate.pdf');
+        // return view('certificate', compact('certificate'));
     }
 
     /**

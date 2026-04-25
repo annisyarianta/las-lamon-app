@@ -190,24 +190,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        @if (empty($data_orders) || count($data_orders) == 0)
-                                            <td colspan="5" class="text-center py-5">
-                                                <h6 class="text-secondary">No Records Found</h6>
-                                            </td>
-                                        @else
+                                    @if (empty($data_orders) || count($data_orders) == 0)
+                                        <td colspan="5" class="text-center py-5">
+                                            <h6 class="text-secondary">No Records Found</h6>
+                                        </td>
+                                    @else
+                                        <tr>
+
                                             @foreach ($data_orders as $each_data)
                                                 <td>
-                                                    {{ \Carbon\Carbon::parse($each_data->tanggal_order)->translatedFormat('d F Y H:i') }}
+                                                    {{ \Carbon\Carbon::parse($each_data->order_date)->translatedFormat('d F Y H:i') }}
                                                 </td>
-                                                <td>{{ $each_data->kode }}</td>
+                                                <td>{{ $each_data->code }}</td>
                                                 <td>{{ $each_data->user->name ?? 'N/A' }}</td>
                                                 <td>
-                                                    Rp{{ number_format($each_data->total_harga, 0, ',', '.') }}
+                                                    Rp{{ number_format($each_data->total_price, 0, ',', '.') }}
                                                 </td>
                                                 <td>
                                                     <div class="d-flex gap-2 justify-content-center action-buttons">
-                                                        <a href={{ route('lsm.order.show', ['id' => Crypt::encrypt($each_data->id)]) }} class="btn-action detail" title="Detail">
+                                                        <a href={{ route('lsm.order.show', ['id' => Crypt::encrypt($each_data->id)]) }}
+                                                            class="btn-action detail" title="Detail">
                                                             <i class="fas fa-eye"></i>
                                                         </a>
                                                         {{-- <a href="#" class="btn-action approve" title="Approve">
@@ -248,9 +250,9 @@
                                                         </a> --}}
                                                     </div>
                                                 </td>
-                                            @endforeach
-                                        @endif
-                                    </tr>
+                                        </tr>
+                                    @endforeach
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
