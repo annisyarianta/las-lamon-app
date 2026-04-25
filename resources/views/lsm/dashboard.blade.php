@@ -207,12 +207,12 @@
                                                 </td>
                                                 <td>
                                                     <div class="d-flex gap-2 justify-content-center action-buttons">
-                                                        <a href="#" class="btn-action detail" title="Detail">
+                                                        <a href={{ route('lsm.order.show', ['id' => Crypt::encrypt($each_data->id)]) }} class="btn-action detail" title="Detail">
                                                             <i class="fas fa-eye"></i>
                                                         </a>
-                                                        <a href="#" class="btn-action approve" title="Approve">
+                                                        {{-- <a href="#" class="btn-action approve" title="Approve">
                                                             <i class="fas fa-check"></i>
-                                                        </a>
+                                                        </a> --}}
 
                                                         <form
                                                             action="{{ route('lsm.order.confirm-order', ['id' => Crypt::encrypt($each_data->id)]) }}"

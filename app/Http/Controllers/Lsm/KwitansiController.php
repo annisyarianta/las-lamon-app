@@ -40,7 +40,7 @@ class KwitansiController extends Controller
         // $data_order = Order::findOrFail(Crypt::decrypt($id));
         $data_order = Order::findOrFail($id);
 
-        $data_user = $data_order->user;
+        $data_user = $data_order->user;   
         $data_kwitansi = $data_order->kwitansi;
 
         $data_order_items = $data_order->order_items()

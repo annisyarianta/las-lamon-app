@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Kwitansi;
 use App\Models\NomorSertifikat;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Sertifikat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -48,13 +49,18 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-        $data = Order::findOrFail($id);
 
-        // return view('lsm.order.show', compact('data'));
-        return response()->json([
-            'message' => 'Order details',
-            'data' => $data,
-        ], 200);
+        $data_order = Order::findOrFail(Crypt::decrypt($id))->with(['user:id,name'])->first();
+        $data_order_item = OrderItem::where('id_order', $data_order->id)
+            ->with(['katalog:id,nama_katalog,url_gambar', 'produk:id,nama_produk'])
+            ->get();
+
+        return view('lsm.detail-neworder', compact('data_order', 'data_order_item'));
+        // return response()->json([
+        //     'message' => 'Order details',
+        //     'data' => $data_order,
+        //     'items' => $data_order_item,
+        // ], 200);
     }
 
     /**
