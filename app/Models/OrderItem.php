@@ -27,10 +27,15 @@ class OrderItem extends Model
     public function katalog()
     {
         return $this->belongsTo(Katalog::class, 'id_katalog', 'id');
-    }   
+    }
 
     public function lokasi()
     {
         return $this->belongsTo(Lokasi::class, 'id_lokasi', 'id');
+    }
+
+    public function sertifikat()
+    {
+        return $this->hasOne(Sertifikat::class, 'id_order_item', 'id');
     }
 }

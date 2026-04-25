@@ -82,58 +82,48 @@ class OrderController extends Controller
 
     public function confirmOrder(string $id)
     {
-        try {
-            $order = Order::findOrFail($id);
-            $user = $order->user;
+        $order = Order::findOrFail($id);
+        $user = $order->user;
 
-            $order->update(['status_order' => 'paid']);
+        $order->update(['status_order' => 'paid']);
 
-            $order_items = $order->order_items->where('soft_delete', 0);
+        $order_items = $order->order_items->where('soft_delete', 0);
 
-            $data__nomor_sertifikat = NomorSertifikat::where('soft_delete', 0)->first();
+        $data__nomor_sertifikat = NomorSertifikat::where('soft_delete', 0)->first();
 
-            $data_sertifikat = [];
+        $data_sertifikat = [];
 
-            foreach ($order_items as $each_data) {
+        foreach ($order_items as $each_data) {
 
-                $each_data->update([
-                    'id_lokasi' => 1
-                ]);
-
-                $data_sertifikat_adopter = Sertifikat::create([
-                    'id_order' => $order->id,
-                    'id_order_item' => $each_data->id,
-                    'id_user' => $user->id,
-                    'nama_pemilik' => $user->name,
-                    'nomor_surat' => $data__nomor_sertifikat->nomor_akhir + 1,
-                    'full_nomor_surat' => ($data__nomor_sertifikat->nomor_akhir + 1) . '/' . $data__nomor_sertifikat->kerangka_penomoran,
-                    'tanggal_terbit' => now(),
-                ]);
-
-                $data_sertifikat[] = $data_sertifikat_adopter;
-
-                $data__nomor_sertifikat->nomor_akhir += 1;
-                $data__nomor_sertifikat->save();
-            }
-
-            $data_kwitansi = Kwitansi::create([
-                'id_user' => $user->id,
-                'id_order' => $order->id,
-                'kode_kwitansi' => 'KW-' . date('Ymd') . '-' . strtoupper(Str::random(6)),
+            $each_data->update([
+                'id_lokasi' => 1
             ]);
 
-            return response()->json([
-                'message' => 'Order confirmed',
-                'data' => $data_sertifikat,
-            ], 200);
-        } catch (\Throwable $e) {
+            $data_sertifikat_adopter = Sertifikat::create([
+                'id_order' => $order->id,
+                'id_order_item' => $each_data->id,
+                'id_user' => $user->id,
+                'nama_pemilik' => $user->name,
+                'nomor_surat' => $data__nomor_sertifikat->nomor_akhir + 1,
+                'full_nomor_surat' => ($data__nomor_sertifikat->nomor_akhir + 1) . '/' . $data__nomor_sertifikat->kerangka_penomoran,
+                'tanggal_terbit' => now(),
+            ]);
 
-            return response()->json([
-                'message' => 'Error terjadi',
-                'error' => $e->getMessage(),
-                'line' => $e->getLine(),
-                'file' => $e->getFile(),
-            ], 500);
+            $data_sertifikat[] = $data_sertifikat_adopter;
+
+            $data__nomor_sertifikat->nomor_akhir += 1;
+            $data__nomor_sertifikat->save();
         }
+
+        $data_kwitansi = Kwitansi::create([
+            'id_user' => $user->id,
+            'id_order' => $order->id,
+            'kode_kwitansi' => 'KW-' . date('Ymd') . '-' . strtoupper(Str::random(6)),
+        ]);
+
+        return response()->json([
+            'message' => 'Order confirmed',
+            'data' => $data_sertifikat,
+        ], 200);
     }
 }

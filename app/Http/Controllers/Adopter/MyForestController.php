@@ -29,16 +29,17 @@ class MyForestController extends Controller
                 },
                 'order_items.katalog:id,nama_katalog',
                 'order_items.produk:id,nama_produk',
-                'order_items.lokasi:id,url_lokasi'
+                'order_items.lokasi:id,url_lokasi',
+                'order_items.sertifikat:id,id_order_item'
             ])
             ->select('id')
             ->get();
 
-        // return response()->json([
-        //     'message' => 'List of my forest items',
-        //     'data' => $data,
-        // ], 200);
-        return view('adopter.myforest', compact('data'));
+        return response()->json([
+            'message' => 'List of my forest items',
+            'data' => $data,
+        ], 200);
+        // return view('adlopter.myforest', compact('data'));
     }
 
     /**
