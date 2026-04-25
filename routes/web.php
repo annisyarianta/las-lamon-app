@@ -1,24 +1,22 @@
 <?php
 
-use App\Http\Controllers\Adopter\OrderController as AdopterOrderController;
 use App\Http\Controllers\Adopter\CartController as AdopterCartController;
 use App\Http\Controllers\Adopter\CheckoutController as AdopterCheckoutController;
 use App\Http\Controllers\Adopter\KwitansiController as AdopterKwitansiController;
 use App\Http\Controllers\Adopter\MyForestController as AdopterMyForestController;
-use App\Http\Controllers\Lsm\OrderController as LsmOrderController;
-use App\Http\Controllers\Lsm\KwitansiController as LsmKwitansiController;
+use App\Http\Controllers\Adopter\OrderController as AdopterOrderController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\CertificateController;
 use App\Http\Controllers\KatalogController;
-use App\Http\Controllers\Lsm\CertificateController;
+use App\Http\Controllers\Lsm\KwitansiController as LsmKwitansiController;
+use App\Http\Controllers\Lsm\OrderController as LsmOrderController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
 });
-
-Route::view('/cart', 'cart')->name('cart');
-Route::view('/checkout', 'checkout')->name('checkout');
 
 Route::get('/detail-product', function () {
     return view('detail-product');
@@ -27,12 +25,6 @@ Route::get('/detail-product', function () {
 Route::get('/about', function () {
     return view('about');
 })->name('about');
-
-Route::view('/kwitansi', 'kwitansi');
-Route::view('/myorder', 'myorder');
-Route::view('/detail-unpaid', 'detail-unpaid');
-Route::view('/detail-finished', 'detail-finished');
-Route::view('/detail-canceled', 'detail-canceled');
 
 Route::get('/login', [LoginController::class, 'showLogin'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
@@ -48,29 +40,23 @@ Route::prefix('catalogue')->name('catalogue.')->group(function () {
     Route::get('/{id}', [KatalogController::class, 'show'])->name('show');
 });
 
-// DASHBOARD ROLE
+// SUPERADMIN
 Route::middleware(['auth', 'role:superadmin'])->group(function () {
-    Route::get('/superadmin', function () {
-        return view('superadmin.dashboard');
-    })->name('superadmin_dashboard');
-
-    Route::prefix('user')->group(function () {
-        Route::get('/', function() {
-            return view('superadmin.user');
-        })->name('superadmin_user');
-        Route::get('/create', function() {
-            return view('superadmin.create_user');
-        })->name('create_user');
-        Route::get('/edit', function() {
-            return view('superadmin.edit_user');
-        })->name('edit_user');
-    });
+    Route::get('/superadmin', [UserController::class, 'cardSuperadmin'])->name('superadmin_dashboard');
+    Route::resource('users', UserController::class);
 });
 
-Route::middleware(['auth', 'role:lsm'])->prefix('lsm')->group(function () {
+// LSM
+Route::middleware(['auth', 'role:lsm'])->group(function () {
     Route::get('/lsm', function () {
-        return "LSM Dashboard";
-    });
+        return view('lsm.dashboard');
+    })->name('lsm_dashboard');
+    Route::get('/dataorder', function () {
+        return view('lsm.dataorder');
+    })->name('lsm_dataorder');
+    Route::get('/location', function () {
+        return view('lsm.location');
+    })->name('lsm_location');
 
     Route::prefix('order')->name('lsm.order.')->group(function () {
         Route::get('/', [LsmOrderController::class, 'index'])->name('index');
@@ -85,6 +71,7 @@ Route::middleware(['auth', 'role:lsm'])->prefix('lsm')->group(function () {
     });
 });
 
+// ADOPTER
 Route::middleware(['auth', 'role:adopter'])->prefix('adopter')->group(function () {
 
     Route::get('/', function () {
