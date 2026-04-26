@@ -3,20 +3,22 @@
 @section('title', 'Edit User - Las Lamon')
 
 @section('content')
-    <div class="container content-wrapper">
 
+<!-- Single Page Header start -->
+<div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6">Edit User</h1>
+</div>
+<!-- Single Page Header End -->
+
+    <div class="container content-wrapper">
         <div class="row justify-content-center">
             <div class="col-xl-8 col-lg-10">
-
                 <!-- BACK BUTTON -->
                 <a href="{{ route('users.index') }}" class="btn btn-light d-inline-flex align-items-center">
                     <i class="fas fa-arrow-left me-2"></i> Back
                 </a>
-
                 <div class="card shadow-sm mt-4">
                     <div class="card-body p-4 p-md-5">
-                        <h5 class="fw-semibold mb-3">Edit User</h5>
-
                         <!-- FORM UPDATE -->
                         <form action="{{ route('users.update', $user->id) }}" method="POST">
                             @csrf
