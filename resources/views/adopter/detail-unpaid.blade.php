@@ -41,6 +41,16 @@
                 confirmButtonText: 'OK'
             });
         </script>
+    @elseif (session('error'))
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: "{{ session('error') }}",
+                confirmButtonText: 'OK'
+            });
+        </script>
     @endif
 
     <!-- Detail Page Start -->
