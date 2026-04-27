@@ -1,8 +1,6 @@
 <?php
 
 namespace Database\Seeders;
-
-use App\Models\Catalogue;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -20,7 +18,11 @@ class DatabaseSeeder extends Seeder
 
         $this->call(UserSeeder::class);
         $this->call(ProductSeeder::class);
-        $this->call(CatalogueSeeder::class);;
+        $this->call(CartSeeder::class);
+        $this->call(CatalogueSeeder::class);
+        $this->call(CartItemSeeder::class);
         $this->call(NumberCertificateSeeder::class);
+        $this->call(OrderSeeder::class);
+        $this->call(LocationSeeder::class);
     }
 }

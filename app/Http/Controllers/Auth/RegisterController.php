@@ -31,6 +31,6 @@ class RegisterController extends Controller
             'role' => 'adopter',
         ]);
 
-        return redirect('/login')->with('success', 'Register berhasil!');
+        return redirect('/login')->with('success', 'Your account has been successfully created. Please log in to get started.');
     }
 }
