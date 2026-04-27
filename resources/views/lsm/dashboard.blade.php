@@ -253,7 +253,7 @@
                 button.addEventListener("click", function(e) {
                     e.preventDefault();
 
-                    let orderId = this.getAttribute("data-id");
+                    let form = this.closest("form");
 
                     Swal.fire({
                         title: 'Approve Order?',
@@ -266,13 +266,7 @@
                         cancelButtonText: 'Cancel'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Approved!',
-                                text: 'Order successfully approved',
-                                timer: 2000,
-                                showConfirmButton: false
-                            });
+                            form.submit(); // submit setelah user klik yes
                         }
                     });
                 });
@@ -283,7 +277,7 @@
                 button.addEventListener("click", function(e) {
                     e.preventDefault();
 
-                    let orderId = this.getAttribute("data-id");
+                    let form = this.closest("form");
 
                     Swal.fire({
                         title: 'Decline Order?',
@@ -296,13 +290,7 @@
                         cancelButtonText: 'Cancel'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Declined!',
-                                text: 'Order has been declined',
-                                timer: 2000,
-                                showConfirmButton: false
-                            });
+                            form.submit(); // submit ke Laravel setelah klik Yes
                         }
                     });
                 });
