@@ -136,6 +136,6 @@ class OrderController extends Controller
             $order->update(['status_order' => 'canceled']);
         }
 
-        return redirect()->route('lsm.dashboard.index')->with('success', 'Order has been ' . ($input['action'] == 'approve' ? 'approved' : 'declined') . ' successfully.');
+        return redirect()->route('lsm.order.index')->with('success', 'Order has been ' . ($input['action'] == 'approve' ? 'approved' : 'declined') . ' successfully.');
     }
 }

@@ -76,46 +76,103 @@
             </div>
             <div class="action-bar">
                 <div class="d-flex justify-content-center mt-4 action-bar-content">
-                    <a href="{{ url($data_order->proof_payment_url) }}"
-                        class="btn btn-md border border-secondary rounded-pill px-3 text-primary me-3">
-                        <i class="fas fa-print me-3"></i>See Receipt
-                    </a>
-                    {{-- <a href="#" class="btn btn-md btn-success rounded-pill px-3 me-3">
-                        <i class="fas fa-check me-3"></i>Approve
-                    </a>
-                    <a href="#" class="btn btn-md btn-danger rounded-pill px-3 me-3">
-                        <i class="fas fa-times me-3"></i>Decline
-                    </a> --}}
 
-                    <form action="{{ route('lsm.order.confirm-order', ['id' => Crypt::encrypt($data_order->id)]) }}"
-                        method="POST" style="display:inline;">
+                    @if ($data_order->status_order == 'paid')
+                        <a href="{{ url($data_order->proof_payment_url) }}"
+                            class="btn btn-md border border-secondary rounded-pill px-3 text-primary me-3">
+                            <i class="fas fa-print me-3"></i>See Receipt
+                        </a>
+                    @elseif($data_order->status_order == 'in process')
+                        <a href="{{ url($data_order->proof_payment_url) }}"
+                            class="btn btn-md border border-secondary rounded-pill px-3 text-primary me-3">
+                            <i class="fas fa-print me-3"></i>See Receipt
+                        </a>
 
-                        @csrf
+                        <form action="{{ route('lsm.order.confirm-order', ['id' => Crypt::encrypt($data_order->id)]) }}"
+                            method="POST" style="display:inline;">
 
-                        <button type="submit" name="action" value="approve"
-                            class="btn btn-md btn-success rounded-pill px-3 me-3" title="Approve">
+                            @csrf
+                            <input type="hidden" name="action" value="decline">
 
-                            <i class="fas fa-check me-3"></i>Approve
-                        </button>
+                            <button type="submit" class="btn btn-md btn-success btn-approve rounded-pill px-3 me-3"
+                                data-id="1" title="Approve">
 
-                    </form>
+                                <i class="fas fa-check me-3"></i>Approve
+                            </button>
 
-                    <form action="{{ route('lsm.order.confirm-order', ['id' => Crypt::encrypt($data_order->id)]) }}"
-                        method="POST" style="display:inline;">
+                        </form>
 
-                        @csrf
+                        <form action="{{ route('lsm.order.confirm-order', ['id' => Crypt::encrypt($data_order->id)]) }}"
+                            method="POST" style="display:inline;">
 
-                        <button type="submit" name="action" value="decline"
-                            class="btn btn-md btn-danger rounded-pill px-3 me-3" title="Decline">
+                            @csrf
+                            <input type="hidden" name="action" value="decline">
+                            <button type="submit" class="btn btn-md btn-danger btn-decline rounded-pill px-3 me-3"
+                                data-id="1" title="Decline">
 
-                            <i class="fas fa-times me-3"></i>Decline
-                        </button>
+                                <i class="fas fa-times me-3"></i>Decline
+                            </button>
 
-                    </form>
-
+                        </form>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
     <!-- Detail Page End -->
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            // APPROVE
+            document.querySelectorAll(".btn-approve").forEach(button => {
+                button.addEventListener("click", function(e) {
+                    e.preventDefault();
+
+                    let form = this.closest("form");
+
+                    Swal.fire({
+                        title: 'Approve Order?',
+                        text: "Data that has been approved cannot be canceled!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#198754',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Yes, Approve!',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit(); // submit setelah user klik yes
+                        }
+                    });
+                });
+            });
+
+            // DECLINE
+            document.querySelectorAll(".btn-decline").forEach(button => {
+                button.addEventListener("click", function(e) {
+                    e.preventDefault();
+
+                    let form = this.closest("form");
+
+                    Swal.fire({
+                        title: 'Decline Order?',
+                        text: "This action will reject the order!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#dc3545',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Yes, Decline!',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit(); // submit ke Laravel setelah klik Yes
+                        }
+                    });
+                });
+            });
+
+        });
+    </script>
 @endsection

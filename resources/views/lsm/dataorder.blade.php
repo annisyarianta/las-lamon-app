@@ -209,18 +209,18 @@
                                                                     <a href="{{ url($each_data->url_bukti_pembayaran) }}"
                                                                         target="_blank"
                                                                         class="btn border border-secondary btn-sm-square rounded-circle bg-white"
-                                                                        title="Lihat Bukti Pembayaran">
+                                                                        title="See Receipt">
                                                                         <i class="fas fa-eye text-primary"></i>
                                                                     </a>
-                                                                    <a href={{ route('adopter.order.show', ['id' => Crypt::encrypt($each_data->id)]) }}
-                                                                        class="btn border border-secondary btn-sm-square rounded-circle bg-white"
-                                                                        title="Edit Bukti Pembayaran">
-                                                                        <i class="fas fa-pen text-primary"></i>
+                                                                    <a href="#"
+                                                                        class="btn btn-success btn-sm-square rounded-circle"
+                                                                        title="Approve">
+                                                                        <i class="fas fa-check"></i>
                                                                     </a>
-                                                                    <a href="https://wa.me/6281379352228?text=Hello,%20I%20would%20like%20to%20send%20payment%20proof."
-                                                                        class="btn border border-secondary btn-sm-square rounded-circle bg-white"
-                                                                        title="Konfirmasi WhatsApp">
-                                                                        <i class="fab fa-whatsapp text-primary"></i>
+                                                                    <a href="#"
+                                                                        class="btn btn-danger btn-sm-square rounded-circle"
+                                                                        title="Decline">
+                                                                        <i class="fab fa-times"></i>
                                                                     </a>
 
 
@@ -262,18 +262,18 @@
                                                                 <a href="{{ url($each_data->url_bukti_pembayaran) }}"
                                                                     target="_blank"
                                                                     class="btn border border-secondary btn-sm-square rounded-circle bg-white"
-                                                                    title="Lihat Bukti Pembayaran">
+                                                                    title="See Receipt">
                                                                     <i class="fas fa-eye text-primary"></i>
                                                                 </a>
-                                                                <a href={{ route('adopter.order.show', ['id' => Crypt::encrypt($each_data->id)]) }}
-                                                                    class="btn border border-secondary btn-sm-square rounded-circle bg-white"
-                                                                    title="Edit Bukti Pembayaran">
-                                                                    <i class="fas fa-pen text-primary"></i>
+                                                                <a href="#"
+                                                                    class="btn btn-success btn-sm-square rounded-circle"
+                                                                    title="Approve">
+                                                                    <i class="fas fa-check"></i>
                                                                 </a>
-                                                                <a href="https://wa.me/6281379352228?text=Hello,%20I%20would%20like%20to%20send%20payment%20proof."
-                                                                    class="btn border border-secondary btn-sm-square rounded-circle bg-white"
-                                                                    title="Konfirmasi WhatsApp">
-                                                                    <i class="fab fa-whatsapp text-primary"></i>
+                                                                <a href="#"
+                                                                    class="btn btn-danger btn-sm-square rounded-circle"
+                                                                    title="Decline">
+                                                                    <i class="fab fa-times"></i>
                                                                 </a>
                                                             </div>
                                                         </div>
