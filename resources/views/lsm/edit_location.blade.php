@@ -23,7 +23,7 @@
                         <h5 class="fw-semibold mb-3">Edit Location</h5>
 
                         <!-- FORM UPDATE -->
-                        <form action="{{ route('location.update', $lokasi->id) }}" method="POST">
+                        <form action="{{ route('location.update', $location->id) }}" method="POST">
                             @csrf
                             @method('PUT')
 
@@ -32,13 +32,13 @@
                                 <!-- NAME -->
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Location Name</label>
-                                    <input type="text" name="nama_lokasi" class="form-control" value="{{ $lokasi->nama_lokasi }}" required>
+                                    <input type="text" name="name" class="form-control" value="{{ $location->name }}" required>
                                 </div>
 
                                 <!-- URL -->
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Location URL</label>
-                                    <input type="text" name="url_lokasi" class="form-control" value="{{ $lokasi->url_lokasi }}" required>
+                                    <input type="text" name="location_url" class="form-control" value="{{ $location->location_url }}" required>
                                 </div>
 
                                 <!-- BUTTON -->
@@ -52,10 +52,10 @@
                         </form>
 
                         <!-- DELETE (DI LUAR FORM UPDATE!) -->
-                        <form id="delete-form-{{ $lokasi->id }}" action="{{ route('location.destroy', $lokasi->id) }}" method="POST">
+                        <form id="delete-form-{{ $location->id }}" action="{{ route('location.destroy', $location->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="button" class="btn btn-danger px-4" onclick="confirmDelete({{ $lokasi->id }})" {{-- onclick="return confirm('Are you sure to delete this user?')" --}}>
+                            <button type="button" class="btn btn-danger px-4" onclick="confirmDelete({{ $location->id }})" {{-- onclick="return confirm('Are you sure to delete this user?')" --}}>
                                 Delete
                             </button>
                         </form>

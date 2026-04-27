@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Adopter;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
-use App\Models\CartItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 
@@ -15,15 +14,13 @@ class CartController extends Controller
      */
     public function index()
     {
-        $cart = Cart::where('id_user', auth()->id())->first();
-
-        $data = $cart?->cart_items()
-            ->with([
-                'produk:id,nama_produk',
-                'katalog:id,nama_katalog'
-            ])
+        $data = Cart::with([
+            'product:id,name',
+            'catalogue:id,name'
+        ])
             ->where('soft_delete', 0)
             ->get();
+
         // return response()->json([
         //     'message' => 'List of cart items',
         //     'data' => $data,
@@ -43,22 +40,16 @@ class CartController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
-        $cart = Cart::where('id_user', auth()->id())->where('soft_delete', 0)->first();
-        if (empty($cart)) {
-            $new_cart = Cart::create([
-                'id_user' => auth()->user()->id,
-            ]);
-        }
 
-        $cart_item = CartItem::create([
-            'id_cart' => $new_cart->id ?? $cart->id,
-            'id_produk' => $input['id_produk'] ?? null,
-            'id_katalog' => $input['id_katalog'],
-            'kuantitas' => $input['kuantitas'],
-            'harga_satuan' => $input['harga_satuan'],
-            'harga_total' => $input['kuantitas'] * $input['harga_satuan'],
+        $cart = Cart::create([
+            'id_user' => auth()->id(),
+            'id_product' => $input['id_product'] ?? null,
+            'id_catalogue' => $input['id_catalogue'],
+            'quantity' => $input['quantity'],
+            'unit_price' => $input['unit_price'],
+            'total_price' => $input['quantity'] * $input['unit_price'],
         ]);
-        return redirect()->route('adopter.cart.index');
+        return redirect()->route('adopter.cart.index')->with('success', 'Item added to cart successfully.');
     }
 
     /**
@@ -82,11 +73,11 @@ class CartController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $cartItem = CartItem::findOrFail($id);
+        $cart = Cart::findOrFail($id);
 
-        $cartItem->update([
-            'kuantitas' => $request->qty,
-            'harga_total' => $request->qty * $cartItem->harga_satuan
+        $cart->update([
+            'quantity' => $request->qty,
+            'total_price' => $request->qty * $cart->unit_price
         ]);
 
         return response()->json([
@@ -99,9 +90,9 @@ class CartController extends Controller
      */
     public function destroy(string $id)
     {
-        $cart_item = CartItem::findOrFail(Crypt::decrypt($id));
-        $cart_item->soft_delete = 1;
-        $cart_item->save();
+        $cart = Cart::findOrFail(Crypt::decrypt($id));
+        $cart->soft_delete = 1;
+        $cart->save();
 
         return redirect()->route('adopter.cart.index')->with('success', 'Item removed from cart successfully.');
     }

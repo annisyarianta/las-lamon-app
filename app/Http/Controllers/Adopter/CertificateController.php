@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Lsm;
+namespace App\Http\Controllers\Adopter;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order;
+use App\Models\Certificate;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class CertificateController extends Controller
@@ -37,38 +38,14 @@ class CertificateController extends Controller
      */
     public function show(string $id)
     {
-        // $data_order = Order::findOrFail(Crypt::decrypt($id));
-        $data_order = Order::findOrFail($id);
+        // Mencari data sertifikat berdasarkan ID
+        $certificate = Certificate::findOrFail($id);
 
-        $data_user = $data_order->user;
-        $data_kwitansi = $data_order->kwitansi;
-
-        $data_order_items = $data_order->order_items()
-            ->with([
-                'katalog:id,nama_katalog,url_gambar',
-                'produk:id,nama_produk'
-            ])
-            ->get();
-
-        $amount_in_words = strtoupper(
-            trim($this->numberToWords($data_order->total_harga)) . ' Rupiah'
-        );
-
-        
-
-        return view('adopter.certificate', compact(
-            'data_kwitansi',
-            'data_order',
-            'data_user',
-            'data_order_items',
-            'amount_in_words'
-        ));
-    }
-
-    public function numberToWords($number)
-    {
-        $formatter = new \NumberFormatter("en", \NumberFormatter::SPELLOUT);
-        return $formatter->format($number);
+        $pdf = Pdf::loadView('certificate', [
+            'certificate' => $certificate
+        ])->setPaper('A4', 'landscape');
+        return $pdf->stream('certificate.pdf');
+        // return view('certificate', compact('certificate'));
     }
 
     /**

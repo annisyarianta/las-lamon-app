@@ -2,44 +2,27 @@
 
 namespace App\Models;
 
-use App\Models\Catalogue;
-use App\Models\Certificate;
 use App\Models\Location;
-use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class OrderItem extends Model
+class PlantData extends Model
 {
     use HasFactory;
     use Notifiable;
-    protected $table = 'order_items';
+    protected $table = 'plant_datas';
     protected $guarded = [];
-
-    public function order()
-    {
-        return $this->belongsTo(Order::class, 'id_order', 'id');
-    }
 
     public function product()
     {
         return $this->belongsTo(Product::class, 'id_product', 'id');
     }
 
-    public function catalogue()
-    {
-        return $this->belongsTo(Catalogue::class, 'id_catalogue', 'id');
-    }
-
     public function location()
     {
         return $this->belongsTo(Location::class, 'id_location', 'id');
     }
-
-    public function certificate()
-    {
-        return $this->hasOne(Certificate::class, 'id_order_item', 'id');
-    }
+    
 }

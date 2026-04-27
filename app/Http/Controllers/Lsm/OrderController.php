@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Lsm;
 
 use App\Http\Controllers\Controller;
-use App\Models\Kwitansi;
-use App\Models\NomorSertifikat;
+use App\Models\Certificate;
+use App\Models\NumberCertificate;
 use App\Models\Order;
-use App\Models\Sertifikat;
+use App\Models\OrderItem;
+use App\Models\Receipt;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 
 class OrderController extends Controller
@@ -47,13 +49,21 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-        $data = Order::findOrFail($id);
 
-        // return view('lsm.order.show', compact('data'));
-        return response()->json([
-            'message' => 'Order details',
-            'data' => $data,
-        ], 200);
+        $data_order = Order::findOrFail(Crypt::decrypt($id));
+
+        $data_user = $data_order->user->name;
+        $data_order_item = OrderItem::where('id_order', $data_order->id)
+            ->with(['catalogue:id,name,image_url', 'product:id,name'])
+            ->get();
+
+        return view('lsm.detail-neworder', compact('data_order', 'data_order_item', 'data_user'));
+        // return response()->json([
+        //     'message' => 'Order details',
+        //     'data' => $data_order,
+        //     'items' => $data_order_item,
+        //     'user' =>$data_user
+        // ], 200);
     }
 
     /**
@@ -80,60 +90,52 @@ class OrderController extends Controller
         //
     }
 
-    public function confirmOrder(string $id)
+    public function confirmOrder(string $id, Request $request)
     {
-        try {
-            $order = Order::findOrFail($id);
+        $input = $request->all();
+        $order = Order::findOrFail(Crypt::decrypt($id));
+
+        if ($input['action'] == 'approve') {
+
             $user = $order->user;
 
             $order->update(['status_order' => 'paid']);
 
             $order_items = $order->order_items->where('soft_delete', 0);
 
-            $data__nomor_sertifikat = NomorSertifikat::where('soft_delete', 0)->first();
+            $data_number_certificate = NumberCertificate::where('soft_delete', 0)->first();
 
-            $data_sertifikat = [];
+            $data_certificate = [];
 
             foreach ($order_items as $each_data) {
 
                 $each_data->update([
-                    'id_lokasi' => 1
+                    'id_location' => 1
                 ]);
 
-                $data_sertifikat_adopter = Sertifikat::create([
+                $data_certificate_adopter = Certificate::create([
                     'id_order' => $order->id,
                     'id_order_item' => $each_data->id,
                     'id_user' => $user->id,
-                    'nama_pemilik' => $user->name,
-                    'nomor_surat' => $data__nomor_sertifikat->nomor_akhir + 1,
-                    'full_nomor_surat' => ($data__nomor_sertifikat->nomor_akhir + 1) . '/' . $data__nomor_sertifikat->kerangka_penomoran,
-                    'tanggal_terbit' => now(),
+                    'owner_name' => $user->name,
+                    'number_ceritificate' => ($data_number_certificate->last_number + 1) . '/' . $data_number_certificate->numbering_pattern,
                 ]);
 
-                $data_sertifikat[] = $data_sertifikat_adopter;
+                $data_certificate[] = $data_certificate_adopter;
 
-                $data__nomor_sertifikat->nomor_akhir += 1;
-                $data__nomor_sertifikat->save();
+                $data_number_certificate->last_number += 1;
+                $data_number_certificate->save();
             }
 
-            $data_kwitansi = Kwitansi::create([
+            $data_receipt = Receipt::create([
                 'id_user' => $user->id,
                 'id_order' => $order->id,
-                'kode_kwitansi' => 'KW-' . date('Ymd') . '-' . strtoupper(Str::random(6)),
+                'code' => 'KW-' . date('Ymd') . '-' . strtoupper(Str::random(6)),
             ]);
-
-            return response()->json([
-                'message' => 'Order confirmed',
-                'data' => $data_sertifikat,
-            ], 200);
-        } catch (\Throwable $e) {
-
-            return response()->json([
-                'message' => 'Error terjadi',
-                'error' => $e->getMessage(),
-                'line' => $e->getLine(),
-                'file' => $e->getFile(),
-            ], 500);
+        } else if ($input['action'] == 'decline') {
+            $order->update(['status_order' => 'canceled']);
         }
+
+        return redirect()->route('lsm.dashboard.index')->with('success', 'Order has been ' . ($input['action'] == 'approve' ? 'approved' : 'declined') . ' successfully.');
     }
 }

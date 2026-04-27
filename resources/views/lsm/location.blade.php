@@ -29,16 +29,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($lokasi as $loc)
+                        @foreach ($location as $loc)
                             <tr>
                                 <td>
                                     {{ $loop->iteration }}
                                 </td>
                                 <td>
-                                    {{ $loc->nama_lokasi }} 
+                                    {{ $loc->name }} 
                                 </td>
                                 <td>
-                                    {{ $loc->url_lokasi }}
+                                    {{ $loc->location_url }}
                                 </td>
                                 <td class="text-center">
                                     <div class="d-flex flex-column flex-md-row justify-content-center gap-1">

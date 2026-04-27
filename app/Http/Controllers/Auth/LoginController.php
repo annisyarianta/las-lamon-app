@@ -31,11 +31,11 @@ class LoginController extends Controller
                 'lsm' => redirect('/lsm'),
                 default => redirect('/adopter'),
             };
-            return response()->json([
-            'message' => 'List of cart items',
-            'data' => $user,
-                ], 200
-            );
+            // return response()->json([
+            // 'message' => 'List of cart items',
+            // 'data' => $user,
+            //     ], 200
+            // );
         }
 
         return back()->withErrors([

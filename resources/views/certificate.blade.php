@@ -112,8 +112,8 @@
         </h1>
 
         <!-- NOMOR -->
-        <p style="text-align:center; font-size:18px; font-weight:bold; margin-bottom:10px;">
-            SRT/LL/04/2026/001
+        <p style="text-align:center; font-size:18px; margin-top:20px;">
+            Issued on: {{ \Carbon\Carbon::parse($certificate->created_at)->format('F d, Y') }}
         </p>
 
         <!-- GARIS -->
@@ -139,7 +139,7 @@
             display:inline-block;
             padding-bottom:8px;
         ">
-                Ni Putu Tiara
+                {{ $certificate->owner_name }}
             </h2>
         </div>
 
@@ -157,7 +157,7 @@
         </p>
 
         <p style="text-align:center; font-size:18px; margin-top:20px;">
-            Issued on: April 20, 2026
+            Issued on: {{ \Carbon\Carbon::parse($certificate->created_at)->format('F d, Y') }}
         </p>
 
         <!-- TTD -->

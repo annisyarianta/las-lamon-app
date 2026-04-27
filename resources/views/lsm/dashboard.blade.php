@@ -101,6 +101,18 @@
     <div class="container-fluid page-header py-5">
         <h1 class="text-center text-white display-6">Dashboard</h1>
     </div>
+
+    @if (session('success'))
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: "{{ session('success') }}",
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
     <!-- Single Page Header End -->
 
     <div class="container-fluid py-5">
@@ -134,7 +146,7 @@
                         <i class="fas fa-shopping-cart fa-2x text-primary me-4"></i>
                         <div>
                             <h5>Total Order</h5>
-                            <p class="mb-0 fw-bold fs-5">125</p>
+                            <p class="mb-0 fw-bold fs-5">{{ $total_orders }}</p>
                         </div>
                     </div>
                 </div>
@@ -145,7 +157,7 @@
                         <i class="fas fa-box-open fa-2x text-primary me-4"></i>
                         <div>
                             <h5>New Order</h5>
-                            <p class="mb-0 fw-bold fs-5">2</p>
+                            <p class="mb-0 fw-bold fs-5">{{ $total_revenue }}</p>
                         </div>
                     </div>
                 </div>
@@ -167,28 +179,63 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>24-01-2026</td>
-                                        <td>ORD001</td>
-                                        <td>Pandu Winata</td>
-                                        <td>Rp 500.000</td>
-                                        <td>
-                                            <div class="d-flex gap-2 justify-content-center action-buttons">
-                                                <a href="{{ route('lsm_detail-neworder') }}" class="btn-action detail"
-                                                    title="Detail">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="#" class="btn-action approve btn-approve" data-id="1"
-                                                    title="Approve">
-                                                    <i class="fas fa-check"></i>
-                                                </a>
-                                                <a href="#" class="btn-action decline btn-decline" data-id="1"
-                                                    title="Decline">
-                                                    <i class="fas fa-times"></i>
-                                                </a>
-                                            </div>
+                                    @if (empty($data_orders) || count($data_orders) == 0)
+                                        <td colspan="5" class="text-center py-5">
+                                            <h6 class="text-secondary">No Records Found</h6>
                                         </td>
-                                    </tr>
+                                    @else
+                                        <tr>
+
+                                            @foreach ($data_orders as $each_data)
+                                                <td>
+                                                    {{ \Carbon\Carbon::parse($each_data->order_date)->translatedFormat('d F Y H:i') }}
+                                                </td>
+                                                <td>{{ $each_data->code }}</td>
+                                                <td>{{ $each_data->user->name ?? 'N/A' }}</td>
+                                                <td>
+                                                    Rp{{ number_format($each_data->total_price, 0, ',', '.') }}
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex gap-2 justify-content-center action-buttons">
+                                                        <a href={{ route('lsm.order.show', ['id' => Crypt::encrypt($each_data->id)]) }}
+                                                            class="btn-action detail" title="Detail">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+
+                                                        <form
+                                                            action="{{ route('lsm.order.confirm-order', ['id' => Crypt::encrypt($each_data->id)]) }}"
+                                                            method="POST">
+
+                                                            @csrf
+                                                            <input type="hidden" name="action" value="approve">
+
+                                                            <button type="submit" class="btn-action approve btn-approve"
+                                                                data-id="1" title="Approve">
+
+                                                                <i class="fas fa-check"></i>
+                                                            </button>
+
+                                                        </form>
+
+                                                        <form
+                                                            action="{{ route('lsm.order.confirm-order', ['id' => Crypt::encrypt($each_data->id)]) }}"
+                                                            method="POST">
+
+                                                            @csrf
+                                                            <input type="hidden" name="action" value="decline">
+
+                                                            <button type="submit" class="btn-action decline btn-decline"
+                                                                data-id="1" title="Decline">
+
+                                                                <i class="fas fa-times"></i>
+                                                            </button>
+
+                                                        </form>
+                                                    </div>
+                                                </td>
+                                        </tr>
+                                    @endforeach
+                                    @endif
                                 </tbody>
                             </table>
                         </div>

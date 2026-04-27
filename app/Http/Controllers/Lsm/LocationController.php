@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Lsm;
 
 use App\Http\Controllers\Controller;
-use App\Models\Lokasi;
+use App\Models\Location;
 use Illuminate\Http\Request;
 
 class LocationController extends Controller
 {
         public function index()
     {
-        $lokasi = Lokasi::get();
-        return view('lsm.location', compact('lokasi'));
+        $location = Location::get();
+        return view('lsm.location', compact('location'));
     }
 
     public function create()
@@ -22,13 +22,13 @@ class LocationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_lokasi' => 'required',
-            'url_lokasi' => 'required',
+            'name' => 'required',
+            'location_url' => 'required',
         ]);
 
-        Lokasi::create([
-            'nama_lokasi' => $request->nama_lokasi,
-            'url_lokasi' => $request->url_lokasi,
+        Location::create([
+            'name' => $request->name,
+            'location_url' => $request->location_url,
         ]);
 
         return redirect()->route('location.index')->with('success', 'Location has been successfully added');
@@ -36,33 +36,33 @@ class LocationController extends Controller
 
     public function edit($id)
     {
-        $lokasi = Lokasi::findOrFail($id);
-        return view('lsm.edit_location', compact('lokasi'));
+        $location = Location::findOrFail($id);
+        return view('lsm.edit_location', compact('location'));
     }
 
     public function update(Request $request, $id)
     {
-        $lokasi = Lokasi::findOrFail($id);
+        $location = Location::findOrFail($id);
 
         $request->validate([
-            'nama_lokasi' => 'required',
-            'url_lokasi' => 'required',
+            'name' => 'required',
+            'location_url' => 'required',
         ]);
 
         $data = [
-            'nama_lokasi' => $request->nama_lokasi,
-            'url_lokasi' => $request->url_lokasi,
+            'name' => $request->name,
+            'location_url' => $request->location_url,
         ];
 
-        $lokasi->update($data);
+        $location->update($data);
 
         return redirect()->route('location.index')->with('success', 'Location has been successfully updated');
     }
 
     public function destroy($id)
     {
-        $lokasi = Lokasi::findOrFail($id);
-        $lokasi->delete();
+        $location = Location::findOrFail($id);
+        $location->delete();
 
         return redirect()->route('location.index')->with('success', 'Location has been successfully deleted');
     }

@@ -21,15 +21,16 @@ class MyForestController extends Controller
                         ->select(
                             'id',
                             'id_order',
-                            'id_produk',
-                            'id_katalog',
-                            'id_lokasi',
-                            'kuantitas'
+                            'id_product',
+                            'id_catalogue',
+                            'id_location',
+                            'quantity'
                         );
                 },
-                'order_items.katalog:id,nama_katalog',
-                'order_items.produk:id,nama_produk',
-                'order_items.lokasi:id,url_lokasi'
+                'order_items.catalogue:id,name',
+                'order_items.product:id,name',
+                'order_items.location:id,location_url',
+                'order_items.certificate:id,id_order_item'
             ])
             ->select('id')
             ->get();

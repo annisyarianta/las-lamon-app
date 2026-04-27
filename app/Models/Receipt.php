@@ -2,18 +2,17 @@
 
 namespace App\Models;
 
-use App\Models\OrderItem;
-use App\Models\Receipt;
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Order extends Model
+class Receipt extends Model
 {
     use HasFactory;
     use Notifiable;
-    protected $table = 'orders';
+    protected $table = 'receipts';
     protected $guarded = [];
 
     public function user()
@@ -21,13 +20,8 @@ class Order extends Model
         return $this->belongsTo(User::class, 'id_user', 'id');
     }
 
-    public function order_items()
+    public function order()
     {
-        return $this->hasMany(OrderItem::class, 'id_order', 'id');
-    }
-
-    public function receipt()
-    {
-        return $this->hasOne(Receipt::class, 'id_order', 'id');
+        return $this->belongsTo(Order::class, 'id_order', 'id');
     }
 }
