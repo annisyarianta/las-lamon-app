@@ -209,7 +209,7 @@
                                                                     <a href="{{ url($each_data->proof_payment_url) }}"
                                                                         target="_blank"
                                                                         class="btn border border-secondary btn-sm-square rounded-circle bg-white"
-                                                                        title="Lihat Bukti Pembayaran">
+                                                                        title="See Receipt">
                                                                         <i class="fas fa-eye text-primary"></i>
                                                                     </a>
                                                                     <a href={{ route('lsm.order.show', ['id' => Crypt::encrypt($each_data->id)]) }}
@@ -217,10 +217,10 @@
                                                                         title="Edit Bukti Pembayaran">
                                                                         <i class="fas fa-pen text-primary"></i>
                                                                     </a>
-                                                                    <a href="https://wa.me/6281379352228?text=Hello,%20I%20would%20like%20to%20send%20payment%20proof."
-                                                                        class="btn border border-secondary btn-sm-square rounded-circle bg-white"
-                                                                        title="Konfirmasi WhatsApp">
-                                                                        <i class="fab fa-whatsapp text-primary"></i>
+                                                                    <a href="#"
+                                                                        class="btn btn-danger btn-sm-square rounded-circle"
+                                                                        title="Decline">
+                                                                        <i class="fab fa-times"></i>
                                                                     </a>
 
 
@@ -262,7 +262,7 @@
                                                                 <a href="{{ url($each_data->proof_payment_url) }}"
                                                                     target="_blank"
                                                                     class="btn border border-secondary btn-sm-square rounded-circle bg-white"
-                                                                    title="Lihat Bukti Pembayaran">
+                                                                    title="See Receipt">
                                                                     <i class="fas fa-eye text-primary"></i>
                                                                 </a>
                                                                 <a href={{ route('lsm.order.show', ['id' => Crypt::encrypt($each_data->id)]) }}
@@ -270,10 +270,10 @@
                                                                     title="Edit Bukti Pembayaran">
                                                                     <i class="fas fa-pen text-primary"></i>
                                                                 </a>
-                                                                <a href="https://wa.me/6281379352228?text=Hello,%20I%20would%20like%20to%20send%20payment%20proof."
-                                                                    class="btn border border-secondary btn-sm-square rounded-circle bg-white"
-                                                                    title="Konfirmasi WhatsApp">
-                                                                    <i class="fab fa-whatsapp text-primary"></i>
+                                                                <a href="#"
+                                                                    class="btn btn-danger btn-sm-square rounded-circle"
+                                                                    title="Decline">
+                                                                    <i class="fab fa-times"></i>
                                                                 </a>
                                                             </div>
                                                         </div>

@@ -19,6 +19,7 @@
             });
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         .action-buttons .btn-action {
@@ -114,18 +115,6 @@
     @endif
     <!-- Single Page Header End -->
 
-    @if (session('error'))
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script>
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: "{{ session('error') }}",
-                confirmButtonText: 'OK'
-            });
-        </script>
-    @endif
-
     <div class="container-fluid py-5">
         <div class="container">
             <div class="row g-4">
@@ -212,9 +201,6 @@
                                                             class="btn-action detail" title="Detail">
                                                             <i class="fas fa-eye"></i>
                                                         </a>
-                                                        {{-- <a href="#" class="btn-action approve" title="Approve">
-                                                            <i class="fas fa-check"></i>
-                                                        </a> --}}
 
                                                         <form
                                                             action="{{ route('lsm.order.confirm-order', ['id' => Crypt::encrypt($each_data->id)]) }}"
@@ -223,8 +209,8 @@
                                                             @csrf
                                                             <input type="hidden" name="action" value="approve">
 
-                                                            <button type="submit" class="btn-action approve"
-                                                                title="Approve">
+                                                            <button type="submit" class="btn-action approve btn-approve"
+                                                                data-id="1" title="Approve">
 
                                                                 <i class="fas fa-check"></i>
                                                             </button>
@@ -238,16 +224,13 @@
                                                             @csrf
                                                             <input type="hidden" name="action" value="decline">
 
-                                                            <button type="submit" class="btn-action decline"
-                                                                title="Decline">
+                                                            <button type="submit" class="btn-action decline btn-decline"
+                                                                data-id="1" title="Decline">
 
                                                                 <i class="fas fa-times"></i>
                                                             </button>
 
                                                         </form>
-                                                        {{-- <a href="#" class="btn-action decline" title="Decline">
-                                                            <i class="fas fa-times"></i>
-                                                        </a> --}}
                                                     </div>
                                                 </td>
                                         </tr>
@@ -261,5 +244,71 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            // APPROVE
+            document.querySelectorAll(".btn-approve").forEach(button => {
+                button.addEventListener("click", function(e) {
+                    e.preventDefault();
+
+                    let orderId = this.getAttribute("data-id");
+
+                    Swal.fire({
+                        title: 'Approve Order?',
+                        text: "Data that has been approved cannot be canceled!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#198754',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Yes, Approve!',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Approved!',
+                                text: 'Order successfully approved',
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                        }
+                    });
+                });
+            });
+
+            // DECLINE
+            document.querySelectorAll(".btn-decline").forEach(button => {
+                button.addEventListener("click", function(e) {
+                    e.preventDefault();
+
+                    let orderId = this.getAttribute("data-id");
+
+                    Swal.fire({
+                        title: 'Decline Order?',
+                        text: "This action will reject the order!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#dc3545',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Yes, Decline!',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Declined!',
+                                text: 'Order has been declined',
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                        }
+                    });
+                });
+            });
+
+        });
+    </script>
 
 @endsection

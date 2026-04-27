@@ -80,12 +80,14 @@
                         class="btn btn-md border border-secondary rounded-pill px-3 text-primary me-3">
                         <i class="fas fa-print me-3"></i>See Receipt
                     </a>
-                    {{-- <a href="#" class="btn btn-md btn-success rounded-pill px-3 me-3">
+                    <a href="#"
+                        class="btn btn-md btn-success btn-approve rounded-pill px-3 me-3" data-id="1">
                         <i class="fas fa-check me-3"></i>Approve
                     </a>
-                    <a href="#" class="btn btn-md btn-danger rounded-pill px-3 me-3">
+                    <a href="#"
+                        class="btn btn-md btn-danger btn-decline rounded-pill px-3 me-3" data-id="1">
                         <i class="fas fa-times me-3"></i>Decline
-                    </a> --}}
+                    </a>
 
                     <form action="{{ route('lsm.order.confirm-order', ['id' => Crypt::encrypt($data_order->id)]) }}"
                         method="POST" style="display:inline;">
@@ -118,4 +120,71 @@
         </div>
     </div>
     <!-- Detail Page End -->
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            // APPROVE
+            document.querySelectorAll(".btn-approve").forEach(button => {
+                button.addEventListener("click", function(e) {
+                    e.preventDefault();
+
+                    let orderId = this.getAttribute("data-id");
+
+                    Swal.fire({
+                        title: 'Approve Order?',
+                        text: "Data that has been approved cannot be canceled!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#198754',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Yes, Approve!',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Approved!',
+                                text: 'Order successfully approved',
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                        }
+                    });
+                });
+            });
+
+            // DECLINE
+            document.querySelectorAll(".btn-decline").forEach(button => {
+                button.addEventListener("click", function(e) {
+                    e.preventDefault();
+
+                    let orderId = this.getAttribute("data-id");
+
+                    Swal.fire({
+                        title: 'Decline Order?',
+                        text: "This action will reject the order!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#dc3545',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Yes, Decline!',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Declined!',
+                                text: 'Order has been declined',
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                        }
+                    });
+                });
+            });
+
+        });
+    </script>
 @endsection
