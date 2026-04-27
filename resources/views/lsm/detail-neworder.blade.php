@@ -39,7 +39,7 @@
                         </div>
                         <div class="d-flex justify-content-start mb-1">
                             <h6 class="mb-0">Order Code :</h6>
-                            <p class="mb-0 ms-2">{{ $data_order->code }}</p>
+                            <p class="mb-0 ms-2">{{ $data_order->code ?? "-" }}</p>
                         </div>
                         <div class="d-flex justify-content-start mb-1">
                             <h6 class="mb-0">Customer Name :</h6>
@@ -76,7 +76,6 @@
             </div>
             <div class="action-bar">
                 <div class="d-flex justify-content-center mt-4 action-bar-content">
-
                     @if ($data_order->status_order == 'paid')
                         <a href="{{ url($data_order->proof_payment_url) }}"
                             class="btn btn-md border border-secondary rounded-pill px-3 text-primary me-3">
