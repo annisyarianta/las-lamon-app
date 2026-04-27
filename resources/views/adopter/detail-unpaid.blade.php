@@ -41,6 +41,16 @@
                 confirmButtonText: 'OK'
             });
         </script>
+    @elseif (session('error'))
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: "{{ session('error') }}",
+                confirmButtonText: 'OK'
+            });
+        </script>
     @endif
 
     <!-- Detail Page Start -->
@@ -182,4 +192,8 @@
         document.getElementById("countdown").innerHTML =
             hours + " hours " + minutes + " minutes " + seconds + " seconds";
     }, 1000);
+
+    setTimeout(function() {
+        window.location.href = "{{ route('adopter.order.show', ['id' => Crypt::encrypt($data_order->id)]) }}}";
+    }, 300000);
 </script>

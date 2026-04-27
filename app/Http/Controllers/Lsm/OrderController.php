@@ -21,28 +21,21 @@ class OrderController extends Controller
     {
         $data = Order::where('soft_delete', 0)->get();
 
+        $data_unpaid = $data->where('status_order', 'unpaid');
+        $data_in_process = $data->where('status_order', 'in process');
+        $data_paid = $data->where('status_order', 'paid');
+        $data_canceled = $data->where('status_order', 'canceled');
+
         // return view('lsm.order.index', compact('data'));
-        return response()->json([
-            'message' => 'List of orders',
-            'data' => $data,
-        ], 200);
+        return view('lsm.dataorder', compact('data_unpaid', 'data_in_process', 'data_paid', 'data_canceled'));
+        // return response()->json([
+        //     'message' => 'List of orders',
+        //     'data' => $data,
+        //     'data' => $data_unpaid,
+        //     'data' =>
+        // ], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
@@ -66,29 +59,6 @@ class OrderController extends Controller
         // ], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 
     public function confirmOrder(string $id, Request $request)
     {
@@ -130,12 +100,12 @@ class OrderController extends Controller
             $data_receipt = Receipt::create([
                 'id_user' => $user->id,
                 'id_order' => $order->id,
-                'code' => 'KW-' . date('Ymd') . '-' . strtoupper(Str::random(6)),
+                'code' => 'KW-' . date('Ymd') . '-' . strtoupper(Str::random(3)),
             ]);
         } else if ($input['action'] == 'decline') {
             $order->update(['status_order' => 'canceled']);
         }
 
-        return redirect()->route('lsm.dashboard.index')->with('success', 'Order has been ' . ($input['action'] == 'approve' ? 'approved' : 'declined') . ' successfully.');
+        return redirect()->route('lsm.order.index')->with('success', 'Order has been ' . ($input['action'] == 'approve' ? 'approved' : 'declined') . ' successfully.');
     }
 }

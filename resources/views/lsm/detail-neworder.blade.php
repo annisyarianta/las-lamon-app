@@ -39,7 +39,7 @@
                         </div>
                         <div class="d-flex justify-content-start mb-1">
                             <h6 class="mb-0">Order Code :</h6>
-                            <p class="mb-0 ms-2">{{ $data_order->code }}</p>
+                            <p class="mb-0 ms-2">{{ $data_order->code ?? "-" }}</p>
                         </div>
                         <div class="d-flex justify-content-start mb-1">
                             <h6 class="mb-0">Customer Name :</h6>
@@ -56,7 +56,7 @@
                                 <h4 class="mb-1">{{ $each_data->catalogue->name }}</h4>
                                 <p class="m-0">{{ $each_data->product->name ?? '-' }}</p>
                                 <p class="m-0">X {{ $each_data->quantity }}</p>
-                                <p class="mb-0 fw-bold text-end mt-auto">
+                                <p class="mb-0 text-end mt-auto">
                                     Rp{{ number_format($each_data->total_price, 0, ',', '.') }}</p>
                             </div>
                         </div>
@@ -76,45 +76,44 @@
             </div>
             <div class="action-bar">
                 <div class="d-flex justify-content-center mt-4 action-bar-content">
-                    <a href="{{ url($data_order->proof_payment_url) }}"
-                        class="btn btn-md border border-secondary rounded-pill px-3 text-primary me-3">
-                        <i class="fas fa-print me-3"></i>See Receipt
-                    </a>
-                    <a href="#"
-                        class="btn btn-md btn-success btn-approve rounded-pill px-3 me-3" data-id="1">
-                        <i class="fas fa-check me-3"></i>Approve
-                    </a>
-                    <a href="#"
-                        class="btn btn-md btn-danger btn-decline rounded-pill px-3 me-3" data-id="1">
-                        <i class="fas fa-times me-3"></i>Decline
-                    </a>
+                    @if ($data_order->status_order == 'paid')
+                        <a href="{{ url($data_order->proof_payment_url) }}"
+                            class="btn btn-md border border-secondary rounded-pill px-3 text-primary me-3">
+                            <i class="fas fa-print me-3"></i>See Receipt
+                        </a>
+                    @elseif($data_order->status_order == 'in process')
+                        <a href="{{ url($data_order->proof_payment_url) }}"
+                            class="btn btn-md border border-secondary rounded-pill px-3 text-primary me-3">
+                            <i class="fas fa-print me-3"></i>See Receipt
+                        </a>
 
-                    <form action="{{ route('lsm.order.confirm-order', ['id' => Crypt::encrypt($data_order->id)]) }}"
-                        method="POST" style="display:inline;">
+                        <form action="{{ route('lsm.order.confirm-order', ['id' => Crypt::encrypt($data_order->id)]) }}"
+                            method="POST" style="display:inline;">
 
-                        @csrf
+                            @csrf
+                            <input type="hidden" name="action" value="approve">
 
-                        <button type="submit" name="action" value="approve"
-                            class="btn btn-md btn-success rounded-pill px-3 me-3" title="Approve">
+                            <button type="submit" class="btn btn-md btn-success btn-approve rounded-pill px-3 me-3"
+                                data-id="1" title="Approve">
 
-                            <i class="fas fa-check me-3"></i>Approve
-                        </button>
+                                <i class="fas fa-check me-3"></i>Approve
+                            </button>
 
-                    </form>
+                        </form>
 
-                    <form action="{{ route('lsm.order.confirm-order', ['id' => Crypt::encrypt($data_order->id)]) }}"
-                        method="POST" style="display:inline;">
+                        <form action="{{ route('lsm.order.confirm-order', ['id' => Crypt::encrypt($data_order->id)]) }}"
+                            method="POST" style="display:inline;">
 
-                        @csrf
+                            @csrf
+                            <input type="hidden" name="action" value="decline">
+                            <button type="submit" class="btn btn-md btn-danger btn-decline rounded-pill px-3 me-3"
+                                data-id="1" title="Decline">
 
-                        <button type="submit" name="action" value="decline"
-                            class="btn btn-md btn-danger rounded-pill px-3 me-3" title="Decline">
+                                <i class="fas fa-times me-3"></i>Decline
+                            </button>
 
-                            <i class="fas fa-times me-3"></i>Decline
-                        </button>
-
-                    </form>
-
+                        </form>
+                    @endif
                 </div>
             </div>
         </div>
@@ -130,7 +129,7 @@
                 button.addEventListener("click", function(e) {
                     e.preventDefault();
 
-                    let orderId = this.getAttribute("data-id");
+                    let form = this.closest("form");
 
                     Swal.fire({
                         title: 'Approve Order?',
@@ -143,13 +142,7 @@
                         cancelButtonText: 'Cancel'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Approved!',
-                                text: 'Order successfully approved',
-                                timer: 2000,
-                                showConfirmButton: false
-                            });
+                            form.submit(); // submit setelah user klik yes
                         }
                     });
                 });
@@ -160,7 +153,7 @@
                 button.addEventListener("click", function(e) {
                     e.preventDefault();
 
-                    let orderId = this.getAttribute("data-id");
+                    let form = this.closest("form");
 
                     Swal.fire({
                         title: 'Decline Order?',
@@ -173,13 +166,7 @@
                         cancelButtonText: 'Cancel'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Declined!',
-                                text: 'Order has been declined',
-                                timer: 2000,
-                                showConfirmButton: false
-                            });
+                            form.submit(); // submit ke Laravel setelah klik Yes
                         }
                     });
                 });
