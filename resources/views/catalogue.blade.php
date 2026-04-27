@@ -45,7 +45,7 @@
                                     <strong>Target:</strong> {{ $each_data->target }}
                                 </p>
                                 <a href="{{ route('catalogue.show' , ['id' => Crypt::encrypt($each_data->id)]) }}"
-                                    class="btn btn-primary rounded-pill px-3 text-primary mt-auto">
+                                    class="btn btn-primary rounded-pill px-3 mt-auto text-light">
                                     <i class="fa fa-info-circle me-1"></i> Detail Product
                                 </a>
                             </div>
@@ -78,7 +78,7 @@
                                     <strong>Target:</strong> {{ $each_data->target }}
                                 </p>
                                 <a href="{{ route('catalogue.show', ['id' => Crypt::encrypt($each_data->id)]) }}"
-                                    class="btn btn-primary rounded-pill px-3 text-primary mt-auto">
+                                    class="btn btn-primary rounded-pill px-3 text-light mt-auto">
                                     <i class="fa fa-info-circle me-1"></i> Detail Product
                                 </a>
                             </div>

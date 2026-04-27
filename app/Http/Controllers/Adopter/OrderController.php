@@ -56,7 +56,7 @@ class OrderController extends Controller
                 'status_order' => 'unpaid',
                 'order_date' => now(),
                 'expired_at' => now()->addDays(1),
-                'code' => 'ORD-' . date('Ymd') . '-' . strtoupper(Str::random(6)),
+                'code' => 'ORD-' . date('Ymd') . '-' . strtoupper(Str::random(3)),
             ]);
 
             foreach ($input['cart'] as $cart) {

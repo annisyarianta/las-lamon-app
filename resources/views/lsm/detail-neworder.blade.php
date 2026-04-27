@@ -56,7 +56,7 @@
                                 <h4 class="mb-1">{{ $each_data->catalogue->name }}</h4>
                                 <p class="m-0">{{ $each_data->product->name ?? '-' }}</p>
                                 <p class="m-0">X {{ $each_data->quantity }}</p>
-                                <p class="mb-0 fw-bold text-end mt-auto">
+                                <p class="mb-0 text-end mt-auto">
                                     Rp{{ number_format($each_data->total_price, 0, ',', '.') }}</p>
                             </div>
                         </div>
@@ -76,17 +76,9 @@
             </div>
             <div class="action-bar">
                 <div class="d-flex justify-content-center mt-4 action-bar-content">
-                    <a href="{{ url($data_order->proof_payment_url) }}"
+                    <a href="{{ url($data_order->proof_payment_url) }}" target="_blank"
                         class="btn btn-md border border-secondary rounded-pill px-3 text-primary me-3">
                         <i class="fas fa-print me-3"></i>See Receipt
-                    </a>
-                    <a href="#"
-                        class="btn btn-md btn-success btn-approve rounded-pill px-3 me-3" data-id="1">
-                        <i class="fas fa-check me-3"></i>Approve
-                    </a>
-                    <a href="#"
-                        class="btn btn-md btn-danger btn-decline rounded-pill px-3 me-3" data-id="1">
-                        <i class="fas fa-times me-3"></i>Decline
                     </a>
 
                     <form action="{{ route('lsm.order.confirm-order', ['id' => Crypt::encrypt($data_order->id)]) }}"
@@ -95,7 +87,7 @@
                         @csrf
 
                         <button type="submit" name="action" value="approve"
-                            class="btn btn-md btn-success rounded-pill px-3 me-3" title="Approve">
+                            class="btn btn-md btn-success btn-approve rounded-pill px-3 me-3" title="Approve">
 
                             <i class="fas fa-check me-3"></i>Approve
                         </button>
@@ -108,7 +100,7 @@
                         @csrf
 
                         <button type="submit" name="action" value="decline"
-                            class="btn btn-md btn-danger rounded-pill px-3 me-3" title="Decline">
+                            class="btn btn-md btn-danger btn-decline rounded-pill px-3 me-3" title="Decline">
 
                             <i class="fas fa-times me-3"></i>Decline
                         </button>

@@ -8,7 +8,7 @@
     <div class="container-fluid page-header py-5">
         <h1 class="text-center text-white display-6">Checkout</h1>
         <ol class="breadcrumb justify-content-center mb-0">
-            <li class="breadcrumb-item"><a href="{{ url('/cart') }}" class="text-secondary">My Cart</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/adopter/cart') }}" class="text-secondary">My Cart</a></li>
             <li class="breadcrumb-item active text-white">Checkout</li>
         </ol>
     </div>
@@ -20,7 +20,7 @@
             <div class="row g-5">
                 <div class="col-md-12 col-lg-6 col-xl-8">
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table align-middle text-nowrap text-center" style="color: black">
                             <thead>
                                 <tr>
                                     <th scope="col">Products</th>
@@ -45,13 +45,13 @@
                                     <th scope="row">
                                     </th>
                                     <td class="py-5">
-                                        <p class="mb-0 text-dark text-uppercase py-3">TOTAL</p>
+                                        <p class="mb-0 fw-bold text-uppercase py-3">TOTAL</p>
                                     </td>
                                     <td class="py-5"></td>
                                     <td class="py-5"></td>
                                     <td class="py-5">
                                         <div class="py-3 border-bottom border-top">
-                                            <p class="mb-0 text-dark">Rp{{ number_format($data->total_price, 0, ',', '.') }}
+                                            <p class="mb-0 fw-bold">Rp{{ number_format($data->total_price, 0, ',', '.') }}
                                             </p>
                                         </div>
                                     </td>
@@ -94,7 +94,7 @@
                                 </div>
                                 <div class="py-4 mb-4 border-top  d-flex justify-content-between">
                                     <h5 class="mb-0 ps-4 me-4">Total Payment :</h5>
-                                    <p class="mb-0 pe-4"> Rp {{ number_format($data->total_price , 0, ',', '.') }}
+                                    <p class="mb-0 pe-4 fw-bold"> Rp {{ number_format($data->total_price , 0, ',', '.') }}
                                     </p>
                                 </div>
                             </div>
