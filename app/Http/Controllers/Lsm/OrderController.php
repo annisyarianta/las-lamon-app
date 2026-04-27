@@ -19,7 +19,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $data = Order::where('soft_delete', 0)->get();
+        $data = Order::with('user:id,name')->where('soft_delete', 0)->get();
 
         $data_unpaid = $data->where('status_order', 'unpaid');
         $data_in_process = $data->where('status_order', 'in process');
