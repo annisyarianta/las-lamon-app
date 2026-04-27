@@ -56,7 +56,7 @@ class OrderController extends Controller
                 'status_order' => 'unpaid',
                 'order_date' => now(),
                 'expired_at' => now()->addDays(1),
-                'code' => 'ORD-' . date('Ymd') . '-' . strtoupper(Str::random(6)),
+                'code' => 'ORD-' . date('Ymd') . '-' . strtoupper(Str::random(3)),
             ]);
 
             foreach ($input['cart'] as $cart) {
@@ -94,6 +94,12 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
+        Order::where('id_user', auth()->id())
+            ->where('status_order', 'unpaid')
+            ->where('expired_at', '<', now())
+            ->update([
+                'status_order' => 'canceled'
+            ]);
         $data_order = Order::findOrFail(Crypt::decrypt($id));
         $data_order_item = OrderItem::where('id_order', $data_order->id)
             ->with(['catalogue:id,name,image_url', 'product:id,name'])

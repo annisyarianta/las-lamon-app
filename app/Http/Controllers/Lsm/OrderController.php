@@ -130,7 +130,7 @@ class OrderController extends Controller
             $data_receipt = Receipt::create([
                 'id_user' => $user->id,
                 'id_order' => $order->id,
-                'code' => 'KW-' . date('Ymd') . '-' . strtoupper(Str::random(6)),
+                'code' => 'KW-' . date('Ymd') . '-' . strtoupper(Str::random(3)),
             ]);
         } else if ($input['action'] == 'decline') {
             $order->update(['status_order' => 'canceled']);
