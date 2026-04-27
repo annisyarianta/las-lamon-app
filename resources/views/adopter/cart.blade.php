@@ -22,7 +22,7 @@
     @endif
 
     <!-- Cart Page Start -->
-    <div class="container-fluid py-5">
+    <div class="container-fluid">
         <div class="container py-5">
 
             @if (session('error'))
@@ -38,15 +38,15 @@
             @endif
 
             <div class="table-responsive">
-                <table class="table">
+                <table class="table align-middle text-nowrap text-center" style="color: black">
                     <thead>
                         <tr>
-                            <th>Products</th>
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Total</th>
-                            <th>Action</th>
+                            <th style="min-width: 130px;">Packages</th>
+                            <th style="min-width: 100px;">Product Name</th>
+                            <th style="min-width: 130px;">Price</th>
+                            <th style="min-width: 130px;">Quantity</th>
+                            <th style="min-width: 120px;">Total</th>
+                            <th style="min-width: 100px;">Action</th>
                         </tr>
                     </thead>
 
@@ -62,43 +62,47 @@
                                 <tr>
 
                                     <td>
-                                        <p class="mb-0 mt-4">
+                                        <p class="mb-0">
                                             {{ ucwords(str_replace('_', ' ', $each_data->catalogue->name ?? '-')) }}
                                         </p>
                                     </td>
 
                                     <td>
-                                        <p class="mb-0 mt-4">
+                                        <p class="mb-0">
                                             {{ $each_data->product->name ?? '-' }}
                                         </p>
                                     </td>
 
                                     <td>
-                                        <p class="mb-0 mt-4">
+                                        <p class="mb-0">
                                             Rp {{ number_format($each_data->unit_price, 0, ',', '.') }}
                                         </p>
                                     </td>
 
-                                    <td class="produk-data" data-id="{{ $each_data->product->id ?? null }}"
+                                    <td class="produk-data align-middle" data-id="{{ $each_data->product->id ?? null }}"
                                         data-id-cart="{{ $each_data->id }}"
                                         data-id-katalog="{{ $each_data->catalogue->id }}"
                                         data-harga="{{ $each_data->unit_price }}"
                                         data-nama-katalog="{{ $each_data->catalogue->name ?? null }}"
                                         data-nama-produk="{{ $each_data->product->name ?? null }}">
 
-                                        <div class="input-group quantity mt-4" style="width: 100px;">
-                                            <button type="button" class="btn btn-sm btn-minus bg-light border">-</button>
-
-                                            <input type="text"
-                                                class="form-control form-control-sm text-center border-0 qty-input"
-                                                value="{{ $each_data->quantity }}">
-
-                                            <button type="button" class="btn btn-sm btn-plus bg-light border">+</button>
+                                        <div class="d-flex justify-content-center">
+                                            <div class="input-group quantity" style="width: 100px;">
+                                                <button type="button"
+                                                    class="btn btn-sm btn-minus rounded-circle bg-light border"><i
+                                                        class="fa fa-minus"></i></button>
+                                                <input type="text"
+                                                    class="form-control form-control-sm text-center border-0 qty-input"
+                                                    value="{{ $each_data->quantity }}">
+                                                <button type="button"
+                                                    class="btn btn-sm btn-plus rounded-circle bg-light border"><i
+                                                        class="fa fa-plus"></i></button>
+                                            </div>
                                         </div>
                                     </td>
 
                                     <td>
-                                        <p class="mb-0 mt-4 total-harga">
+                                        <p class="mb-0 total-harga">
                                             Rp
                                             {{ number_format($each_data->unit_price * $each_data->quantity, 0, ',', '.') }}
                                         </p>
@@ -112,13 +116,12 @@
                                             @csrf
                                             @method('DELETE')
 
-                                            <button type="submit" class="btn btn-md rounded-circle bg-light border mt-4">
-                                                <i class="fa fa-trash text-danger"></i>
+                                            <button type="submit" class="btn btn-md rounded-circle bg-light border">
+                                                <i class="fas fa-trash text-danger" title="Delete"></i>
                                             </button>
 
                                         </form>
                                     </td>
-
                                 </tr>
                             @endforeach
                         @endif
@@ -132,7 +135,7 @@
 
                 <div class="mt-5 text-center">
                     <button type="submit" onclick="checkout()"
-                        class="btn border-secondary rounded-pill px-4 py-3 text-primary">
+                        class="btn btn-sm border-secondary rounded-pill px-4 py-3 text-primary">
                         CHECKOUT
                     </button>
                 </div>
@@ -208,7 +211,6 @@
                 updateView();
             });
 
-            // hanya update tampilan saat pertama load
             updateView();
         });
 

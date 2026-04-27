@@ -56,7 +56,7 @@
                                 <h4 class="mb-1">{{ $each_data->catalogue->name }}</h4>
                                 <p class="m-0">{{ $each_data->product->name ?? '-' }}</p>
                                 <p class="m-0">X {{ $each_data->quantity }}</p>
-                                <p class="mb-0 fw-bold text-end mt-auto">
+                                <p class="mb-0 text-end mt-auto">
                                     Rp{{ number_format($each_data->total_price, 0, ',', '.') }}</p>
                             </div>
                         </div>
@@ -91,7 +91,7 @@
                             method="POST" style="display:inline;">
 
                             @csrf
-                            <input type="hidden" name="action" value="decline">
+                            <input type="hidden" name="action" value="approve">
 
                             <button type="submit" class="btn btn-md btn-success btn-approve rounded-pill px-3 me-3"
                                 data-id="1" title="Approve">

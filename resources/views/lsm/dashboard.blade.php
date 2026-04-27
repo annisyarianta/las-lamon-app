@@ -32,6 +32,18 @@
             color: #fff;
             font-size: 14px;
             transition: all 0.3s ease;
+            border: none;
+            outline: none;
+            box-shadow: none;
+        }
+
+        .action-buttons .btn-action:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .action-buttons button.btn-action {
+            border: none;
         }
 
         .action-buttons .detail {

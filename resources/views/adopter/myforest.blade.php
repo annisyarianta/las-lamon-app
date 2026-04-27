@@ -7,31 +7,31 @@
     <div class="container-fluid page-header py-5">
         <h1 class="text-center text-white display-6">My Forest</h1>
         <ol class="breadcrumb justify-content-center mb-0">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">Pages</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/') }}" class="text-secondary">Home</a></li>
+            <li class="breadcrumb-item"><a href="#" class="text-secondary">Pages</a></li>
             <li class="breadcrumb-item active text-white">My Forest</li>
         </ol>
     </div>
     <!-- Single Page Header End -->
 
     <!-- Cart Page Start -->
-    <div class="container-fluid py-5">
+    <div class="container-fluid">
         <div class="container py-5">
             <div class="table-responsive">
-                <table class="table align-middle">
+                <table class="table table-hover align-middle text-nowrap text-center">
                     <thead class="table-light">
                         <tr>
-                            <th>Products</th>
-                            <th>Name</th>
-                            <th class="text-center">Quantity</th>
-                            <th class="text-center">Action</th>
+                            <th style="min-width: 120px;">Packages</th>
+                            <th style="min-width: 120px;">Product Name</th>
+                            <th style="min-width: 120px;">Quantity</th>
+                            <th style="min-width: 120px;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @if (empty($data) || count($data) == 0)
                             <tr>
                                 <td colspan="6" class="text-center py-5">
-                                    <h4 class="text-secondary">Your cart is empty.</h4>
+                                    <h4 class="text-secondary">Your forest is empty.</h4>
                                 </td>
                             </tr>
                         @else
