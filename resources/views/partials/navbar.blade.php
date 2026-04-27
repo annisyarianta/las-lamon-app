@@ -54,7 +54,7 @@
                         @if (auth()->user()->role === 'lsm')
                             <a href="{{ route('lsm.dashboard.index') }}"
                                 class="nav-item nav-link {{ request()->routeIs('lsm_dashboard') ? 'active' : '' }}">Dashboard</a>
-                            <a href="{{ route('lsm_dataorder') }}"
+                            <a href="{{ route('lsm.order.index') }}"
                                 class="nav-item nav-link {{ request()->routeIs('lsm_dataorder') ? 'active' : '' }}">Data
                                 Order</a>
                             <a href="{{ route('location.index') }}"
