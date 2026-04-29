@@ -5,14 +5,15 @@
 @section('content')
     <style>
         @media (max-width: 576px) {
-            .d-flex.justify-content-center.mt-4 {
-                flex-direction: column;
-                align-items: stretch;
+            .action-bar-content {
+                flex-direction: column !important;
+                align-items: stretch !important;
                 gap: 10px;
             }
 
-            .d-flex.justify-content-center.mt-4 a {
-                width: 100%;
+            .action-bar-content a,
+            .action-bar-content button {
+                width: 100% !important;
                 text-align: center;
                 margin-right: 0 !important;
             }
@@ -31,19 +32,21 @@
             <div class="testimonial-item img-border-radius bg-light rounded p-4">
                 <div class="position-relative">
                     <div class="mb-4 pb-3 border-bottom border-secondary">
-                        <div class="d-flex justify-content-start mb-1">
+                        <div class="d-flex flex-column flex-sm-row justify-content-start mb-1">
                             <h6 class="mb-0">Order Date :</h6>
-                            <p class="mb-0 ms-2">
+                            <p class="mb-0 ms-0 ms-sm-2">
                                 {{ \Carbon\Carbon::parse($data_order->order_date)->translatedFormat('d F Y \a\t H:i') }}
                             </p>
                         </div>
-                        <div class="d-flex justify-content-start mb-1">
+
+                        <div class="d-flex flex-column flex-sm-row justify-content-start mb-1">
                             <h6 class="mb-0">Order Code :</h6>
-                            <p class="mb-0 ms-2">{{ $data_order->code ?? "-" }}</p>
+                            <p class="mb-0 ms-0 ms-sm-2">{{ $data_order->code ?? '-' }}</p>
                         </div>
-                        <div class="d-flex justify-content-start mb-1">
+
+                        <div class="d-flex flex-column flex-sm-row justify-content-start mb-1">
                             <h6 class="mb-0">Customer Name :</h6>
-                            <p class="mb-0 ms-2">{{ $data_user }}</p>
+                            <p class="mb-0 ms-0 ms-sm-2">{{ $data_user }}</p>
                         </div>
                     </div>
                     @foreach ($data_order_item as $each_data)
@@ -55,7 +58,7 @@
                             <div class="ms-4 w-100 d-flex flex-column">
                                 <h4 class="mb-1">{{ $each_data->catalogue->name }}</h4>
                                 <p class="m-0">{{ $each_data->product->name ?? '-' }}</p>
-                                <p class="m-0">X {{ $each_data->quantity }}</p>
+                                <p class="m-0">x {{ $each_data->quantity }}</p>
                                 <p class="mb-0 text-end mt-auto">
                                     Rp{{ number_format($each_data->total_price, 0, ',', '.') }}</p>
                             </div>
@@ -74,16 +77,18 @@
                     </div>
                 </div>
             </div>
+
             <div class="action-bar">
-                <div class="d-flex justify-content-center mt-4 action-bar-content">
+                <div
+                    class="d-flex flex-column flex-sm-row justify-content-center align-items-center mt-4 gap-3 action-bar-content">
                     @if ($data_order->status_order == 'paid')
                         <a href="{{ url($data_order->proof_payment_url) }}"
-                            class="btn btn-md border border-secondary rounded-pill px-3 text-primary me-3">
+                            class="btn btn-md border border-secondary rounded-pill px-3 text-primary">
                             <i class="fas fa-print me-3"></i>See Receipt
                         </a>
                     @elseif($data_order->status_order == 'in process')
                         <a href="{{ url($data_order->proof_payment_url) }}"
-                            class="btn btn-md border border-secondary rounded-pill px-3 text-primary me-3">
+                            class="btn btn-md border border-secondary rounded-pill px-3 text-primary">
                             <i class="fas fa-print me-3"></i>See Receipt
                         </a>
 
@@ -93,7 +98,7 @@
                             @csrf
                             <input type="hidden" name="action" value="approve">
 
-                            <button type="submit" class="btn btn-md btn-success btn-approve rounded-pill px-3 me-3"
+                            <button type="submit" class="btn btn-md btn-success btn-approve rounded-pill px-3"
                                 data-id="1" title="Approve">
 
                                 <i class="fas fa-check me-3"></i>Approve
@@ -106,12 +111,11 @@
 
                             @csrf
                             <input type="hidden" name="action" value="decline">
-                            <button type="submit" class="btn btn-md btn-danger btn-decline rounded-pill px-3 me-3"
+                            <button type="submit" class="btn btn-md btn-danger btn-decline rounded-pill px-3"
                                 data-id="1" title="Decline">
 
                                 <i class="fas fa-times me-3"></i>Decline
                             </button>
-
                         </form>
                     @endif
                 </div>
