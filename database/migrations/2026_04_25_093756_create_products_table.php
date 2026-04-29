@@ -14,9 +14,13 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('scientific_name')->nullable();
             $table->text('description')->nullable();
             $table->decimal('price', 15, 2)->nullable();
             $table->string('image_url')->nullable();
+            $table->string('plant_type')->nullable();
+            $table->string('estimated_carbon')->nullable();
+            $table->string('benefits')->nullable();
             $table->tinyInteger('soft_delete')->default(0);
             $table->timestamps();
         });
