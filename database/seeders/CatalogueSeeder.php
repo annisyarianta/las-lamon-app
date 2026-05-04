@@ -31,7 +31,7 @@ class CatalogueSeeder extends Seeder
                 'mini_description' => 'Development of one forest block covering 200 m2 with dense planting.',
                 'description' => 'A medium-scale reforestation package for communities and companies.',
                 'image_url' => 'assets/img/mini-forest.png',
-                'price' => 500000,
+                'price' => 10000000,
                 'output' => 'Physical Name Board & Special Dashboard',
                 'target' => 'Companies (CSR) & Communities',
                 'soft_delete' => 0,

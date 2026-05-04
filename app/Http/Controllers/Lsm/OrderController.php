@@ -88,7 +88,7 @@ class OrderController extends Controller
                     'id_order_item' => $each_data->id,
                     'id_user' => $user->id,
                     'owner_name' => $user->name,
-                    'number_ceritificate' => ($data_number_certificate->last_number + 1) . '/' . $data_number_certificate->numbering_pattern,
+                    'number_ceritificate' => ($data_number_certificate->last_number + 1),
                 ]);
 
                 $data_certificate[] = $data_certificate_adopter;
