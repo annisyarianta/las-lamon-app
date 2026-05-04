@@ -16,7 +16,7 @@ class NumberCertificateSeeder extends Seeder
         DB::table('number_certificates')->insert([
             'name' => 'Sertifikat Las Lamon',
             'last_number' => 1,
-            'numbering_pattern' => 'ADP-2026-001',
+            'numbering_pattern' => 'CERT/LL/2026',
             'soft_delete' => 0,
             'created_at' => now(),
             'updated_at' => now(),
