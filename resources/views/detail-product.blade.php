@@ -29,8 +29,7 @@
         <div class="col-lg-3 d-flex justify-content-center px-3 px-md-0 mb-4 mb-lg-0">
             <div class="border rounded">
                 <a href="#">
-                    <img src="{{ asset($data->image_url) }}" class="img-fluid rounded" alt="Image">
-                </a>
+                    <img id="mainImage" src="{{ asset($data->image_url) }}" class="img-fluid rounded" alt="Image"> </a>
             </div>
         </div>
 
@@ -69,7 +68,8 @@
                             </option>
 
                             @foreach ($data_products as $item)
-                                <option value="{{ $item->id }}" data-harga="{{ $item->price }}">
+                                <option value="{{ $item->id }}" data-harga="{{ $item->price }}"
+                                    data-image="{{ asset($item->image_url) }}">
                                     {{ $item->name }}
                                 </option>
                             @endforeach
@@ -187,11 +187,22 @@
                 });
             }
 
-            // pilih tanaman (Single Package)
+            // 🔥 INI YANG PENTING (UPDATE GAMBAR + HARGA)
             $('#productOption').change(function() {
-                hargaSatuan = $(this).find(':selected').data('harga') || 0;
+
+                let selected = $(this).find(':selected');
+
+                let harga = selected.data('harga') || 0;
+                let image = selected.data('image') || '';
+
+                hargaSatuan = harga;
                 updateHarga();
                 $('#unit_price').val(hargaSatuan);
+
+                // ✅ update gambar
+                if (image) {
+                    $('#mainImage').attr('src', image);
+                }
             });
 
             // tombol +
